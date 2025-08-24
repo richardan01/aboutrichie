@@ -12,10 +12,14 @@ import { ChatThreadBase } from "./chat-thread-base";
 export function AuthenticatedChatThread() {
   const { threadId } = useParams<{ threadId: string }>();
 
+  if (!threadId) {
+    return <div>Thread not found</div>;
+  }
+
   const messages = useThreadMessages(
     api.ai.query.getThreadMessages,
     {
-      threadId: threadId!,
+      threadId,
     },
     {
       initialNumItems: 10,
@@ -47,7 +51,7 @@ export function AuthenticatedChatThread() {
   const handleMessageSubmit = useCallback(
     async (message: string) => {
       await continueThreadMutation.mutateAsync({
-        threadId: threadId!,
+        threadId,
         prompt: message,
       });
     },

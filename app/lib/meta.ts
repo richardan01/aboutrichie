@@ -1,35 +1,35 @@
 export const DEFAULT_META = [
-  { title: "Dan Wu's personal website | AI-Powered Portfolio & Chat" },
+  { title: "Richard Ng's personal website | AI-Powered Portfolio & Chat" },
   {
     name: "description",
     content:
-      "Dan Wu's personal website featuring an AI-powered chat assistant. Learn about his journey from ceramics to software engineering and explore his projects.",
+      "Richard Ng's personal website featuring an AI-powered chat assistant. Learn about his expertise in data products, AI/ML platforms, and enterprise analytics.",
   },
   // Open Graph meta tags
   {
     property: "og:title",
-    content: "Dan Wu's personal website | AI-Powered Portfolio & Chat",
+    content: "Richard Ng's personal website | AI-Powered Portfolio & Chat",
   },
   {
     property: "og:description",
     content:
-      "Dan Wu's personal website featuring an AI-powered chat assistant. Learn about his journey from ceramics to software engineering and explore his projects.",
+      "Richard Ng's personal website featuring an AI-powered chat assistant. Learn about his expertise in data products, AI/ML platforms, and enterprise analytics.",
   },
   { property: "og:image", content: "/og-image.png" },
-  { property: "og:image:alt", content: "Dan Wu's personal website preview" },
+  { property: "og:image:alt", content: "Richard Ng's personal website preview" },
   { property: "og:type", content: "website" },
-  { property: "og:site_name", content: "Dan Wu's personal website" },
+  { property: "og:site_name", content: "Richard Ng's personal website" },
   // Twitter Card meta tags
   { name: "twitter:card", content: "summary_large_image" },
   {
     name: "twitter:title",
-    content: "Dan Wu's personal website | AI-Powered Portfolio & Chat",
+    content: "Richard Ng's personal website | AI-Powered Portfolio & Chat",
   },
   {
     name: "twitter:description",
     content:
-      "Dan Wu's personal website featuring an AI-powered chat assistant. Learn about his journey from ceramics to software engineering and explore his projects.",
+      "Richard Ng's personal website featuring an AI-powered chat assistant. Learn about his expertise in data products, AI/ML platforms, and enterprise analytics.",
   },
   { name: "twitter:image", content: "/og-image.png" },
-  { name: "twitter:image:alt", content: "Dan Wu's personal website preview" },
+  { name: "twitter:image:alt", content: "Richard Ng's personal website preview" },
 ];

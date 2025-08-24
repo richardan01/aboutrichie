@@ -29,10 +29,10 @@ export function MessageInputField({
       message: "",
     },
     onSubmit: async ({ value }) => {
+      await onSubmit(value);
       if (resetOnSubmit) {
         form.reset();
       }
-      await onSubmit(value);
     },
   });
 

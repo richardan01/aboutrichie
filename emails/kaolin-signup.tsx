@@ -79,7 +79,7 @@ export const SubscriptionThankYouEmail = ({
           <Text className="text-gray-700 text-base leading-6 my-8 font-sans">
             Best,
             <br />
-            Dan
+            Richard
           </Text>
         </Container>
       </Tailwind>

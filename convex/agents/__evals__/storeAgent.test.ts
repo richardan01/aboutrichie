@@ -2,11 +2,11 @@ import { FaithfulnessMetric, PromptAlignmentMetric } from "@mastra/evals/llm";
 import { describe } from "vitest";
 import { api } from "../../_generated/api";
 import { convexTest } from "../../lib/convexTest.fixture";
-import { grok4 } from "../models";
+import { gpt4o } from "../models";
 
 describe("Store agent", () => {
   convexTest(
-    "should introduce as Dan in first person",
+    "should introduce as Richard in first person",
     {
       timeout: 500_000,
     },
@@ -19,11 +19,11 @@ describe("Store agent", () => {
       const threadId = thread._id;
 
       const instructions = [
-        "Always introduce yourself as Dan without the surname Wu",
-        "Always speak in first person as Dan himself using 'I', 'my', 'me' pronouns",
-        "Never refer to Dan in third person using 'he', 'his', 'Dan Wu is', or 'Dan Wu has'",
-        "When discussing Dan's experiences, skills, or background, use first-person narrative",
-        "Maintain the persona of being Dan throughout the conversation",
+        "Always introduce yourself as Richard without the surname Ng",
+        "Always speak in first person as Richard himself using 'I', 'my', 'me' pronouns",
+        "Never refer to Richard in third person using 'he', 'his', 'Richard Ng is', or 'Richard Ng has'",
+        "When discussing Richard's experiences, skills, or background, use first-person narrative",
+        "Maintain the persona of being Richard throughout the conversation",
       ];
 
       const response = await convex.action(
@@ -36,7 +36,7 @@ describe("Store agent", () => {
         }
       );
 
-      const metric = new PromptAlignmentMetric(grok4, {
+      const metric = new PromptAlignmentMetric(gpt4o, {
         instructions,
         scale: 1,
       });
@@ -73,10 +73,10 @@ describe("Store agent", () => {
         }
       );
 
-      const metric = new FaithfulnessMetric(grok4, {
+      const metric = new FaithfulnessMetric(gpt4o, {
         context: [
-          "You should mention at least some of the following technologies: Python, JavaScript, TypeScript, React, NextJS, FastAPI, React Query, Redux, Tailwind CSS, Mantine UI, GraphQL, Contentful, RXJS, Material UI, Chakra UI, Selenium, Playwright, Storybook, Git, GitHub, GitHub Actions, GitLab, Jira, Asana, Clickup, HTML, CSS, SQLAlchemy, Google App Scripts, Agile Development and Figma. You do not have to mention all of them.",
-          "You should NOT mention technologies that are not in Dan's actual experience: Java, C++, C#, PHP, Ruby, Go, Rust, Swift, Kotlin, Angular, Vue.js, Django, Flask, Spring, .NET, Laravel, MongoDB, PostgreSQL, MySQL, Docker, Kubernetes, AWS, Azure, GCP, Jenkins, or any other technologies not explicitly listed in the CV.",
+          "You should mention at least some of the following technologies: Python, SQL, AWS, GCP, Azure, Databricks, Spark, PySpark, Hadoop, BigQuery, Azure Stack, AutoML, Segment, Looker, Informatica CLAIRE, VisionAI, Power BI, Tableau, ThoughtSpot, Looker Studio, Informatica IDMC, Microsoft Data Fabric, ETL, Agile, Scrum, MLOps, A/B Testing. You do not have to mention all of them.",
+          "You should NOT mention technologies that are not in Richard's actual experience: Java, C++, C#, PHP, Ruby, Go, Rust, Swift, Kotlin, Angular, Vue.js, Django, Flask, Spring, .NET, Laravel, MongoDB, PostgreSQL, MySQL, Docker, Kubernetes, or any other technologies not explicitly listed in the CV.",
         ],
       });
 
@@ -90,7 +90,7 @@ describe("Store agent", () => {
   );
 
   convexTest(
-    "should refuse non-Dan related questions",
+    "should refuse non-Richard related questions",
     {
       timeout: 500_000,
     },
@@ -113,13 +113,13 @@ describe("Store agent", () => {
       );
 
       const instructions = [
-        "Refuse to answer questions that are not related to Dan Wu's work, expertise, or background",
-        "Only answer questions about software engineering, ceramic art, or Dan's personal/professional information",
-        "Politely redirect off-topic questions back to Dan-related topics",
-        "Do not act as a general AI assistant for non-Dan related queries",
+        "Refuse to answer questions that are not related to Richard Ng's work, expertise, or background",
+        "Only answer questions about data product management, AI/ML platforms, or Richard's personal/professional information",
+        "Politely redirect off-topic questions back to Richard-related topics",
+        "Do not act as a general AI assistant for non-Richard related queries",
       ];
 
-      const alignmentMetric = new PromptAlignmentMetric(grok4, {
+      const alignmentMetric = new PromptAlignmentMetric(gpt4o, {
         instructions,
         scale: 1,
       });
@@ -158,14 +158,14 @@ describe("Store agent", () => {
       );
 
       const instructions = [
-        "Answer in first person as Dan using 'I', 'my', 'me' pronouns",
+        "Answer in first person as Richard using 'I', 'my', 'me' pronouns",
         "Provide a personal narrative about your journey into technology",
         "Share authentic experiences about your path into tech",
         "Be conversational and engaging when discussing your background",
         "Draw from your actual experiences and background",
       ];
 
-      const alignmentMetric = new PromptAlignmentMetric(grok4, {
+      const alignmentMetric = new PromptAlignmentMetric(gpt4o, {
         instructions,
         scale: 1,
       });
@@ -203,14 +203,14 @@ describe("Store agent", () => {
       );
 
       const instructions = [
-        "Introduce yourself as Dan in first person",
+        "Introduce yourself as Richard in first person",
         "Mention your professional background in software engineering",
         "Include information about your ceramic art hobby/interest",
         "Be comprehensive but concise about your work and interests",
         "Use first person pronouns throughout",
       ];
 
-      const alignmentMetric = new PromptAlignmentMetric(grok4, {
+      const alignmentMetric = new PromptAlignmentMetric(gpt4o, {
         instructions,
         scale: 1,
       });
@@ -254,7 +254,7 @@ describe("Store agent", () => {
         "Use 'I', 'my', 'me' pronouns when describing your projects",
       ];
 
-      const alignmentMetric = new PromptAlignmentMetric(grok4, {
+      const alignmentMetric = new PromptAlignmentMetric(gpt4o, {
         instructions,
         scale: 1,
       });
@@ -294,12 +294,12 @@ describe("Store agent", () => {
       const instructions = [
         "Provide appropriate contact information and all methods of contact including email, linkedin, github link and medium link",
         "Be helpful and welcoming to potential contacts",
-        "Speak in first person as Dan",
+        "Speak in first person as Richard",
         "Offer professional ways to get in touch",
         "Be encouraging about networking or collaboration",
       ];
 
-      const alignmentMetric = new PromptAlignmentMetric(grok4, {
+      const alignmentMetric = new PromptAlignmentMetric(gpt4o, {
         instructions,
         scale: 1,
       });
@@ -344,7 +344,7 @@ describe("Store agent", () => {
         "Be engaging about your creative pursuits",
       ];
 
-      const alignmentMetric = new PromptAlignmentMetric(grok4, {
+      const alignmentMetric = new PromptAlignmentMetric(gpt4o, {
         instructions,
         scale: 1,
       });
@@ -388,7 +388,7 @@ describe("Store agent", () => {
         "Draw from your actual experience in the field",
       ];
 
-      const alignmentMetric = new PromptAlignmentMetric(grok4, {
+      const alignmentMetric = new PromptAlignmentMetric(gpt4o, {
         instructions,
         scale: 1,
       });
@@ -432,7 +432,7 @@ describe("Store agent", () => {
         "Be helpful but stay within the boundaries of discussing your work",
       ];
 
-      const alignmentMetric = new PromptAlignmentMetric(grok4, {
+      const alignmentMetric = new PromptAlignmentMetric(gpt4o, {
         instructions,
         scale: 1,
       });
@@ -483,13 +483,13 @@ describe("Store agent", () => {
 
       const instructions = [
         "Maintain first person voice consistently across both responses",
-        "Stay in character as Dan throughout the conversation",
+        "Stay in character as Richard throughout the conversation",
         "Build upon previous context while maintaining persona",
         "Use consistent pronouns and speaking style",
         "Reference previous parts of the conversation naturally",
       ];
 
-      const alignmentMetric = new PromptAlignmentMetric(grok4, {
+      const alignmentMetric = new PromptAlignmentMetric(gpt4o, {
         instructions,
         scale: 1,
       });

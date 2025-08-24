@@ -193,9 +193,9 @@ function AssistantMessageWrapper({ children }: { children: React.ReactNode }) {
       <div className="flex items-center gap-2">
         <Avatar className="size-7 rounded-lg">
           <AvatarImage src={agentProfile?.url ?? undefined} />
-          <AvatarFallback>DW</AvatarFallback>
+          <AvatarFallback>RN</AvatarFallback>
         </Avatar>
-        <p className="text-sm">Dan</p>
+        <p className="text-sm">Richard</p>
       </div>
       {children}
     </div>

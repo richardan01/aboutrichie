@@ -1,12 +1,12 @@
-# Dan Wu's AI-Powered Personal Website & Storefront
+# Richard Ng's AI-Powered Personal Website & Storefront
 
-A modern, AI-powered personal website and storefront built with React Router, Convex, and advanced AI agents. This project serves as both a personal portfolio and an interactive AI assistant that can answer questions about Dan Wu's work, career journey, and ceramic art.
+A modern, AI-powered personal website and storefront built with React Router, Convex, and advanced AI agents. This project serves as both a personal portfolio and an interactive AI assistant that can answer questions about Richard Ng's work, career journey, and data product expertise.
 
 ## 🚀 Features
 
 ### 🤖 AI-Powered Conversations
-- **Intelligent AI Agent**: Powered by xAI's Grok-3 model, the AI agent can answer questions about Dan's software engineering expertise, ceramic art, and career transition story
-- **RAG (Retrieval-Augmented Generation)**: Uses advanced RAG techniques to provide accurate, context-aware responses based on Dan's CV and career story
+- **Intelligent AI Agent**: Powered by xAI's Grok-3 model, the AI agent can answer questions about Richard's data product expertise, AI/ML platforms, and career progression story
+- **RAG (Retrieval-Augmented Generation)**: Uses advanced RAG techniques to provide accurate, context-aware responses based on Richard's CV and career story
 - **Real-time Streaming**: Messages stream in real-time for a smooth conversational experience
 - **Thread Management**: Organize conversations into persistent threads with search functionality
 
@@ -57,9 +57,9 @@ A modern, AI-powered personal website and storefront built with React Router, Co
 
 This project serves multiple purposes:
 
-1. **Personal Portfolio**: Showcase Dan Wu's work as a software engineer and ceramic artist
-2. **AI Assistant**: Provide an interactive way for visitors to learn about Dan's expertise and experience
-3. **Career Story**: Share Dan's inspiring journey from ceramics to software engineering
+1. **Personal Portfolio**: Showcase Richard Ng's work as a data product manager and AI specialist
+2. **AI Assistant**: Provide an interactive way for visitors to learn about Richard's expertise and experience
+3. **Career Story**: Share Richard's impressive journey from technology architect to data product leader
 4. **Technical Demonstration**: Showcase modern web development practices and AI integration
 
 ## 🚀 Getting Started
@@ -141,20 +141,20 @@ ai-storefront/
 ## 🤖 AI Agent Features
 
 ### Store Agent
-The main AI agent that represents Dan Wu and can:
-- Answer questions about software engineering expertise
-- Discuss ceramic art and creative work
-- Share career transition stories
-- Provide technical insights and advice
-- Search through Dan's CV and experience
+The main AI agent that represents Richard Ng and can:
+- Answer questions about data product management expertise
+- Discuss AI/ML platforms and enterprise analytics
+- Share career progression stories
+- Provide insights on data strategy and GenAI implementation
+- Search through Richard's CV and experience
 
 ### Summary Agent
 Automatically generates concise titles for conversation threads (15 words or less).
 
 ### RAG Integration
-- **CV Embeddings**: Searchable database of Dan's professional experience
-- **Career Story Embeddings**: Detailed narrative of Dan's transition from ceramics to tech
-- **Contextual Responses**: AI responses are grounded in real information about Dan
+- **CV Embeddings**: Searchable database of Richard's professional experience
+- **Career Story Embeddings**: Detailed narrative of Richard's progression from technology architect to data product leader
+- **Contextual Responses**: AI responses are grounded in real information about Richard
 
 ## 🎨 UI Components
 

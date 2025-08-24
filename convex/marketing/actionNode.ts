@@ -52,7 +52,7 @@ export const emailSubscription = internalAction({
       .andThen((emailTemplate) =>
         ResultAsync.fromPromise(
           resend.sendEmail(ctx, {
-            from: "Dan Wu <dan@marketing.developerdanwu.com>",
+            from: "Richard Ng <richard@marketing.richardng.com>",
             to: email,
             subject: "Thank you for subscribing to Kaolin Chat",
             html: emailTemplate,

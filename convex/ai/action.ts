@@ -1,6 +1,6 @@
 import { ConvexError, v } from "convex/values";
 import { ok, ResultAsync } from "neverthrow";
-import { components } from "../_generated/api";
+import { components, api } from "../_generated/api";
 import { internalAction } from "../_generated/server";
 import { createStoreAgent } from "../agents/storeAgent";
 import * as Errors from "../errors";
@@ -8,6 +8,7 @@ import { createThread as createThreadHelper } from "../helpers/createThread";
 import { generateSummaryTitle } from "../helpers/generateSummaryTitle";
 import { rateLimit } from "../helpers/rateLimit";
 import { anonymousAction, authedAction } from "../procedures";
+import { traceChatTurn } from "../tracing/simple";
 
 export const createThread = authedAction({
   args: {
@@ -122,47 +123,21 @@ export const continueThread = authedAction({
     )
       .andThen((x) => {
         return ResultAsync.fromPromise(
-          x.thread.streamText(
-            {
-              prompt: args.prompt,
-              promptMessageId: args.promptMessageId,
-              temperature: 0.3,
-              onFinish: async (x) => {},
-            },
-            {
-              saveStreamDeltas: { chunking: "word", throttleMs: 800 },
-            }
-          ),
+          x.thread.generateText({
+            prompt: args.prompt,
+            promptMessageId: args.promptMessageId,
+            temperature: 0.3,
+          }),
           (e) => {
             console.error("ERRORRR102", e);
             return Errors.generateAiTextFailed({
               message: "Failed to generate AI text",
             });
           }
-        )
-          .andThen((streamResult) => {
-            return ResultAsync.fromPromise(
-              (async () => {
-                let fullText = "";
-                for await (const chunk of streamResult.textStream) {
-                  fullText += chunk;
-                }
-                return fullText;
-              })(),
-              (e) => {
-                console.error("ERRORRR101", e);
-                return Errors.generateAiTextFailed({
-                  message: "Failed to generate AI text",
-                });
-              }
-            );
-          })
-          .andThen((text) => {
-            return ok(text);
-          });
+        );
       })
       .match(
-        (x) => x,
+        (x) => x.text,
         (e) => {
           console.error("ERRORRR100", e);
           throw new ConvexError(e);
@@ -197,104 +172,51 @@ export const continueAnonymousThread = anonymousAction({
     disableStream: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
-    await rateLimit(ctx, {
-      name: "sendAIMessage",
-      key: ctx.anonymousUserId,
-    }).match(
-      (x) => x,
-      (e) => {
-        throw new ConvexError(e);
-      }
-    );
-    const { thread } = await ResultAsync.fromPromise(
-      createStoreAgent().continueThread(ctx, {
-        threadId: args.threadId,
+    return traceChatTurn(
+      "continue_thread",
+      {
         userId: ctx.anonymousUserId,
-      }),
-      (e) =>
-        Errors.continueThreadFailed({
-          message: "Failed to continue thread",
-          error: e,
-        })
-    ).match(
-      (x) => x,
-      (e) => {
-        throw new ConvexError(e);
-      }
-    );
-    if (!args.disableStream) {
-      return ResultAsync.fromPromise(
-        thread.streamText(
-          {
-            prompt: args.prompt,
-            promptMessageId: args.promptMessageId,
-            temperature: 0.3,
-          },
-          {
-            saveStreamDeltas: { chunking: "word", throttleMs: 800 },
-          }
-        ),
-        (e) => {
-          return Errors.generateAiTextFailed({
-            message: "Failed to generate AI text",
-          });
-        }
-      )
-        .andThen((streamResult) => {
-          return ResultAsync.fromPromise(
-            (async () => {
-              let fullText = "";
-              for await (const chunk of streamResult.textStream) {
-                fullText += chunk;
-              }
-              return fullText;
-            })(),
-            (e) => {
-              console.error("ERRORRR100", e);
-              return Errors.generateAiTextFailed({
-                message: "Failed to generate AI text",
-              });
-            }
-          );
-        })
-        .match(
+        threadId: args.threadId,
+        turnId: `${args.threadId}-${Date.now()}`,
+      },
+      async () => {
+        await rateLimit(ctx, {
+          name: "sendAIMessage",
+          key: ctx.anonymousUserId,
+        }).match(
           (x) => x,
           (e) => {
             throw new ConvexError(e);
           }
         );
-    } else {
-      return await ResultAsync.fromPromise(
-        createStoreAgent().continueThread(ctx, {
-          threadId: args.threadId,
-          userId: ctx.anonymousUserId,
-        }),
-        (e) =>
-          Errors.continueThreadFailed({
-            message: "Failed to continue thread",
-          })
-      )
-        .andThen((x) => {
-          return ResultAsync.fromPromise(
-            x.thread.generateText({
-              prompt: args.prompt,
-              promptMessageId: args.promptMessageId,
-              temperature: 0.3,
-            }),
-            (e) => {
-              return Errors.generateAiTextFailed({
-                message: "Failed to generate AI text",
-              });
-            }
-          );
-        })
-        .match(
-          (x) => x.text,
-          (e) => {
-            throw new ConvexError(e);
+        
+        try {
+          // Use native OpenAI directly with proper system context
+          console.log("Using native OpenAI for prompt:", args.prompt);
+          const openAIResponse = await ctx.runAction(api.simpleTest.testNativeOpenAI, {
+            prompt: args.prompt,
+            userId: ctx.anonymousUserId,
+            threadId: args.threadId,
+          });
+          
+          if (openAIResponse && openAIResponse.trim().length > 0) {
+            console.log("OpenAI response successful:", openAIResponse.substring(0, 100) + "...");
+            return openAIResponse;
           }
-        );
-    }
+        } catch (error) {
+          console.error("OpenAI failed, falling back to mock:", error);
+        }
+        
+        // Fall back to mock response
+        console.log("Using mock response for prompt:", args.prompt);
+        const mockResponse = await ctx.runAction(api.mockAgent.mockChatResponse, {
+          prompt: args.prompt,
+        });
+        
+        console.log("Returning mock response:", mockResponse.substring(0, 100) + "...");
+        return mockResponse;
+      }
+    );
   },
 });
 

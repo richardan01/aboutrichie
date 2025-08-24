@@ -9,7 +9,6 @@ import {
   useMutation,
   useQuery,
 } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AuthKitProvider } from "@workos-inc/authkit-react";
 import { api } from "convex/_generated/api";
 import type { BackendErrors } from "convex/errors";
@@ -139,10 +138,11 @@ function BaseProviders({ children }: { children: React.ReactNode }) {
 }
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
-  const navigate = useNavigate();
-
   return (
     <CustomErrorBoundary
+      onReset={() => {
+        window.location.reload();
+      }}
       wrapRenderFallback={(props) => (
         <div className="h-screen flex items-center justify-center">
           {props.children}
@@ -153,28 +153,28 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
         https={true}
         clientId={import.meta.env.VITE_WORKOS_CLIENT_ID}
         onRedirectCallback={({ state }) => {
+          // Use window.location instead of navigate since we're outside Router context
           if (state?.returnTo) {
-            navigate(state.returnTo);
+            window.location.href = state.returnTo;
           }
         }}
         // have to have custom domain to use dev mode false
         devMode={true}
       >
-        <ConvexProviderWithAuth client={convex} useAuth={useWorkosConvexAuth}>
-          <QueryClientProvider client={queryClient}>
-            <ThemeProvider>
-              <DialogStoreContextProvider>
-                <BaseProviders>
-                  {children}
-                  <GenericAlertDialog />
-                  <Toaster />
-                  <ReactQueryDevtools initialIsOpen={false} />
-                </BaseProviders>
-              </DialogStoreContextProvider>
-            </ThemeProvider>
-          </QueryClientProvider>
-        </ConvexProviderWithAuth>
-      </AuthKitProvider>
+          <ConvexProviderWithAuth client={convex} useAuth={useWorkosConvexAuth}>
+            <QueryClientProvider client={queryClient}>
+              <ThemeProvider>
+                <DialogStoreContextProvider>
+                  <BaseProviders>
+                    {children}
+                    <GenericAlertDialog />
+                    <Toaster />
+                  </BaseProviders>
+                </DialogStoreContextProvider>
+              </ThemeProvider>
+            </QueryClientProvider>
+          </ConvexProviderWithAuth>
+        </AuthKitProvider>
     </CustomErrorBoundary>
   );
 }

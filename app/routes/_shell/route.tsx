@@ -1,11 +1,10 @@
 import { useConvexAction } from "@convex-dev/react-query";
-import { Slottable } from "@radix-ui/react-slot";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "@workos-inc/authkit-react";
 import { api } from "convex/_generated/api";
-import { Authenticated, Unauthenticated } from "convex/react";
-import { LogInIcon, MoonIcon, SunIcon } from "lucide-react";
-import { Link, Outlet, useParams } from "react-router";
+import { Authenticated } from "convex/react";
+import { GithubIcon, LinkedinIcon, MoonIcon, SunIcon } from "lucide-react";
+import { Outlet, useParams } from "react-router";
 import { AnonymousUser } from "~/components/auth/auth-provider";
 import { NavigationProgress } from "~/components/navigation-progress";
 import { useTheme } from "~/components/theme-provider";
@@ -23,7 +22,7 @@ import {
 import { AnonymousThreads } from "~/routes/_shell/_components/anonymous-threads";
 import { AuthenticatedThreads } from "~/routes/_shell/_components/authenticated-threads";
 import { EmptyThreads } from "~/routes/_shell/_components/empty-threads";
-import { NavUser } from "~/routes/_shell/_components/nav-user";
+import { SimpleThreads } from "~/routes/_shell/_components/simple-threads";
 
 export default function ShellRoute() {
   const { user } = useAuth();
@@ -39,23 +38,8 @@ export default function ShellRoute() {
     <SidebarProvider>
       <NavigationProgress />
       <Sidebar>
-        <Authenticated>
-          <AuthenticatedThreads activeThreadId={threadId} />
-        </Authenticated>
-        <AnonymousUser
-          fallback={
-            <>
-              <SidebarHeader>
-                <Input />
-              </SidebarHeader>
-              <SidebarContent>
-                <EmptyThreads />
-              </SidebarContent>
-            </>
-          }
-        >
-          <AnonymousThreads activeThreadId={threadId} />
-        </AnonymousUser>
+        {/* Use simplified threads for everyone - no complex auth handling */}
+        <SimpleThreads activeThreadId={threadId} />
         <SidebarFooter>
           {currentTheme === "dark" && (
             <SidebarMenuButton onClick={() => setTheme("light")}>
@@ -69,15 +53,28 @@ export default function ShellRoute() {
               Lights off
             </SidebarMenuButton>
           )}
-          <Authenticated>{user && <NavUser user={user} />}</Authenticated>
-          <Unauthenticated>
-            <SidebarMenuButton asChild>
-              <LogInIcon />
-              <Slottable>
-                <Link to="/login">Sign In</Link>
-              </Slottable>
-            </SidebarMenuButton>
-          </Unauthenticated>
+          <SidebarMenuButton asChild>
+            <a 
+              href="https://github.com/richardan01" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-2"
+            >
+              <GithubIcon className="h-4 w-4" />
+              GitHub
+            </a>
+          </SidebarMenuButton>
+          <SidebarMenuButton asChild>
+            <a 
+              href="https://www.linkedin.com/in/richieriri/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-2"
+            >
+              <LinkedinIcon className="h-4 w-4" />
+              LinkedIn
+            </a>
+          </SidebarMenuButton>
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>

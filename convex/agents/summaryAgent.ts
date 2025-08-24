@@ -1,7 +1,7 @@
 import { Agent } from "@convex-dev/agent";
 import { LanguageModelV1Middleware, wrapLanguageModel } from "ai";
 import { components } from "../_generated/api";
-import { grok3Mini } from "./models";
+import { defaultModel } from "./models";
 
 export const createSummaryAgent = (
   args: {
@@ -14,7 +14,7 @@ export const createSummaryAgent = (
 
   return new Agent(components.agent, {
     chat: wrapLanguageModel({
-      model: grok3Mini,
+      model: defaultModel,
       middleware,
       modelId,
       providerId,

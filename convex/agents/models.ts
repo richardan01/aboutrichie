@@ -1,7 +1,11 @@
-import { xai } from "@ai-sdk/xai";
+import { openai } from "@ai-sdk/openai";
 
-export const grok4 = xai("grok-4-0709");
+// OpenAI client configuration - uses OPENAI_API_KEY environment variable
+export const gpt4o = openai("gpt-4o");
 
-export const grok3 = xai("grok-3");
+export const gpt4oMini = openai("gpt-4o-mini");
 
-export const grok3Mini = xai("grok-3-mini");
+export const gpt35Turbo = openai("gpt-3.5-turbo");
+
+// Default model for agents (equivalent to grok3Mini)
+export const defaultModel = gpt4oMini;

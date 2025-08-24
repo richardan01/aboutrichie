@@ -94,10 +94,10 @@ export default function EmailSignup() {
             <div className="flex items-center justify-center space-x-2">
               <span className="text-secondary-foreground">—</span>
               <Avatar className="rounded-lg">
-                <AvatarImage src="/profile-pic.jpg" />
-                <AvatarFallback>DW</AvatarFallback>
+                <AvatarImage src="/myprofilepic.jpg" />
+                <AvatarFallback>RN</AvatarFallback>
               </Avatar>
-              <span className="text-secondary-foreground">Dan</span>
+              <span className="text-secondary-foreground">Richard</span>
             </div>
           </div>
 

@@ -43,7 +43,7 @@ export function SidebarHeader({ children }: { children: React.ReactNode }) {
   return (
     <SidebarHeaderOriginal>
       <div className="flex items-center justify-between my-2">
-        <div className="text-lg font-semibold">Dan's Workspace</div>
+        <div className="text-lg font-semibold">About Richard</div>
         <IconButton asChild variant="ghost" size="sm">
           <Link to={ROUTES.home}>
             <Plus />

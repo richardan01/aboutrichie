@@ -11,6 +11,9 @@ export default defineConfig(({ mode }) => ({
     tsconfigPaths(),
     ...(mode === "development" ? [analyzer()] : []),
   ],
+  optimizeDeps: {
+    exclude: ["@convex-dev/agent", "@convex-dev/agent/react"],
+  },
   build: {
     sourcemap: false,
     ...(mode === "development"

@@ -20,10 +20,25 @@ export function GenericErrorBoundary({
 }: ConvexErrorFallbackProps & {
   message?: string;
 }) {
+  const handleReset = () => {
+    try {
+      console.log("Reset button clicked");
+      if (resetErrorBoundary) {
+        resetErrorBoundary();
+      } else {
+        console.error("resetErrorBoundary function is not available");
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error("Error during reset:", error);
+      window.location.reload();
+    }
+  };
+
   const content = (
     <div className={"flex flex-col gap-4 items-center justify-center"}>
       <h1 className={"text-xl font-semibold text-center"}>{message}</h1>
-      <Button onClick={resetErrorBoundary}>Reset</Button>
+      <Button onClick={handleReset}>Reset</Button>
     </div>
   );
 

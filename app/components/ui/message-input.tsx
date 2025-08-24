@@ -1,8 +1,6 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import { AlertCircleIcon } from "lucide-react";
 import * as React from "react";
 import { cn } from "~/lib/utils";
-import { Alert, AlertTitle } from "./alert";
 import { AnimatingEllipsis } from "./animating-ellipsis";
 import { Button } from "./button";
 import { Textarea } from "./textarea";
@@ -74,16 +72,6 @@ const MessageInput = React.forwardRef<HTMLTextAreaElement, MessageInputProps>(
 
     return (
       <div className={className}>
-        <Alert variant={"destructive"} size={"sm"} className="w-full mb-3">
-          <AlertCircleIcon />
-          <AlertTitle>
-            Please do not enter secrets in this chat If you wish to discuss
-            something sensitive,{" "}
-            <span className="underline cursor-pointer" onClick={onContactMe}>
-              contact me
-            </span>
-          </AlertTitle>
-        </Alert>
         <div className={cn(messageInputVariants({ variant }), className)}>
           {isGenerating ? (
             <div
