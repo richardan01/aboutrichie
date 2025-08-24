@@ -1,6 +1,6 @@
-# Richard Ng's AI-Powered Personal Website & Storefront
+# Richard Ng's AI-Powered Chat app
 
-A modern, AI-powered personal website and storefront built with React Router, Convex, and advanced AI agents. This project serves as both a personal portfolio and an interactive AI assistant that can answer questions about Richard Ng's work, career journey, and data product expertise.
+A modern, AI-powered storefront built with React Router, Convex, and advanced AI agents. This project serves as both a personal portfolio and an interactive AI assistant that can answer questions about Richard Ng's work, career journey, and data product expertise.
 
 ## 🚀 Features
 
@@ -75,8 +75,8 @@ This project serves multiple purposes:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/danwu/ai-storefront.git
-   cd ai-storefront
+   git clone https://github.com/richardan01/aboutrichie.git
+   cd aboutrichie
    ```
 
 2. **Install dependencies**
