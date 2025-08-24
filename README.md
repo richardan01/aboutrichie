@@ -1,2 +1,0 @@
-# aboutrichie
-richardgpt
