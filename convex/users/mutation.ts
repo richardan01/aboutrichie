@@ -37,9 +37,7 @@ export const _deleteFromWorkos = internalMutation({
     if (user !== null) {
       await ctx.db.delete(user._id);
     } else {
-      console.warn(
-        `Can't delete user, there is none for user ID: ${externalId}`
-      );
+      console.warn(`Can't delete user, there is none for user ID: ${externalId}`);
     }
   },
 });
@@ -145,7 +143,7 @@ export const migrateAnonymousUser = authedMutation({
               userId: authenticatedUserId,
             },
           }),
-          (e) => {
+          () => {
             return Errors.threadMigrationFailed({
               message: `Failed to migrate thread ${thread._id}`,
             });

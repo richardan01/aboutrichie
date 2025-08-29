@@ -6,22 +6,13 @@ import { useQuery } from "@tanstack/react-query";
 import { createAtom } from "@xstate/store";
 import { useAtom } from "@xstate/store/react";
 import { api } from "convex/_generated/api";
-import {
-  AlertTriangleIcon,
-  ChevronDown,
-  ChevronUp,
-  LightbulbIcon,
-} from "lucide-react";
+import { AlertTriangleIcon, ChevronDown, ChevronUp, LightbulbIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { memo, useEffect, useRef } from "react";
 import { match, P } from "ts-pattern";
 import { AnimatingEllipsis } from "~/components/ui/animating-ellipsis";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "~/components/ui/collapsible";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "~/components/ui/collapsible";
 import { LoadingSpinner } from "~/components/ui/loading-spinner";
 import { MemoizedMarkdown } from "~/components/ui/markdown";
 import { ScrollArea } from "~/components/ui/scroll-area";
@@ -114,11 +105,7 @@ function ReasoningPart({
         >
           <div className="flex gap-1 w-full items-center">
             <div className="flex items-center gap-1 w-full">
-              {isMessageStreaming ? (
-                <LoadingSpinner size={16} />
-              ) : (
-                <LightbulbIcon size={16} />
-              )}
+              {isMessageStreaming ? <LoadingSpinner size={16} /> : <LightbulbIcon size={16} />}
               <span>
                 {isMessageStreaming ? (
                   <>
@@ -243,8 +230,7 @@ function _Message({
     .otherwise(() => {
       return null;
     });
-  const MessageWrapper =
-    message.role === "user" ? UserMessageWrapper : AssistantMessageWrapper;
+  const MessageWrapper = message.role === "user" ? UserMessageWrapper : AssistantMessageWrapper;
 
   return (
     <div className="flex flex-col gap-2">
@@ -265,11 +251,7 @@ function _Message({
                   );
                 }
                 return (
-                  <TextPart
-                    key={`${message.key}-${index}`}
-                    part={x}
-                    needToStream={isStreaming}
-                  />
+                  <TextPart key={`${message.key}-${index}`} part={x} needToStream={isStreaming} />
                 );
               }
             )
@@ -359,9 +341,7 @@ function _Message({
                 return (
                   <AnimatePresence mode="wait">
                     <ReasoningPart
-                      isMessageStreaming={
-                        message.status === "streaming" && !Boolean(nextPart)
-                      }
+                      isMessageStreaming={message.status === "streaming" && !nextPart}
                       key={`${message.key}-${index}`}
                       id={`${message.key}-${index}`}
                       part={x}
