@@ -160,13 +160,13 @@ export const needMigration = authedQuery({
 
 export const getAiAgentProfile = query({
   args: {},
-  handler: async (ctx, args) => {
+  handler: async (ctx) => {
     const agentPersona = await ResultAsync.fromPromise(
       ctx.db
         .query("aiAgentPersona")
         .withIndex("agentId", (q) => q.eq("agentId", "store_agent"))
         .unique(),
-      (e) =>
+      () =>
         Errors.aiAgentPersonaNotFound({
           message: "Ai agent persona not found",
         })

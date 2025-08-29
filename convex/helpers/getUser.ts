@@ -30,7 +30,7 @@ export function getUser(
         }
         return r;
       }),
-    (e) =>
+    () =>
       Errors.userNotFound({
         message: `User with id: ${args.workosUserId} not found`,
       })
