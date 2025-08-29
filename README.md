@@ -1,11 +1,11 @@
-# Richard Ng's AI-Powered Chat app
+# About Richard Ng AI-Powered Chat app
 
 A modern, AI-powered storefront built with React Router, Convex, and advanced AI agents. This project serves as both a personal portfolio and an interactive AI assistant that can answer questions about Richard Ng's work, career journey, and product management experience.
 
 ## 🚀 Features
 
 ### 🤖 AI-Powered Conversations
-- **Intelligent AI Agent**: Powered by xAI's Grok-3 model, the AI agent can answer questions about Richard's data product expertise, AI/ML platforms, and career progression story
+- **Intelligent AI Agent**: The AI agent can answer questions about Richard's data product expertise, AI/ML platforms, and career progression story
 - **RAG (Retrieval-Augmented Generation)**: Uses advanced RAG techniques to provide accurate, context-aware responses based on Richard's CV and career story
 - **Real-time Streaming**: Messages stream in real-time for a smooth conversational experience
 - **Thread Management**: Organize conversations into persistent threads with search functionality
