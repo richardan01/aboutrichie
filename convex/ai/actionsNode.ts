@@ -419,3 +419,268 @@ export const addDataProductManagerJourneyEmbeddings = internalAction({
     });
   },
 });
+
+export const addSoftwareEngineeringJourneyEmbeddings = internalAction({
+  args: {},
+  handler: async (ctx) => {
+    const doc = MDocument.fromJSON(
+      JSON.stringify({
+        title: "Software Engineering Journey: From Graduate to Product Management Leader",
+        author: "Richard Ng",
+        document_type: "technical_career_progression_story",
+        main_theme: "evolution_from_software_engineer_to_technical_product_leader",
+
+        story_structure: {
+          foreword: {
+            key_message:
+              "A software engineering background provides the perfect foundation for technical product management - you understand what's possible and what's practical",
+            target_audience:
+              "software engineers considering product management careers and technical leaders building their career roadmap",
+            encouragement:
+              "Your coding skills, system design thinking, and technical problem-solving are invaluable assets in product management - they're not obstacles to overcome but advantages to leverage",
+          },
+
+          technical_foundation: {
+            education: "Bachelor of Science (Hons) Software Engineering, Coventry University (2010-2013)",
+            core_competencies: [
+              "Object-oriented programming and design patterns",
+              "Database design and SQL optimization", 
+              "System architecture and scalability",
+              "Software development lifecycle",
+              "Testing methodologies and quality assurance",
+              "Version control and collaborative development",
+              "Performance optimization and debugging",
+              "Security principles and implementation"
+            ],
+            programming_languages: [
+              "Java", "C#", ".NET", "Python", "JavaScript", "SQL", "C++", "PHP"
+            ],
+            methodologies: [
+              "Agile/Scrum", "Test-Driven Development", "Continuous Integration/Deployment", "DevOps practices"
+            ]
+          },
+
+          career_progression_phases: {
+            phase_1_engineering_foundation: {
+              timeframe: "2013-2015",
+              role_focus: "Junior to Mid-level Software Engineer",
+              key_projects: [
+                "Enterprise web application development",
+                "Database optimization and migration projects",
+                "API design and microservices architecture",
+                "Performance tuning and scalability improvements"
+              ],
+              technical_skills_developed: [
+                "Full-stack development proficiency",
+                "Code review and mentoring abilities", 
+                "System integration expertise",
+                "Production debugging and troubleshooting",
+                "Technical documentation and communication"
+              ],
+              soft_skills_emerged: [
+                "Problem decomposition and solution design",
+                "Cross-team collaboration on technical projects",
+                "Requirement gathering from business stakeholders",
+                "Technical risk assessment and mitigation"
+              ]
+            },
+
+            phase_2_technical_leadership: {
+              timeframe: "2015-2017",
+              role_focus: "Senior Software Engineer / Tech Lead",
+              leadership_responsibilities: [
+                "Architecture decision making for complex systems",
+                "Technical mentoring of junior developers",
+                "Code quality standards and best practices enforcement",
+                "Cross-functional project coordination",
+                "Technology stack evaluation and selection"
+              ],
+              business_exposure: [
+                "Direct stakeholder requirement analysis",
+                "Technical feasibility assessment for business features",
+                "Resource estimation and project planning",
+                "Technology ROI analysis and recommendation"
+              ],
+              transition_indicators: [
+                "Growing interest in business impact of technical decisions",
+                "Natural tendency to translate between technical and business languages",
+                "Desire to influence product direction rather than just implement features",
+                "Recognition that user experience matters as much as technical excellence"
+              ]
+            },
+
+            phase_3_architecture_specialization: {
+              timeframe: "2013-2017 (HPE Technology Architect)",
+              role_transformation: "From code implementation to system design leadership",
+              enterprise_focus: [
+                "Large-scale system architecture for Fortune 500 clients",
+                "Hybrid cloud and data center modernization",
+                "Technology integration across complex enterprise environments",
+                "Performance and scalability planning for mission-critical systems"
+              ],
+              strategic_skills_developed: [
+                "Business requirement translation to technical specifications",
+                "Vendor evaluation and technology selection",
+                "Risk assessment for large-scale implementations",
+                "Client communication and technical sales support",
+                "Team leadership across multiple disciplines"
+              ],
+              key_realizations: [
+                "Technical excellence must align with business objectives",
+                "User adoption is as important as system performance", 
+                "Communication skills are critical for technical leadership",
+                "Product strategy influences architectural decisions"
+              ]
+            },
+
+            phase_4_product_transition: {
+              timeframe: "2018-2021 (Huawei Product Manager)",
+              pivotal_shift: "From building systems to defining what to build",
+              new_competencies_acquired: [
+                "Market research and competitive analysis",
+                "Customer discovery and user experience design",
+                "Product roadmap planning and prioritization",
+                "Go-to-market strategy development",
+                "Cross-functional team leadership without direct authority"
+              ],
+              leveraged_technical_strengths: [
+                "Deep understanding of technical feasibility and complexity",
+                "Credibility with engineering teams during product discussions",
+                "Ability to estimate development effort and identify risks",
+                "Natural bridge between engineering capabilities and business needs"
+              ],
+              learning_curve_areas: [
+                "Shifting from feature-complete to minimum viable product thinking",
+                "Balancing technical perfection with time-to-market pressures",
+                "Understanding customer psychology and adoption patterns",
+                "Developing business acumen and financial modeling skills"
+              ]
+            },
+
+            phase_5_specialized_expertise: {
+              timeframe: "2021-Present (Data Product Management)",
+              specialization_focus: "AI/ML platforms and enterprise data products",
+              technical_domain_expertise: [
+                "Machine learning model lifecycle management",
+                "Data pipeline architecture and orchestration", 
+                "Cloud-native data platform design",
+                "Real-time analytics and streaming data processing",
+                "AI/ML model deployment and monitoring"
+              ],
+              product_innovation_areas: [
+                "Self-service analytics platform development",
+                "AI-powered data discovery and cataloging",
+                "AutoML and no-code/low-code ML platforms",
+                "Data governance and quality automation",
+                "Feature store and ML infrastructure products"
+              ],
+              leadership_evolution: [
+                "Managing teams of engineers, data scientists, and designers",
+                "Setting technical vision and architectural standards",
+                "Balancing innovation with enterprise security and compliance",
+                "Driving adoption of complex technical products across organizations"
+              ]
+            }
+          },
+
+          software_engineering_advantages_in_product_management: {
+            technical_credibility: {
+              benefit: "Engineering teams trust product decisions",
+              examples: [
+                "Can participate meaningfully in technical design discussions",
+                "Understand implementation complexity and make realistic commitments",
+                "Identify technical risks early in product planning",
+                "Bridge communication gaps between business and engineering"
+              ]
+            },
+            
+            system_thinking: {
+              benefit: "Natural ability to see interconnections and dependencies",
+              applications: [
+                "Understanding how product features impact system architecture", 
+                "Anticipating scaling challenges and performance bottlenecks",
+                "Designing products that integrate well with existing systems",
+                "Planning technical debt management and refactoring needs"
+              ]
+            },
+
+            problem_decomposition: {
+              benefit: "Strong analytical approach to complex product challenges",
+              manifestations: [
+                "Breaking down large product initiatives into manageable components",
+                "Identifying root causes of user experience problems",
+                "Systematic approach to feature prioritization and trade-offs",
+                "Data-driven decision making and hypothesis testing"
+              ]
+            },
+
+            quality_mindset: {
+              benefit: "Focus on reliability, performance, and user experience",
+              product_impact: [
+                "Building products that scale and perform under load",
+                "Emphasis on testing, monitoring, and observability",
+                "Understanding the importance of technical documentation",
+                "Balancing feature velocity with system stability"
+              ]
+            }
+          },
+
+          key_transition_lessons: {
+            mindset_evolution: {
+              from_perfect_code: "to good enough solutions that solve real problems",
+              from_technical_features: "to user value and business outcomes",
+              from_individual_execution: "to team enablement and strategic direction",
+              from_known_requirements: "to discovery and experimentation"
+            },
+
+            skill_development_priorities: [
+              "Customer empathy and user experience design",
+              "Business strategy and competitive intelligence",
+              "Communication and stakeholder management",
+              "Metrics and analytics interpretation",
+              "Financial modeling and business case development"
+            ],
+
+            career_acceleration_factors: [
+              "Leveraging technical background for product credibility",
+              "Building strong relationships with engineering teams",
+              "Continuous learning about business and market dynamics",
+              "Seeking opportunities to lead cross-functional initiatives",
+              "Developing domain expertise in high-growth technical areas"
+            ]
+          }
+        },
+
+        success_principles: [
+          "Your software engineering background is a competitive advantage - embrace it rather than hide it",
+          "Technical depth enables better product decisions - use it to build credibility and make informed trade-offs",
+          "The best technical products come from understanding both what's possible and what users actually need",
+          "Engineering thinking (systematic, logical, test-driven) applies perfectly to product management",
+          "Your ability to communicate with technical teams is invaluable - nurture and leverage this skill",
+          "Keep coding and staying current with technology - it maintains your technical edge and respect"
+        ],
+
+        timeline_milestones: {
+          "2010-2013": "Software Engineering education - technical foundation building",
+          "2013-2015": "Junior/Mid-level Engineering - hands-on development expertise",
+          "2015-2017": "Senior Engineering/Tech Lead - leadership and architecture experience", 
+          "2013-2017": "HPE Technology Architect - enterprise systems and client engagement",
+          "2018-2021": "Huawei Product Manager - first product role leveraging technical background",
+          "2021-2023": "Informatica Product Manager - AI/ML product specialization",
+          "2024-Present": "Senior Data Product Manager - technical product leadership"
+        }
+      })
+    );
+
+    const chunks = await doc.chunk({
+      strategy: "json",
+      overlap: 50,
+      maxSize: 512,
+    });
+
+    await rag.add(ctx, {
+      namespace: "software_engineering_journey",
+      chunks: chunks,
+    });
+  },
+});

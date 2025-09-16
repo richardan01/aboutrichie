@@ -20,19 +20,27 @@ export const sendMessage = action({
       prompt_tokens: v.number(),
       completion_tokens: v.number(),
       total_tokens: v.number(),
+      prompt_tokens_details: v.optional(v.object({
+        cached_tokens: v.optional(v.number()),
+        audio_tokens: v.optional(v.number()),
+      })),
+      completion_tokens_details: v.optional(v.object({
+        reasoning_tokens: v.optional(v.number()),
+        audio_tokens: v.optional(v.number()),
+        accepted_prediction_tokens: v.optional(v.number()),
+        rejected_prediction_tokens: v.optional(v.number()),
+      })),
     }), v.null()),
     error: v.optional(v.string()),
   }),
   handler: async (ctx, args) => {
-    console.log("📨 Received message:", args.message);
-    console.log("📨 Thread ID:", args.threadId);
 
     try {
       // Get current user for security
       const userId = await getAuthUserId(ctx);
       
-      // Create user-scoped conversation key
-      const conversationKey = userId ? `${userId}:${args.threadId}` : `anon:${args.threadId}`;
+      // Create conversation key - for anonymous users, just use the threadId
+      const conversationKey = userId ? `${userId}:${args.threadId}` : args.threadId;
       
       // Get or create conversation
       const isNewThread = !conversations.has(conversationKey);
@@ -40,7 +48,6 @@ export const sendMessage = action({
         conversations.set(conversationKey, []);
         
         // Store thread metadata in database
-        console.log("📝 Creating thread metadata for:", args.threadId);
         try {
           await ctx.runMutation(api.chat.mutations.createThread, {
             threadId: args.threadId,
@@ -48,9 +55,8 @@ export const sendMessage = action({
             createdAt: Date.now(),
             lastMessageAt: Date.now(),
           });
-          console.log("✅ Thread metadata created successfully");
         } catch (error) {
-          console.error("❌ Failed to create thread metadata:", error);
+          // Ignore metadata creation errors
         }
       }
       
@@ -73,7 +79,7 @@ export const sendMessage = action({
           timestamp: userMessageTimestamp,
         });
       } catch (error) {
-        console.error("❌ Failed to save user message:", error);
+        // Ignore save errors
       }
 
       // Initialize OpenAI
@@ -155,7 +161,6 @@ Always respond as Richard in first person. Be professional, knowledgeable, and h
         }))
       ];
 
-      console.log("🤖 Calling OpenAI with", messages.length, "messages");
 
       // Call OpenAI
       const completion = await openai.chat.completions.create({
@@ -167,8 +172,6 @@ Always respond as Richard in first person. Be professional, knowledgeable, and h
 
       const response = completion.choices[0]?.message?.content || "I'm sorry, I couldn't generate a response.";
       
-      console.log("✅ OpenAI response:", response.substring(0, 100) + "...");
-      console.log("📊 Token usage:", completion.usage);
 
       // Add assistant message to conversation
       const now = Date.now();
@@ -187,7 +190,7 @@ Always respond as Richard in first person. Be professional, knowledgeable, and h
           timestamp: now,
         });
       } catch (error) {
-        console.error("❌ Failed to save assistant message:", error);
+        // Ignore save errors
       }
 
       // Update thread lastMessageAt timestamp
@@ -196,18 +199,30 @@ Always respond as Richard in first person. Be professional, knowledgeable, and h
           threadId: args.threadId,
           lastMessageAt: now,
         });
-        console.log("✅ Thread timestamp updated successfully");
       } catch (error) {
-        console.error("❌ Failed to update thread timestamp:", error);
+        // Ignore timestamp update errors
       }
 
       return {
         response,
-        tokenUsage: completion.usage || null
+        tokenUsage: completion.usage ? {
+          prompt_tokens: completion.usage.prompt_tokens,
+          completion_tokens: completion.usage.completion_tokens,
+          total_tokens: completion.usage.total_tokens,
+          prompt_tokens_details: completion.usage.prompt_tokens_details ? {
+            cached_tokens: completion.usage.prompt_tokens_details.cached_tokens,
+            audio_tokens: completion.usage.prompt_tokens_details.audio_tokens,
+          } : undefined,
+          completion_tokens_details: completion.usage.completion_tokens_details ? {
+            reasoning_tokens: completion.usage.completion_tokens_details.reasoning_tokens,
+            audio_tokens: completion.usage.completion_tokens_details.audio_tokens,
+            accepted_prediction_tokens: completion.usage.completion_tokens_details.accepted_prediction_tokens,
+            rejected_prediction_tokens: completion.usage.completion_tokens_details.rejected_prediction_tokens,
+          } : undefined,
+        } : null
       };
 
     } catch (error) {
-      console.error("❌ Error in sendMessage:", error);
       
       // Return fallback response
       const fallbackResponse = `I'm currently experiencing some technical difficulties. Please try again in a moment.`;
@@ -234,15 +249,14 @@ export const getConversation = action({
     // Get current user for security
     const userId = await getAuthUserId(ctx);
     
-    // Create user-scoped conversation key
-    const conversationKey = userId ? `${userId}:${args.threadId}` : `anon:${args.threadId}`;
+    // Create conversation key - for anonymous users, just use the threadId
+    const conversationKey = userId ? `${userId}:${args.threadId}` : args.threadId;
     
     // First try to get from memory
     let conversation = conversations.get(conversationKey) || [];
     
     if (conversation.length === 0) {
       // If not in memory, try to load from database
-      console.log("📚 Loading conversation from database for thread:", args.threadId);
       try {
         const dbMessages = await ctx.runQuery(api.chat.queries.getMessages, {
           threadId: args.threadId,
@@ -250,12 +264,11 @@ export const getConversation = action({
         
         if (dbMessages && dbMessages.length > 0) {
           conversation = dbMessages;
-          // Also populate the in-memory cache with user-scoped key
+          // Also populate the in-memory cache
           conversations.set(conversationKey, conversation);
-          console.log("✅ Loaded", dbMessages.length, "messages from database");
         }
       } catch (error) {
-        console.error("❌ Failed to load messages from database:", error);
+        // Ignore database load errors
       }
     }
     
@@ -272,14 +285,13 @@ export const deleteConversation = action({
     error: v.optional(v.string()),
   }),
   handler: async (ctx, args) => {
-    console.log("🗑️ Deleting conversation for thread:", args.threadId);
     
     try {
       // Get current user for security
       const userId = await getAuthUserId(ctx);
       
-      // Create user-scoped conversation key
-      const conversationKey = userId ? `${userId}:${args.threadId}` : `anon:${args.threadId}`;
+      // Create conversation key - for anonymous users, just use the threadId
+      const conversationKey = userId ? `${userId}:${args.threadId}` : args.threadId;
       
       // Remove from in-memory storage
       conversations.delete(conversationKey);
@@ -289,10 +301,8 @@ export const deleteConversation = action({
         threadId: args.threadId,
       });
       
-      console.log("✅ Conversation deleted successfully");
       return { success: true };
     } catch (error) {
-      console.error("❌ Failed to delete conversation:", error);
       return { success: false, error: (error as Error).message };
     }
   },

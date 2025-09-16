@@ -16,11 +16,26 @@ export const simpleOpenAITest = action({
       console.log("OpenAI API Key exists:", !!process.env.OPENAI_API_KEY);
       
       // Try using prompt instead of messages format
-      const result = await generateText({
-        model: openai("gpt-4o-mini"),
-        prompt: args.prompt,
+      // Use native OpenAI SDK instead to avoid version compatibility issues
+      const client = new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY,
+      });
+      
+      const completion = await client.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "user",
+            content: args.prompt,
+          },
+        ],
         temperature: 0.3,
       });
+      
+      const result = {
+        text: completion.choices[0]?.message?.content || "",
+        usage: completion.usage,
+      };
       
       console.log("OpenAI response:", result.text);
       console.log("OpenAI usage:", result.usage);
@@ -42,8 +57,13 @@ export const testOpenAI = action({
       console.log("Testing OpenAI call with prompt:", args.prompt);
       console.log("OpenAI API Key exists:", !!process.env.OPENAI_API_KEY);
       
-      const result = await generateText({
-        model: openai("gpt-4o-mini"),
+      // Use native OpenAI SDK instead to avoid version compatibility issues
+      const client = new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY,
+      });
+      
+      const completion = await client.chat.completions.create({
+        model: "gpt-4o-mini",
         messages: [
           {
             role: "system",
@@ -69,6 +89,11 @@ Always respond as Richard in first person, sharing insights about your work expe
         ],
         temperature: 0.7,
       });
+      
+      const result = {
+        text: completion.choices[0]?.message?.content || "",
+        usage: completion.usage,
+      };
       
       console.log("OpenAI response:", result.text.substring(0, 100) + "...");
       console.log("OpenAI usage:", result.usage);

@@ -58,7 +58,7 @@ const suggestions = [
     icon: <User size={16} />,
     text: "About Richard",
     value: "about-me",
-    prompt: "Tell me about yourself and your work as a Data Product Manager",
+    prompt: "Tell me about yourself",
   },
   {
     icon: <Camera size={16} />,
@@ -92,22 +92,41 @@ export default function Index() {
         submittingSource: SubmittingSource;
       }
     ) => {
+      
       setSubmittingSource(submittingSource);
       
-      // Generate a simple thread ID
-      const threadId = `thread_${Date.now()}`;
-      
-      // Navigate to chat with the message
-      await navigate(generatePath(ROUTES.chatThread, { threadId }));
-      
-      // Send the initial message via postMessage to the chat component
-      setTimeout(() => {
-        window.postMessage({
-          type: 'INITIAL_MESSAGE',
-          message: message
-        }, '*');
+      try {
+        // Generate a simple thread ID
+        const threadId = `thread_${Date.now()}`;
+        
+        // Save thread to localStorage for anonymous users
+        const newThread = {
+          _id: threadId,
+          threadId: threadId,
+          title: message.substring(0, 50) + (message.length > 50 ? "..." : ""),
+          _creationTime: Date.now(),
+        };
+        
+        try {
+          const stored = localStorage.getItem('chatThreads');
+          const existingThreads = stored ? JSON.parse(stored) : [];
+          const updatedThreads = [newThread, ...existingThreads];
+          localStorage.setItem('chatThreads', JSON.stringify(updatedThreads));
+          
+          // Trigger custom event to update sidebar
+          window.dispatchEvent(new Event('localThreadsUpdated'));
+          
+        } catch (storageError) {
+        }
+        
+        // Navigate to chat with the message as URL parameter
+        const chatPath = generatePath(ROUTES.chatThread, { threadId }) + `?initialMessage=${encodeURIComponent(message)}`;
+        await navigate(chatPath);
+        
         setSubmittingSource(undefined); // Reset loading state
-      }, 100);
+      } catch (error) {
+        setSubmittingSource(undefined);
+      }
     },
     [navigate]
   );
@@ -120,7 +139,11 @@ export default function Index() {
       submittingSource: SubmittingSource;
     }
   ) => {
-    handleMessageSubmit(prompt, { submittingSource });
+    try {
+      handleMessageSubmit(prompt, { submittingSource });
+    } catch (error) {
+      // Handle error silently
+    }
   };
 
   return (
@@ -177,6 +200,7 @@ export default function Index() {
         }}
         disabled={disabled}
         isSubmitting={submittingSource === "message-input"}
+        resetOnSubmit={false}
       />
     </div>
   );

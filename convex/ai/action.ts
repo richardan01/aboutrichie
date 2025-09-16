@@ -10,6 +10,13 @@ import { rateLimit } from "../helpers/rateLimit";
 import { anonymousAction, authedAction } from "../procedures";
 import { traceChatTurn } from "../tracing/simple";
 
+/**
+ * Creates a new chat thread for an authenticated user.
+ * This action first generates a summary title for the thread based on the initial prompt,
+ * then creates the thread and returns its ID.
+ * @param prompt - The initial prompt from the user to start the thread.
+ * @returns An object containing the ID of the newly created thread.
+ */
 export const createThread = authedAction({
   args: {
     prompt: v.string(),
@@ -50,6 +57,13 @@ export const createThread = authedAction({
   },
 });
 
+/**
+ * Creates a new chat thread for an anonymous user.
+ * Similar to createThread, but for users who are not logged in.
+ * It generates a title, creates the thread, and returns the thread ID and anonymous user ID.
+ * @param prompt - The initial prompt from the user.
+ * @returns An object containing the new thread's ID and the anonymous user's ID.
+ */
 export const createAnonymousThread = anonymousAction({
   args: {
     prompt: v.string(),
@@ -94,6 +108,14 @@ export const createAnonymousThread = anonymousAction({
   },
 });
 
+/**
+ * Continues an existing chat thread for an authenticated user.
+ * It uses the store agent to generate a response to the user's prompt.
+ * @param threadId - The ID of the thread to continue.
+ * @param prompt - The user's new prompt.
+ * @param promptMessageId - The optional ID of the prompt message.
+ * @returns The generated text response from the AI.
+ */
 export const continueThread = authedAction({
   args: {
     threadId: v.string(),
@@ -146,6 +168,13 @@ export const continueThread = authedAction({
   },
 });
 
+/**
+ * Internal action to generate a summary title for a chat thread.
+ * This is used by createThread and createAnonymousThread.
+ * @param prompt - The user's prompt to summarize into a title.
+ * @param userId - The ID of the user who owns the thread.
+ * @returns The generated title as a string.
+ */
 export const _generateThreadTitle = internalAction({
   args: {
     prompt: v.string(),
@@ -164,6 +193,16 @@ export const _generateThreadTitle = internalAction({
   },
 });
 
+/**
+ * Continues an existing chat thread for an anonymous user.
+ * This action sends the prompt to the AI and returns the generated response.
+ * It includes a fallback to a mock response if the primary AI service fails.
+ * @param threadId - The ID of the thread to continue.
+ * @param prompt - The user's new prompt.
+ * @param promptMessageId - The optional ID of the prompt message.
+ * @param disableStream - Optional flag to disable streaming responses.
+ * @returns The generated text response from the AI.
+ */
 export const continueAnonymousThread = anonymousAction({
   args: {
     threadId: v.string(),
@@ -220,6 +259,10 @@ export const continueAnonymousThread = anonymousAction({
   },
 });
 
+/**
+ * Deletes all data associated with a chat thread for an authenticated user.
+ * @param threadId - The ID of the thread to be deleted.
+ */
 export const deleteAiThread = authedAction({
   args: {
     threadId: v.string(),
@@ -231,6 +274,11 @@ export const deleteAiThread = authedAction({
   },
 });
 
+/**
+ * Deletes all data associated with a chat thread for an anonymous user.
+ * It includes a check to ensure the anonymous user owns the thread before deletion.
+ * @param threadId - The ID of the thread to be deleted.
+ */
 export const deleteAnonymousAiThread = anonymousAction({
   args: {
     threadId: v.string(),

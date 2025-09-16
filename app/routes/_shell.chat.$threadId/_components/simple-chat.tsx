@@ -1,7 +1,7 @@
 import { useConvexAction } from "@convex-dev/react-query";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useState, useEffect, useCallback } from "react";
+import { useParams, useSearchParams } from "react-router";
 import { api } from "convex/_generated/api";
 import { MessageInputField } from "~/components/ui/message-input-field";
 
@@ -14,13 +14,11 @@ interface Message {
 
 export function SimpleChat() {
   const { threadId } = useParams<{ threadId: string }>();
+  const [searchParams] = useSearchParams();
   const [messages, setMessages] = useState<Message[]>([]);
   const [hasProcessedInitialMessage, setHasProcessedInitialMessage] = useState(false);
   const [isLoadingHistory, setIsLoadingHistory] = useState(true);
 
-  console.log("🔄 SimpleChat render - ThreadID:", threadId);
-  console.log("🔄 SimpleChat render - Messages count:", messages.length);
-  console.log("🔄 SimpleChat render - isLoadingHistory:", isLoadingHistory);
 
   // Load conversation history for this thread
   const getConversationAction = useConvexAction(api["chat/actions"].getConversation);
@@ -30,7 +28,6 @@ export function SimpleChat() {
     
     const loadConversationHistory = async () => {
       try {
-        console.log("📚 Loading conversation history for thread:", threadId);
         const conversation = await getConversationAction({ threadId });
         
         if (conversation && conversation.length > 0) {
@@ -42,15 +39,11 @@ export function SimpleChat() {
             timestamp: msg.timestamp
           }));
           
-          console.log("📚 Loaded", historyMessages.length, "messages from history");
           setMessages(historyMessages);
         } else {
-          // No history, start with empty messages
           setMessages([]);
         }
       } catch (error) {
-        console.error("❌ Failed to load conversation history:", error);
-        // Start with empty messages on error
         setMessages([]);
       } finally {
         setIsLoadingHistory(false);
@@ -60,20 +53,6 @@ export function SimpleChat() {
     loadConversationHistory();
   }, [threadId, getConversationAction]);
 
-  // Listen for initial messages from homepage
-  useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      if (event.data?.type === 'INITIAL_MESSAGE' && !hasProcessedInitialMessage) {
-        console.log("📨 Received initial message:", event.data.message);
-        setHasProcessedInitialMessage(true);
-        handleMessageSubmit(event.data.message);
-      }
-    };
-
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, [hasProcessedInitialMessage]);
-
   // Send message mutation
   const sendMessageAction = useConvexAction(api["chat/actions"].sendMessage);
   const sendMessageMutation = useMutation({
@@ -81,10 +60,6 @@ export function SimpleChat() {
       return await sendMessageAction({ threadId, message });
     },
     onSuccess: (result) => {
-      console.log("✅ Message sent successfully:", result);
-      console.log("✅ Current messages state:", messages.length);
-      
-      // Add AI response to messages
       const aiMessage: Message = {
         id: Date.now().toString(),
         role: 'assistant',
@@ -92,21 +67,33 @@ export function SimpleChat() {
         timestamp: Date.now()
       };
       
-      setMessages(prev => {
-        console.log("✅ Previous messages:", prev.length);
-        const newMessages = [...prev, aiMessage];
-        console.log("✅ New messages after adding AI response:", newMessages.length);
-        return newMessages;
-      });
+      setMessages(prev => [...prev, aiMessage]);
+      
+      // For initial messages, also refresh the conversation history to ensure persistence
+      if (searchParams.get('initialMessage') && hasProcessedInitialMessage) {
+        setTimeout(async () => {
+          try {
+            const conversation = await getConversationAction({ threadId: threadId! });
+            if (conversation && conversation.length > 0) {
+              const historyMessages: Message[] = conversation.map((msg, index) => ({
+                id: `history_${index}`,
+                role: msg.role,
+                content: msg.content,
+                timestamp: msg.timestamp
+              }));
+              setMessages(historyMessages);
+            }
+          } catch (error) {
+            // Ignore refresh errors
+          }
+        }, 1000);
+      }
     },
     onError: (error) => {
-      console.error("❌ Failed to send message:", error);
-      
-      // Add error message
       const errorMessage: Message = {
         id: Date.now().toString(),
         role: 'assistant',
-        content: "Sorry, I'm having trouble responding right now. Please try again.",
+        content: `Error: ${error?.message || 'Unknown error occurred'}. Please try again.`,
         timestamp: Date.now()
       };
       
@@ -114,11 +101,12 @@ export function SimpleChat() {
     },
   });
 
-  const handleMessageSubmit = async (message: string) => {
-    console.log("🚀 Submitting message:", message);
-    
+  const handleMessageSubmit = useCallback(async (message: string) => {
     if (!threadId) {
-      console.error("❌ No thread ID");
+      return;
+    }
+
+    if (!message.trim()) {
       return;
     }
 
@@ -130,19 +118,24 @@ export function SimpleChat() {
       timestamp: Date.now()
     };
     
-    setMessages(prev => {
-      console.log("📤 Previous messages:", prev.length);
-      const newMessages = [...prev, userMessage];
-      console.log("📤 New messages after adding user message:", newMessages.length);
-      return newMessages;
-    });
+    setMessages(prev => [...prev, userMessage]);
 
     // Send to backend
     sendMessageMutation.mutate({
       threadId,
       message,
     });
-  };
+  }, [threadId, sendMessageMutation]);
+
+  // Process initial message from URL parameters
+  useEffect(() => {
+    const initialMessage = searchParams.get('initialMessage');
+    
+    if (initialMessage && !hasProcessedInitialMessage && !isLoadingHistory) {
+      setHasProcessedInitialMessage(true);
+      handleMessageSubmit(initialMessage);
+    }
+  }, [searchParams, hasProcessedInitialMessage, isLoadingHistory, handleMessageSubmit]);
 
   if (!threadId) {
     return (
@@ -169,10 +162,10 @@ export function SimpleChat() {
             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-[80%] p-4 rounded-lg ${
+              className={`max-w-[80%] p-4 rounded-lg border ${
                 message.role === 'user'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-800'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-muted text-foreground'
               }`}
             >
               <div className="text-sm">
@@ -217,6 +210,7 @@ export function SimpleChat() {
             className="w-full"
             isSubmitting={sendMessageMutation.isPending}
             rows={2}
+            resetOnSubmit={true}
           />
         </div>
       </div>

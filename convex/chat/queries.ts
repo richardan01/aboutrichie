@@ -8,24 +8,24 @@ export const listThreads = query({
     // Get current user (authenticated or anonymous)
     const userId = await getAuthUserId(ctx);
     
-    // SECURITY: Anonymous users should NEVER see any threads
-    if (!userId) {
-      console.log("🚫 Anonymous user requesting threads - returning empty array");
+    let threads;
+    
+    if (userId) {
+      // For authenticated users, get their threads
+      threads = await ctx.db
+        .query("threads")
+        .withIndex("userId", (q) => q.eq("userId", userId))
+        .filter((q) => q.neq(q.field("userId"), undefined))
+        .filter((q) => q.neq(q.field("userId"), null))
+        .filter((q) => q.eq(q.field("userId"), userId)) // Double-check user ownership
+        .order("desc")
+        .take(50);
+      
+    } else {
+      // For anonymous users, we'll use localStorage on the client side
+      // Return empty array but allow the client to manage local threads
       return [];
     }
-    
-    // SECURITY: Only authenticated users with valid userId can see threads
-    // Get threads for this specific user using the userId index
-    const threads = await ctx.db
-      .query("threads")
-      .withIndex("userId", (q) => q.eq("userId", userId))
-      .filter((q) => q.neq(q.field("userId"), undefined))
-      .filter((q) => q.neq(q.field("userId"), null))
-      .filter((q) => q.eq(q.field("userId"), userId)) // Double-check user ownership
-      .order("desc")
-      .take(50);
-
-    console.log(`📋 Returning ${threads.length} threads for user ${userId}`);
     
     return threads.map(thread => ({
       _id: thread._id,
@@ -76,27 +76,29 @@ export const getMessages = query({
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
     
-    // SECURITY: Anonymous users should NEVER see any messages
-    if (!userId) {
-      console.log("🚫 Anonymous user requesting messages - returning empty array");
-      return [];
-    }
-    
-    // First check if the user owns the thread
+    // First check if the thread exists
     const thread = await ctx.db
       .query("threads")
       .withIndex("threadId", (q) => q.eq("threadId", args.threadId))
       .first();
 
     if (!thread) {
-      console.log("🚫 Thread not found:", args.threadId);
       return [];
     }
 
-    // SECURITY: Check if user owns this thread
-    if (!thread.userId || thread.userId !== userId) {
-      console.log("🚫 Access denied - user doesn't own thread:", args.threadId);
-      return [];
+    // SECURITY: Check access permissions
+    // - Authenticated users can only access their own threads
+    // - Anonymous users can only access threads that don't have a userId (anonymous threads)
+    if (userId) {
+      // Authenticated user - must own the thread
+      if (thread.userId && thread.userId !== userId) {
+        return [];
+      }
+    } else {
+      // Anonymous user - can only access anonymous threads
+      if (thread.userId) {
+        return [];
+      }
     }
 
     const messages = await ctx.db
@@ -105,7 +107,6 @@ export const getMessages = query({
       .order("asc")
       .collect();
 
-    console.log(`📨 Returning ${messages.length} messages for thread ${args.threadId}`);
 
     return messages.map(message => ({
       role: message.role,

@@ -153,7 +153,6 @@ export const cleanupOrphanedThreads = mutation({
       deletedCount++;
     }
     
-    console.log(`🧹 Cleaned up ${deletedCount} orphaned threads`);
     return { deletedCount };
   },
 });

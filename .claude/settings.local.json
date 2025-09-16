@@ -11,7 +11,14 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(git rebase:*)",
-      "Bash(git stash:*)"
+      "Bash(git stash:*)",
+      "Bash(npm run typecheck:*)",
+      "Bash(npm test)",
+      "Bash(npx convex logs:*)",
+      "Bash(node:*)",
+      "Bash(dir:*)",
+      "Bash(source:*)",
+      "Bash(npx convex deploy:*)"
     ],
     "defaultMode": "acceptEdits"
   }

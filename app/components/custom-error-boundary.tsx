@@ -14,12 +14,20 @@ type ConvexErrorFallbackProps = FallbackProps & {
 };
 
 export function GenericErrorBoundary({
+  error,
   resetErrorBoundary,
   message = "Something went wrong 💀",
   renderElementWithWrapper,
 }: ConvexErrorFallbackProps & {
   message?: string;
 }) {
+  // Log detailed error information
+  console.error("🔴 ERROR BOUNDARY CAUGHT ERROR:", error);
+  console.error("🔴 Error message:", error?.message);
+  console.error("🔴 Error stack:", error?.stack);
+  console.error("🔴 Error type:", typeof error);
+  console.error("🔴 Error constructor:", error?.constructor?.name);
+
   const handleReset = () => {
     try {
       console.log("Reset button clicked");
@@ -36,8 +44,12 @@ export function GenericErrorBoundary({
   };
 
   const content = (
-    <div className={"flex flex-col gap-4 items-center justify-center"}>
+    <div className={"flex flex-col gap-4 items-center justify-center p-4"}>
       <h1 className={"text-xl font-semibold text-center"}>{message}</h1>
+      <div className="text-sm text-muted-foreground text-center max-w-lg">
+        <p>Error: {error?.message || 'Unknown error'}</p>
+        <p className="text-xs mt-2">Check browser console for details</p>
+      </div>
       <Button onClick={handleReset}>Reset</Button>
     </div>
   );

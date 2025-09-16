@@ -34,6 +34,14 @@ function agentError<T>(error: BackendErrorSchema): AgentToolError {
   };
 }
 
+/**
+ * Creates and configures the main AI agent for the application.
+ * This agent is responsible for handling conversations with authenticated users,
+ * adopting the persona of Richard Ng, a Data Product Manager.
+ * It is equipped with tools to search Richard's CV and career story to provide accurate and relevant information.
+ * @param args - Configuration options for the agent, such as middleware, modelId, and providerId.
+ * @returns A new instance of the Agent, configured with specific instructions, tools, and a language model.
+ */
 export const createStoreAgent = (
   args: {
     middleware?: LanguageModelV1Middleware | LanguageModelV1Middleware[];
@@ -136,7 +144,13 @@ These projects span the full spectrum from data infrastructure to GenAI applicat
     \`\`\`
     `,
     tools: {
-      searchCurriculumVitae: createTool({
+      /**
+           * A tool that allows the agent to search Richard's curriculum vitae (CV).
+           * This is used to answer specific questions about his skills, experience, and professional background.
+           * @param query - The search query to find relevant information in the CV.
+           * @returns A list of entries from the CV that match the query.
+           */
+          searchCurriculumVitae: createTool({
         args: z
           .object({
             query: z
@@ -164,7 +178,13 @@ These projects span the full spectrum from data infrastructure to GenAI applicat
           );
         },
       }),
-      searchCareerTransitionStory: createTool({
+      /**
+           * A tool for searching through Richard's career transition story.
+           * This helps the agent answer questions about his career progression, journey, and the evolution of his expertise.
+           * @param query - The search query to find relevant information in the career story.
+           * @returns A list of entries from the career story that match the query.
+           */
+          searchCareerTransitionStory: createTool({
         args: z.object({
           query: z.string().describe("Search Richard's career progression and journey"),
         }),

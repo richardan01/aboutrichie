@@ -78,6 +78,22 @@ function SimpleThreadItem({
     onSuccess: async () => {
       toast.success("Thread deleted");
       dialogStore.trigger.closeAlertDialog();
+      
+      // Also remove from localStorage for anonymous users
+      try {
+        const stored = localStorage.getItem('chatThreads');
+        if (stored) {
+          const existingThreads = JSON.parse(stored);
+          const updatedThreads = existingThreads.filter((t: any) => t.threadId !== thread.threadId);
+          localStorage.setItem('chatThreads', JSON.stringify(updatedThreads));
+          
+          // Trigger custom event to update sidebar
+          window.dispatchEvent(new Event('localThreadsUpdated'));
+        }
+      } catch (error) {
+        console.error("Failed to remove thread from localStorage:", error);
+      }
+      
       // Invalidate the threads list query to refresh the UI
       await queryClient.invalidateQueries({
         queryKey: ["convex", api["chat/queries"].listThreads, {}],
