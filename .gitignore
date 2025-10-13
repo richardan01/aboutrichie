@@ -1,10 +1,81 @@
-node_modules
+# Dependencies
+node_modules/
 
+# Build outputs
 /.cache
 /build
-.env
 /dist
+.react-router/
 
-.react-router
+# Environment variables
+.env
 .env.local
 .env.production
+.env*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv/
+python-agents/.venv/
+python-agents/venv/
+python-agents/__pycache__/
+python-agents/**/*.pyc
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.cursor/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Temporary files
+nul
+*.tmp
+*.temp
+tatus
+
+# Tunnel/proxy tools
+ngrok.exe
+ngrok
+*.ngrok
+cloudflared
+*.exe
+
+# Documentation (temporary/status files)
+*_STATUS.md
+*_REALITY.md
+*_CHECKLIST.md
+MISSING_*.md
+SETUP.md
+SETUP_GUIDE.md
+
+# Test outputs
+coverage/
+.nyc_output/
+
+# Deployment configs (keep main ones, ignore temp)
+.vercel/
+
+
+# Local Claude config (may contain secrets)
+.claude/
+

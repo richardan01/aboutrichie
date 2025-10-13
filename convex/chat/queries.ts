@@ -109,9 +109,115 @@ export const getMessages = query({
 
 
     return messages.map(message => ({
-      role: message.role,
-      content: message.content,
+      userQuery: message.userQuery,
+      assistantResponse: message.assistantResponse,
       timestamp: message.timestamp,
     }));
+  },
+});
+
+export const getUsageStats = query({
+  args: {
+    userId: v.optional(v.string()),
+    startDate: v.optional(v.number()),
+    endDate: v.optional(v.number()),
+  },
+  handler: async (ctx, args) => {
+    let usageData = await ctx.db
+      .query("usageData")
+      .order("desc")
+      .collect();
+
+    // Filter by userId if provided
+    if (args.userId) {
+      usageData = usageData.filter(data => data.userId === args.userId);
+    }
+
+    // Filter by date range if provided
+    if (args.startDate) {
+      usageData = usageData.filter(data => data.timestamp >= args.startDate!);
+    }
+    if (args.endDate) {
+      usageData = usageData.filter(data => data.timestamp <= args.endDate!);
+    }
+
+    // Calculate totals
+    const totalPromptTokens = usageData.reduce((sum, data) => sum + data.promptTokens, 0);
+    const totalCompletionTokens = usageData.reduce((sum, data) => sum + data.completionTokens, 0);
+    const totalTokens = usageData.reduce((sum, data) => sum + data.totalTokens, 0);
+    const totalRequests = usageData.length;
+
+    // Group by model
+    const byModel = usageData.reduce((acc, data) => {
+      if (!acc[data.model]) {
+        acc[data.model] = {
+          model: data.model,
+          requests: 0,
+          promptTokens: 0,
+          completionTokens: 0,
+          totalTokens: 0,
+        };
+      }
+      acc[data.model].requests++;
+      acc[data.model].promptTokens += data.promptTokens;
+      acc[data.model].completionTokens += data.completionTokens;
+      acc[data.model].totalTokens += data.totalTokens;
+      return acc;
+    }, {} as Record<string, {
+      model: string;
+      requests: number;
+      promptTokens: number;
+      completionTokens: number;
+      totalTokens: number;
+    }>);
+
+    return {
+      summary: {
+        totalRequests,
+        totalPromptTokens,
+        totalCompletionTokens,
+        totalTokens,
+      },
+      byModel: Object.values(byModel),
+      recentUsage: usageData.slice(0, 10).map(data => ({
+        threadId: data.threadId,
+        model: data.model,
+        promptTokens: data.promptTokens,
+        completionTokens: data.completionTokens,
+        totalTokens: data.totalTokens,
+        timestamp: data.timestamp,
+      })),
+    };
+  },
+});
+
+export const getThreadUsage = query({
+  args: {
+    threadId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const usageData = await ctx.db
+      .query("usageData")
+      .withIndex("threadId", (q) => q.eq("threadId", args.threadId))
+      .collect();
+
+    const totalPromptTokens = usageData.reduce((sum, data) => sum + data.promptTokens, 0);
+    const totalCompletionTokens = usageData.reduce((sum, data) => sum + data.completionTokens, 0);
+    const totalTokens = usageData.reduce((sum, data) => sum + data.totalTokens, 0);
+
+    return {
+      threadId: args.threadId,
+      totalRequests: usageData.length,
+      totalPromptTokens,
+      totalCompletionTokens,
+      totalTokens,
+      history: usageData.map(data => ({
+        model: data.model,
+        promptTokens: data.promptTokens,
+        completionTokens: data.completionTokens,
+        totalTokens: data.totalTokens,
+        timestamp: data.timestamp,
+      })),
+    };
   },
 });

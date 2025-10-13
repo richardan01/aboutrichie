@@ -107,21 +107,21 @@ export const deleteThread = mutation({
   },
 });
 
-export const saveMessage = mutation({
+export const saveMessagePair = mutation({
   args: {
     threadId: v.string(),
-    role: v.union(v.literal("user"), v.literal("assistant")),
-    content: v.string(),
+    userQuery: v.string(),
+    assistantResponse: v.string(),
     timestamp: v.number(),
   },
   handler: async (ctx, args) => {
     const messageId = await ctx.db.insert("messages", {
       threadId: args.threadId,
-      role: args.role,
-      content: args.content,
+      userQuery: args.userQuery,
+      assistantResponse: args.assistantResponse,
       timestamp: args.timestamp,
     });
-    
+
     return messageId;
   },
 });
@@ -134,25 +134,50 @@ export const cleanupOrphanedThreads = mutation({
       .query("threads")
       .filter((q) => q.eq(q.field("userId"), undefined))
       .collect();
-    
+
     let deletedCount = 0;
-    
+
     for (const thread of orphanedThreads) {
       // Delete all messages for this thread
       const messages = await ctx.db
         .query("messages")
         .withIndex("threadId", (q) => q.eq("threadId", thread.threadId))
         .collect();
-      
+
       for (const message of messages) {
         await ctx.db.delete(message._id);
       }
-      
+
       // Delete the thread
       await ctx.db.delete(thread._id);
       deletedCount++;
     }
-    
+
     return { deletedCount };
+  },
+});
+
+export const saveUsageData = mutation({
+  args: {
+    threadId: v.string(),
+    userId: v.optional(v.string()),
+    model: v.string(),
+    promptTokens: v.number(),
+    completionTokens: v.number(),
+    totalTokens: v.number(),
+    timestamp: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const usageId = await ctx.db.insert("usageData", {
+      threadId: args.threadId,
+      userId: args.userId,
+      model: args.model,
+      promptTokens: args.promptTokens,
+      completionTokens: args.completionTokens,
+      totalTokens: args.totalTokens,
+      timestamp: args.timestamp,
+    });
+
+    return usageId;
   },
 });

@@ -1,3 +1,4 @@
+import "../tracing/otel"; // initialize Phoenix + OTEL once per worker
 import { ConvexError, v } from "convex/values";
 import { ok, ResultAsync } from "neverthrow";
 import { components, api } from "../_generated/api";

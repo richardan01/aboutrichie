@@ -22,11 +22,26 @@ const schema = defineSchema({
     .index("anonymousUserId", ["anonymousUserId"]),
   messages: defineTable({
     threadId: v.string(),
-    role: v.union(v.literal("user"), v.literal("assistant")),
-    content: v.string(),
+    userQuery: v.optional(v.string()),
+    assistantResponse: v.optional(v.string()),
+    // Legacy fields (backwards compatibility)
+    role: v.optional(v.union(v.literal("user"), v.literal("assistant"))),
+    content: v.optional(v.string()),
     timestamp: v.number(),
   })
     .index("threadId", ["threadId"])
+    .index("timestamp", ["timestamp"]),
+  usageData: defineTable({
+    threadId: v.string(),
+    userId: v.optional(v.string()),
+    model: v.string(),
+    promptTokens: v.number(),
+    completionTokens: v.number(),
+    totalTokens: v.number(),
+    timestamp: v.number(),
+  })
+    .index("threadId", ["threadId"])
+    .index("userId", ["userId"])
     .index("timestamp", ["timestamp"]),
 });
 

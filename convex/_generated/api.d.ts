@@ -40,6 +40,7 @@ import type * as rag from "../rag.js";
 import type * as rateLimiter from "../rateLimiter.js";
 import type * as resend from "../resend.js";
 import type * as simpleTest from "../simpleTest.js";
+import type * as tracing_otel from "../tracing/otel.js";
 import type * as tracing_simple from "../tracing/simple.js";
 import type * as users_mutation from "../users/mutation.js";
 import type * as users_nodeAction from "../users/nodeAction.js";
@@ -94,6 +95,7 @@ declare const fullApi: ApiFromModules<{
   rateLimiter: typeof rateLimiter;
   resend: typeof resend;
   simpleTest: typeof simpleTest;
+  "tracing/otel": typeof tracing_otel;
   "tracing/simple": typeof tracing_simple;
   "users/mutation": typeof users_mutation;
   "users/nodeAction": typeof users_nodeAction;
