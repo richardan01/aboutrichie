@@ -11,21 +11,21 @@ import { ROUTES } from "~/lib/routes";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Richard Ng's personal website | AI-Powered Portfolio & Chat" },
+    { title: "Richard Ng | AI Product Manager | Conversational AI & GenAI Expert" },
     {
       name: "description",
       content:
-        "Richard Ng's personal website featuring an AI-powered chat assistant. Learn about his expertise in data products, AI/ML platforms, and enterprise analytics.",
+        "Product Manager with 10+ years delivering next-gen AI platforms. Expertise in LLMs, conversational AI, chatbot platforms, and GenAI evaluation frameworks. Chat with Richard's AI assistant to learn more.",
     },
     // Open Graph
     {
       property: "og:title",
-      content: "Richard Ng's personal website | AI-Powered Portfolio & Chat",
+      content: "Richard Ng | AI Product Manager | Conversational AI & GenAI Expert",
     },
     {
       property: "og:description",
       content:
-        "Richard Ng's personal website featuring an AI-powered chat assistant. Learn about his expertise in data products, AI/ML platforms, and enterprise analytics.",
+        "Product Manager with 10+ years delivering next-gen AI platforms. Expertise in LLMs, conversational AI, chatbot platforms, and GenAI evaluation frameworks.",
     },
     {
       property: "og:image",
@@ -39,12 +39,12 @@ export const meta: MetaFunction = () => {
     { name: "twitter:card", content: "summary_large_image" },
     {
       name: "twitter:title",
-      content: "Richard Ng's personal website | AI-Powered Portfolio & Chat",
+      content: "Richard Ng | AI Product Manager | Conversational AI & GenAI Expert",
     },
     {
       name: "twitter:description",
       content:
-        "Richard Ng's personal website featuring an AI-powered chat assistant. Learn about his expertise in data products, AI/ML platforms, and enterprise analytics.",
+        "Product Manager with 10+ years delivering next-gen AI platforms. Expertise in LLMs, conversational AI, chatbot platforms, and GenAI evaluation frameworks.",
     },
     {
       name: "twitter:image",
@@ -58,19 +58,19 @@ const suggestions = [
     icon: <User size={16} />,
     text: "About Richard",
     value: "about-me",
-    prompt: "Tell me about yourself",
+    prompt: "Tell me about yourself and your professional background",
   },
   {
     icon: <Camera size={16} />,
-    text: "Richard's career journey",
-    value: "career-journey",
-    prompt: "Can you tell me about your career progression from Technology Architect to Data Product Manager?",
+    text: "AI & Chatbot Platforms",
+    value: "ai-chatbot-platforms",
+    prompt: "Tell me about your experience building AI and chatbot platforms. I'm interested in your work with conversational AI, LLMs, and GenAI assistants at Axi and Informatica.",
   },
   {
     icon: <Database size={16} />,
-    text: "Richard's key projects",
-    value: "data-projects",
-    prompt: "Tell me about Richard's key projects and achievements as a Senior Data Product Manager. What are some of the most impactful data and AI initiatives he's led, including the Axi Data Marketplace, churn prediction models, data modernization efforts, and enterprise analytics platforms? How do these projects showcase his expertise in building scalable data infrastructure and driving measurable business impact?",
+    text: "Product Management Excellence",
+    value: "product-management",
+    prompt: "What are your key achievements as a Product Manager? I'd like to know about your experience with 0-to-1 product development, cross-functional leadership, and measurable business impact across AI, data, and Web3 projects.",
   },
 ] as const;
 
@@ -149,8 +149,8 @@ export default function Index() {
   return (
     <div className="h-full flex flex-col">
       <Meta
-        titleSuffix="AI-Powered Portfolio & Chat"
-        description="Richard Ng's personal website featuring an AI-powered chat assistant. Learn about his expertise in data products, AI/ML platforms, and enterprise analytics."
+        titleSuffix="AI Product Manager | Conversational AI Expert"
+        description="Product Manager with 10+ years delivering next-gen AI platforms. Expertise in LLMs, conversational AI, chatbot platforms, and GenAI evaluation frameworks."
       />
       {/* Main content area */}
       <div className="flex-1 flex flex-col items-center justify-center p-4">
@@ -159,26 +159,33 @@ export default function Index() {
             Hi! I'm Richard 👋
           </h1>
 
-          <div className="flex flex-wrap justify-center gap-2">
-            {suggestions.map((suggestion) => (
-              <Button
-                disabled={disabled}
-                key={suggestion.value}
-                variant="outline"
-                size="sm"
-                loading={submittingSource === suggestion.value}
-                className="gap-2"
-                onClick={() =>
-                  handleSuggestionClick(suggestion.prompt, {
-                    submittingSource: suggestion.value,
-                  })
-                }
-              >
-                {suggestion.icon}
-                {suggestion.text}
-              </Button>
-            ))}
-          </div>
+      <div className="flex flex-wrap justify-center gap-2">
+        {suggestions.map((suggestion) => (
+          <Button
+            disabled={disabled}
+            key={suggestion.value}
+            variant="outline"
+            size="sm"
+            loading={submittingSource === suggestion.value}
+            className="gap-2"
+            onClick={() =>
+              handleSuggestionClick(suggestion.prompt, {
+                submittingSource: suggestion.value,
+              })
+            }
+          >
+            {suggestion.icon}
+            {suggestion.text}
+          </Button>
+        ))}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => navigate("/telemetry-test")}
+        >
+          Test Telemetry
+        </Button>
+      </div>
         </div>
       </div>
       <MessageInputField

@@ -5,9 +5,12 @@ import { action } from "../_generated/server";
 import { api } from "../_generated/api";
 import OpenAI from "openai";
 import { getAuthUserId } from "@convex-dev/auth/server";
+import { Agent, run } from "@openai/agents";
+import { generateSystemInstructions } from "../helpers/systemPrompt";
 
 // Simple message storage
-const conversations = new Map<string, Array<{role: 'user' | 'assistant', content: string, timestamp: number}>>();
+type ConversationMessage = {role: 'user' | 'assistant', content: string, timestamp: number};
+const conversations = new Map<string, ConversationMessage[]>();
 
 export const sendMessage = action({
   args: {
@@ -16,6 +19,7 @@ export const sendMessage = action({
   },
   returns: v.object({
     response: v.string(),
+    traceId: v.optional(v.string()),
     tokenUsage: v.union(v.object({
       prompt_tokens: v.number(),
       completion_tokens: v.number(),
@@ -34,7 +38,6 @@ export const sendMessage = action({
     error: v.optional(v.string()),
   }),
   handler: async (ctx, args) => {
-
     try {
       // Get current user for security
       const userId = await getAuthUserId(ctx);
@@ -70,108 +73,68 @@ export const sendMessage = action({
         timestamp: userMessageTimestamp
       });
 
-      // Save user message to database
+      // Create system instructions for Richard using structured data
+      const systemInstructions = generateSystemInstructions();
+
+      // Create agent with tracing enabled (default)
+      const agent = new Agent({
+        name: "Richard AI Assistant",
+        instructions: systemInstructions,
+        model: "gpt-4o-mini",
+      });
+
+      // Build conversation context
+      const conversationHistory = conversation
+        .slice(0, -1) // Exclude the current message
+        .map(msg => `${msg.role === 'user' ? 'User' : 'Assistant'}: ${msg.content}`)
+        .join('\n\n');
+
+      const fullPrompt = conversationHistory
+        ? `${conversationHistory}\n\nUser: ${args.message}`
+        : args.message;
+
+      console.log("[CHAT] Using OpenAI Agents SDK with tracing", {
+        threadId: args.threadId,
+        messagePreview: args.message.substring(0, 80),
+        conversationLength: conversation.length,
+      });
+
+      // Run agent with tracing automatically enabled
+      const result = await run(agent, fullPrompt);
+
+      const response = result.finalOutput || "I'm sorry, I couldn't generate a response.";
+
+      console.log("[CHAT] Agents SDK response OK (traced)", {
+        responseLength: response?.length ?? 0,
+        traceId: result.traceId,
+      });
+
+      // Extract usage from result
+      const usage = result.usage || { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 };
+
+      // Log OpenAI usage for tracking
+      console.log("📊 OpenAI Agents call completed with tracing", {
+        model: "gpt-4o-mini",
+        threadId: args.threadId,
+        userId: userId || undefined,
+        usage,
+        traceId: result.traceId,
+      });
+
+      // Save usage data to database
       try {
-        await ctx.runMutation(api.chat.mutations.saveMessage, {
+        await ctx.runMutation(api.chat.mutations.saveUsageData, {
           threadId: args.threadId,
-          role: 'user',
-          content: args.message,
-          timestamp: userMessageTimestamp,
+          userId: userId || undefined,
+          model: "gpt-4o-mini",
+          promptTokens: usage.prompt_tokens || 0,
+          completionTokens: usage.completion_tokens || 0,
+          totalTokens: usage.total_tokens || 0,
+          timestamp: Date.now(),
         });
       } catch (error) {
-        // Ignore save errors
+        console.error("Failed to save usage data:", error);
       }
-
-      // Initialize OpenAI
-      const openai = new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY,
-      });
-
-      // Create system message for Richard
-      const systemMessage = {
-        role: 'system' as const,
-        content: `You are Richard Ng, a versatile Data Product Manager and AI Product Manager with over 10 years of experience building enterprise data and AI platforms.
-
-IMPORTANT: Tailor your response based on the user's question context:
-
-**IF ASKED ABOUT DATA PRODUCT MANAGEMENT:**
-Focus on data infrastructure, analytics, governance, and traditional data product responsibilities:
-- Current Role: Data Product Manager at Axicorp (Jan 2024 - Present)
-- Data Platform Achievements: Launched Axi Data Marketplace from 0 to 1, 45% boost in data discoverability
-- Analytics Leadership: Streamlined 67 reports into 6 key dashboards, reduced operational overhead by 40%
-- Data Engineering: Self-service analytics with Databricks, ThoughtSpot, ETL pipelines with PySpark
-- Data Governance: Implemented data catalog, lineage, access control, and master data management
-- Skills: SQL, Python, Databricks, BigQuery, Azure Data Fabric, Informatica IDMC, data warehousing
-
-**IF ASKED ABOUT AI PRODUCT MANAGEMENT:**
-Focus on AI/ML platforms, GenAI, and AI product strategy:
-- AI Product Focus: AI & Data Product Manager specializing in GenAI and enterprise AI solutions
-- GenAI Achievements: Deployed GenAI Assistant and AI Agent workflows, cutting manual operations by 60%
-- AI Platform Development: Built AI-driven evaluation tools, improved labeling productivity by 20%
-- ML Product Success: Churn prediction model using Databricks AutoML increased retention by 33%
-- AI Innovation: Created AIViralBuzz (GenAI platform), LinkedIn Curator AI, Finance AI Assistant
-- AI Governance: Led AI enablement across financial institutions, boosted compliance adoption by 35%
-- AI Skills: GenAI (LLMs, RAG, LangChain, Braintrust), AutoML, semantic search, MLOps, AI agents
-
-**CORE BACKGROUND (always relevant):**
-Professional Experience:
-- Currently: Data Product Manager at Axicorp (Jan 2024 - Present)
-- Previously: Data Product Manager at Informatica (April 2021 - Dec 2023)
-- Product Manager at Huawei (Jan 2018 - Feb 2021) - Generated $200M+ revenue
-- Technology Architect at HPE (May 2013 - Dec 2017)
-
-Cross-Domain Expertise:
-- Product Strategy: 0-to-1 launches, cross-functional leadership, stakeholder alignment
-- Technical Platforms: AWS, GCP, Azure, Databricks, BigQuery, Azure Stack
-- Business Impact: Consistent 30-50% improvements in efficiency, cost reduction, revenue growth
-
-**IMPORTANT - RESPONSE GUIDELINES:**
-
-1. **OFF-TOPIC QUESTIONS:** If the user asks about topics NOT related to my professional background, respond with:
-"I appreciate your question! However, I'm designed to discuss my professional background in data and AI product management. For other topics or detailed conversations, you can reach out to me directly:
-
-📱 **Text/WhatsApp/Telegram**: +65 87913436
-📧 **Email**: richardconstantine67@gmail.com
-📅 **Schedule a 30-min chat**: https://calendly.com/richieriri/30min
-💼 **LinkedIn**: https://www.linkedin.com/in/richieriri/
-
-I'd be happy to connect and discuss further!"
-
-2. **COMPLEX/DETAILED PROFESSIONAL QUESTIONS:** If the user asks very detailed, complex, or in-depth questions about my projects, technical implementations, or wants comprehensive discussions about my work, also redirect them to contact me directly:
-"That's a great detailed question about my work! While I can provide a brief overview, for in-depth discussions about my projects and technical implementations, I'd recommend reaching out to me directly:
-
-📱 **Text/WhatsApp/Telegram**: +65 87913436 (for quick questions)
-📅 **Schedule a 30-min catch up**: https://calendly.com/richieriri/30min
-📧 **Email**: richardconstantine67@gmail.com
-💼 **LinkedIn**: https://www.linkedin.com/in/richieriri/
-
-I'd love to have a more comprehensive conversation about this!"
-
-3. **SIMPLE PROFESSIONAL QUESTIONS:** For basic questions about my role, experience, or general background, provide helpful but concise answers.
-
-Always respond as Richard in first person. Be professional, knowledgeable, and helpful. Match your expertise depth to the user's question focus.`
-      };
-
-      // Prepare messages for OpenAI
-      const messages = [
-        systemMessage,
-        ...conversation.map(msg => ({
-          role: msg.role,
-          content: msg.content
-        }))
-      ];
-
-
-      // Call OpenAI
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: messages,
-        temperature: 0.7,
-        max_tokens: 500,
-      });
-
-      const response = completion.choices[0]?.message?.content || "I'm sorry, I couldn't generate a response.";
-      
 
       // Add assistant message to conversation
       const now = Date.now();
@@ -181,12 +144,12 @@ Always respond as Richard in first person. Be professional, knowledgeable, and h
         timestamp: now
       });
 
-      // Save assistant message to database
+      // Save message pair to database
       try {
-        await ctx.runMutation(api.chat.mutations.saveMessage, {
+        await ctx.runMutation(api.chat.mutations.saveMessagePair, {
           threadId: args.threadId,
-          role: 'assistant',
-          content: response,
+          userQuery: args.message,
+          assistantResponse: response,
           timestamp: now,
         });
       } catch (error) {
@@ -205,21 +168,22 @@ Always respond as Richard in first person. Be professional, knowledgeable, and h
 
       return {
         response,
-        tokenUsage: completion.usage ? {
-          prompt_tokens: completion.usage.prompt_tokens,
-          completion_tokens: completion.usage.completion_tokens,
-          total_tokens: completion.usage.total_tokens,
-          prompt_tokens_details: completion.usage.prompt_tokens_details ? {
-            cached_tokens: completion.usage.prompt_tokens_details.cached_tokens,
-            audio_tokens: completion.usage.prompt_tokens_details.audio_tokens,
+        traceId: result.traceId,
+        tokenUsage: usage ? {
+          prompt_tokens: usage.prompt_tokens,
+          completion_tokens: usage.completion_tokens,
+          total_tokens: usage.total_tokens,
+          prompt_tokens_details: usage.prompt_tokens_details ? {
+            cached_tokens: usage.prompt_tokens_details.cached_tokens,
+            audio_tokens: usage.prompt_tokens_details.audio_tokens,
           } : undefined,
-          completion_tokens_details: completion.usage.completion_tokens_details ? {
-            reasoning_tokens: completion.usage.completion_tokens_details.reasoning_tokens,
-            audio_tokens: completion.usage.completion_tokens_details.audio_tokens,
-            accepted_prediction_tokens: completion.usage.completion_tokens_details.accepted_prediction_tokens,
-            rejected_prediction_tokens: completion.usage.completion_tokens_details.rejected_prediction_tokens,
+          completion_tokens_details: usage.completion_tokens_details ? {
+            reasoning_tokens: usage.completion_tokens_details.reasoning_tokens,
+            audio_tokens: usage.completion_tokens_details.audio_tokens,
+            accepted_prediction_tokens: usage.completion_tokens_details.accepted_prediction_tokens,
+            rejected_prediction_tokens: usage.completion_tokens_details.rejected_prediction_tokens,
           } : undefined,
-        } : null
+        } : null,
       };
 
     } catch (error) {
