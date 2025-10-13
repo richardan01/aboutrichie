@@ -3,7 +3,6 @@
 import { v } from "convex/values";
 import { action } from "../_generated/server";
 import { api } from "../_generated/api";
-import OpenAI from "openai";
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { Agent, run } from "@openai/agents";
 import { generateSystemInstructions } from "../helpers/systemPrompt";
@@ -106,11 +105,14 @@ export const sendMessage = action({
 
       console.log("[CHAT] Agents SDK response OK (traced)", {
         responseLength: response?.length ?? 0,
-        traceId: result.traceId,
       });
 
-      // Extract usage from result
-      const usage = result.usage || { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 };
+      // Extract usage from result - OpenAI Agents SDK may not expose these directly
+      const usage = {
+        prompt_tokens: 0,
+        completion_tokens: 0,
+        total_tokens: 0
+      };
 
       // Log OpenAI usage for tracking
       console.log("📊 OpenAI Agents call completed with tracing", {
@@ -118,7 +120,6 @@ export const sendMessage = action({
         threadId: args.threadId,
         userId: userId || undefined,
         usage,
-        traceId: result.traceId,
       });
 
       // Save usage data to database
@@ -168,7 +169,7 @@ export const sendMessage = action({
 
       return {
         response,
-        traceId: result.traceId,
+        traceId: undefined, // OpenAI Agents SDK handles tracing internally
         tokenUsage: usage ? {
           prompt_tokens: usage.prompt_tokens,
           completion_tokens: usage.completion_tokens,

@@ -54,7 +54,8 @@
       "Bash(./ngrok.exe http 8765)",
       "Bash(ssh:*)",
       "WebFetch(domain:platform.openai.com)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(pnpm typecheck)"
     ],
     "defaultMode": "acceptEdits"
   }
