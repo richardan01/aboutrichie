@@ -24,6 +24,96 @@ export const addCVEmbeddings = internalAction({
         },
         summary:
           "I am a Data Product Manager with over 12 years of experience building enterprise data and AI platforms. I specialize in data products, AI/ML platforms, and GenAI implementation across fintech, enterprise SaaS, and cloud environments. I lead cross-functional teams from product discovery to delivery, translating business needs into actionable data solutions.",
+        genai_product_experience: {
+          finance_genai_assistant_axi: {
+            period: "Jan 2024 - Current",
+            users: ["Finance Ops", "FP&A", "Payments Ops", "Partner/Affiliate Ops"],
+            outcomes: [
+              "Manual operations reduced by 60%",
+              "Operational cost reduced by 25%",
+              "Platform modernization saved USD 330K overhead",
+              "~USD 500K cost-saving opportunity translated into funded roadmap",
+            ],
+            metrics: [
+              "automation rate",
+              "time-to-report",
+              "accuracy/error rate",
+              "cost-to-serve",
+              "adoption (WAU/MAU)",
+            ],
+            guardrails: ["audit readiness with lineage/logs", "data correctness validation"],
+          },
+          semantic_data_marketplace_axi: {
+            period: "Jan 2024 - Current",
+            outcomes: [
+              "Data discovery reduced from 3 hours to 15 minutes",
+              "70%+ company-wide adoption",
+              "45% productivity and reuse uplift",
+            ],
+            metrics: [
+              "discovery latency",
+              "search success rate",
+              "reuse rate",
+              "adoption/retention",
+              "data trust score usage",
+            ],
+            guardrails: ["access control compliance", "freshness SLA adherence"],
+          },
+          enterprise_chatbot_platform_axi: {
+            period: "Jan 2024 - Current",
+            outcomes: [
+              "60% inquiry automation",
+              "25% CSAT increase",
+              "30% intent accuracy improvement",
+            ],
+            metrics: [
+              "containment rate",
+              "CSAT",
+              "intent precision/recall",
+              "resolution time",
+              "fallback rate",
+              "hallucination proxy rate",
+            ],
+            guardrails: ["policy adherence", "confidence-based escalation"],
+          },
+          claire_gpt_informatica: {
+            period: "Apr 2021 - Dec 2023",
+            outcomes: [
+              "40% data discovery time reduction",
+              "35% compliance adoption improvement",
+              "50% YoY platform adoption growth contribution",
+            ],
+            capabilities: [
+              "AutoML + metadata recommendation",
+              "lineage/access/confidence governance modules",
+              "multi-pod cross-region delivery",
+            ],
+          },
+          vision_ai_huawei: {
+            period: "Jan 2018 - Feb 2021",
+            outcomes: [
+              "40% workflow efficiency improvement",
+              "70% reporting-time reduction",
+              "$3M+ cloud projects delivered using AutoML + BigQuery + Looker",
+            ],
+          },
+        },
+        genai_execution_approach: [
+          "problem framing and ROI baselining",
+          "human-centered discovery",
+          "data readiness and governance first",
+          "RAG/search/structured-query decisioning",
+          "MVP with iterative releases and instrumentation",
+          "evaluation loops (labeling, error taxonomy, QA sampling)",
+          "scale through enablement and governance",
+        ],
+        genai_frameworks: [
+          "north star metric with input/output metrics",
+          "guardrails and risk controls",
+          "A/B testing and phased rollout",
+          "AI eval loop",
+          "PD-TOL narrative",
+        ],
         skills_and_technology: [
           "Python",
           "SQL",

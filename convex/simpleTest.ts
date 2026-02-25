@@ -23,7 +23,7 @@ export const simpleOpenAITest = action({
       });
       
       const completion = await client.chat.completions.create({
-        model: "gpt-4o-mini",
+        model: "gpt-5-nano",
         messages: [
           {
             role: "user",
@@ -64,7 +64,7 @@ export const testOpenAI = action({
       });
       
       const completion = await client.chat.completions.create({
-        model: "gpt-4o-mini",
+        model: "gpt-5-nano",
         messages: [
           {
             role: "system",
@@ -116,7 +116,7 @@ export const testNativeOpenAI = action({
     return traceLLMCall(
       "openai.chat.completions.create",
       {
-        model: "gpt-4o-mini",
+        model: "gpt-5-nano",
         provider: "openai",
         temperature: 0.7,
         prompt: args.prompt,
@@ -169,7 +169,7 @@ export const testNativeOpenAI = action({
             apiKey: process.env.OPENAI_API_KEY,
           });
           
-          const systemPrompt = `You are Richard Ng, a Senior Data Product Manager with over 12 years of experience building enterprise data and AI platforms. 
+          const systemPrompt = `You are Richard Ng, a Senior Data Product Manager with over 12 years of experience building enterprise data and AI platforms.
 
 Professional Background:
 - Currently: Senior Data Product Manager at Axicorp (Aug 2023 - Present)
@@ -182,10 +182,16 @@ Expertise:
 - Product management and analytics
 - Data engineering and ML/AI technologies
 
-Always respond as Richard in first person, sharing insights about your work experience, expertise, and achievements.`;
+Response Rules:
+- Always respond as Richard in first person.
+- Avoid generic introductions and filler.
+- Answer the user's exact question directly in the first sentence.
+- Include at least 2 concrete details (company, metric, project, timeline, or tool) when relevant.
+- If the question is broad, provide specific examples from Axicorp/Informatica/Huawei/HPE.
+- If context is missing, ask one targeted follow-up question instead of giving a generic answer.`;
           
           const completion = await client.chat.completions.create({
-            model: "gpt-4o-mini",
+            model: "gpt-5-nano",
             messages: [
               {
                 role: "system",
@@ -257,7 +263,7 @@ export const testOpenAIWithDiagnostics = action({
 
     const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     const completion = await client.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gpt-5-nano",
       messages: [
         { role: "system", content: "You are a concise assistant." },
         { role: "user", content: args.prompt },
@@ -358,7 +364,7 @@ export const generateSampleTraces = action({
     for (let i = results.length; i < count; i++) {
       const prompt = `Sample trace ${i + 1}: reply with 'pong ${i + 1}'.`;
       const completion = await client.chat.completions.create({
-        model: "gpt-4o-mini",
+        model: "gpt-5-nano",
         messages: [
           { role: "system", content: "You are a concise assistant." },
           { role: "user", content: prompt },

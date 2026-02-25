@@ -211,7 +211,8 @@ export const continueAnonymousThread = anonymousAction({
     promptMessageId: v.optional(v.string()),
     disableStream: v.optional(v.boolean()),
   },
-  handler: async (ctx, args) => {
+  returns: v.string(),
+  handler: async (ctx, args): Promise<string> => {
     return traceChatTurn(
       "continue_thread",
       {
@@ -231,9 +232,28 @@ export const continueAnonymousThread = anonymousAction({
         );
         
         try {
-          // Use native OpenAI directly with proper system context
-          console.log("Using native OpenAI for prompt:", args.prompt);
-          const openAIResponse = await ctx.runAction(api.simpleTest.testNativeOpenAI, {
+          // Primary path: use the thread-aware store agent so anonymous chats
+          // keep conversational context and tool grounding across turns.
+          const x = await createStoreAgent().continueThread(ctx, {
+            threadId: args.threadId,
+            userId: ctx.anonymousUserId,
+          });
+          const agentResponse = await x.thread.generateText({
+            prompt: args.prompt,
+            promptMessageId: args.promptMessageId,
+            temperature: 0.3,
+          });
+          if (agentResponse?.text?.trim().length) {
+            return agentResponse.text;
+          }
+        } catch (error) {
+          console.error("Thread-aware agent failed, falling back to native OpenAI:", error);
+        }
+
+        try {
+          // Secondary path: use native OpenAI with thread ID for tracing continuity.
+          console.log("Using native OpenAI fallback for prompt:", args.prompt);
+          const openAIResponse: string = await ctx.runAction(api.simpleTest.testNativeOpenAI, {
             prompt: args.prompt,
             userId: ctx.anonymousUserId,
             threadId: args.threadId,
@@ -249,7 +269,7 @@ export const continueAnonymousThread = anonymousAction({
         
         // Fall back to mock response
         console.log("Using mock response for prompt:", args.prompt);
-        const mockResponse = await ctx.runAction(api.mockAgent.mockChatResponse, {
+        const mockResponse: string = await ctx.runAction(api.mockAgent.mockChatResponse, {
           prompt: args.prompt,
         });
         

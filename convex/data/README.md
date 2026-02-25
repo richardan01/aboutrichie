@@ -30,7 +30,7 @@ const systemInstructions = generateSystemInstructions();
 const agent = new Agent({
   name: "Richard AI Assistant",
   instructions: systemInstructions,
-  model: "gpt-4o-mini",
+  model: "gpt-5-nano",
 });
 ```
 

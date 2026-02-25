@@ -79,7 +79,7 @@ export const sendMessage = action({
       const agent = new Agent({
         name: "Richard AI Assistant",
         instructions: systemInstructions,
-        model: "gpt-4o-mini",
+        model: "gpt-5-nano",
       });
 
       // Build conversation context
@@ -116,7 +116,7 @@ export const sendMessage = action({
 
       // Log OpenAI usage for tracking
       console.log("📊 OpenAI Agents call completed with tracing", {
-        model: "gpt-4o-mini",
+        model: "gpt-5-nano",
         threadId: args.threadId,
         userId: userId || undefined,
         usage,
@@ -127,7 +127,7 @@ export const sendMessage = action({
         await ctx.runMutation(api.chat.mutations.saveUsageData, {
           threadId: args.threadId,
           userId: userId || undefined,
-          model: "gpt-4o-mini",
+          model: "gpt-5-nano",
           promptTokens: usage.prompt_tokens || 0,
           completionTokens: usage.completion_tokens || 0,
           totalTokens: usage.total_tokens || 0,

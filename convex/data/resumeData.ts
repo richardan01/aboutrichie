@@ -97,6 +97,144 @@ export const portfolios = [
   },
 ] as const;
 
+export const genAIProductExperience = {
+  axiFinanceGenAIAssistant: {
+    title: "Finance GenAI Assistant + Agentic Automation",
+    company: "Axi Pte Ltd",
+    period: "Jan 2024 - Current",
+    users: [
+      "Finance Ops",
+      "FP&A",
+      "Payments Ops",
+      "Partner/Affiliate Ops",
+      "Business stakeholders",
+    ],
+    problem:
+      "Manual finance reporting and reconciliation created high operating cost, slow cycle times, and avoidable errors.",
+    outcomes: [
+      "Manual operations reduced by 60%",
+      "Operational cost reduced by 25%",
+      "Platform modernization saved USD 330K overhead",
+      "Identified and translated ~USD 500K cost-saving opportunity into funded roadmap",
+    ],
+    metrics: [
+      "Automation rate",
+      "Time-to-report",
+      "Accuracy/error rate",
+      "Cost-to-serve",
+      "Adoption (WAU/MAU, repeat usage)",
+    ],
+    guardrails: [
+      "Compliance and audit readiness via lineage and audit logs",
+      "Data correctness validation and exception thresholds",
+    ],
+    tools: ["LLMs", "Agentic workflows", "NLQ", "Structured queries"],
+  },
+  axiSemanticMarketplace: {
+    title: "Enterprise Semantic Data Marketplace + GenAI Search",
+    company: "Axi Pte Ltd",
+    period: "Jan 2024 - Current",
+    problem:
+      "Data discovery was slow and inconsistent with duplicated work from fragmented ownership.",
+    outcomes: [
+      "Reduced discovery time from 3 hours to 15 minutes",
+      "Achieved 70%+ company-wide adoption",
+      "Improved productivity and data reuse by 45%",
+    ],
+    metrics: [
+      "Discovery latency (median/p90)",
+      "Search success rate",
+      "Dataset reuse rate",
+      "Adoption and retention",
+      "Data trust/quality score usage",
+    ],
+    guardrails: [
+      "Access control compliance",
+      "Data validation thresholds and freshness SLA adherence",
+    ],
+    tools: ["NLP search", "Semantic discovery", "Metadata guidance", "AI-ready platform foundation"],
+  },
+  axiEnterpriseChatbot: {
+    title: "Enterprise Chatbot Platform + AI Ops",
+    company: "Axi Pte Ltd",
+    period: "Jan 2024 - Current",
+    outcomes: [
+      "Automated 60% of inquiries",
+      "Increased CSAT by 25%",
+      "Improved intent accuracy by 30%",
+    ],
+    metrics: [
+      "Containment rate",
+      "CSAT",
+      "Intent accuracy (precision/recall)",
+      "Resolution time",
+      "Fallback rate",
+      "Hallucination proxy rate",
+    ],
+    guardrails: [
+      "Sensitive-topic policy adherence",
+      "Wrong-answer rate threshold with confidence-based escalation",
+    ],
+    tools: ["Annotation pipelines", "Evaluation pipelines", "Intent lifecycle management"],
+  },
+  informaticaClaireGPT: {
+    title: "CLAIRE GPT / Intelligent Metadata + AutoML Recommendation",
+    company: "Informatica",
+    period: "Apr 2021 - Dec 2023",
+    outcomes: [
+      "Reduced data discovery time by 40%",
+      "Improved audit readiness and compliance adoption by 35%",
+      "Contributed to 50% YoY platform adoption growth",
+    ],
+    tools: [
+      "AutoML recommendations",
+      "Metadata profiling/mapping/discovery",
+      "Lineage/access/confidence scoring governance modules",
+    ],
+  },
+  huaweiVisionAI: {
+    title: "Vision AI Document Processing + Analytics Acceleration",
+    company: "Huawei",
+    period: "Jan 2018 - Feb 2021",
+    outcomes: [
+      "Improved workflow efficiency by 40%",
+      "Reduced reporting time by 70%",
+      "Delivered $3M+ cloud projects using AutoML + BigQuery + Looker",
+    ],
+    tools: ["Vision AI", "BigQuery", "Looker", "Reusable reporting templates"],
+  },
+  executionApproach: [
+    "Problem framing with ROI baseline and north star metrics",
+    "Human-centered discovery using jobs-to-be-done",
+    "Data readiness and governance first (quality, lineage, access control)",
+    "Build-vs-partner decisioning (RAG/search/structured query by risk-cost-value)",
+    "MVP with iterative releases and instrumentation",
+    "Evaluation loops (labeling, error taxonomy, QA sampling)",
+    "Scale with enablement, governance, and operating workflows",
+  ],
+  frameworks: [
+    "North Star with input/output metrics",
+    "Guardrails and risk controls",
+    "Experimentation via A/B and phased rollout",
+    "AI evaluation loop",
+    "PD-TOL narrative (Problem, Decision, Tradeoff, Outcome, Learning)",
+  ],
+  tooling: [
+    "LLMs",
+    "RAG patterns",
+    "Agentic workflows",
+    "Braintrust",
+    "LangChain",
+    "Vertex AI",
+    "Databricks AutoML",
+    "BigQuery",
+    "Segment CDP",
+    "Looker",
+    "Data marts/semantic layers",
+    "Lineage/access control/confidence scoring",
+  ],
+} as const;
+
 export const skills = {
   ai: ["GenAI", "LLMs", "RAG", "Braintrust", "AI/ML Lifecycle", "Agentic AI with Vertex AI", "Semantic Search"],
   tools: ["Internal AI Tools", "Databricks", "Figma"],

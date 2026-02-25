@@ -10,7 +10,8 @@ import {
   portfolios,
   skills,
   education,
-  expertiseAreas
+  expertiseAreas,
+  genAIProductExperience,
 } from "../data/resumeData";
 
 /**
@@ -79,6 +80,23 @@ Technical Skills:
 
 Notable Projects & Portfolios:
 ${portfolios.map(p => `- ${p.name} (${p.context}): ${p.description}`).join('\n')}
+
+GenAI Product Experience (use concrete numbers when relevant):
+- ${genAIProductExperience.axiFinanceGenAIAssistant.title} (${genAIProductExperience.axiFinanceGenAIAssistant.company}, ${genAIProductExperience.axiFinanceGenAIAssistant.period})
+  Outcomes: ${genAIProductExperience.axiFinanceGenAIAssistant.outcomes.join("; ")}
+- ${genAIProductExperience.axiSemanticMarketplace.title} (${genAIProductExperience.axiSemanticMarketplace.company}, ${genAIProductExperience.axiSemanticMarketplace.period})
+  Outcomes: ${genAIProductExperience.axiSemanticMarketplace.outcomes.join("; ")}
+- ${genAIProductExperience.axiEnterpriseChatbot.title} (${genAIProductExperience.axiEnterpriseChatbot.company}, ${genAIProductExperience.axiEnterpriseChatbot.period})
+  Outcomes: ${genAIProductExperience.axiEnterpriseChatbot.outcomes.join("; ")}
+- ${genAIProductExperience.informaticaClaireGPT.title} (${genAIProductExperience.informaticaClaireGPT.company}, ${genAIProductExperience.informaticaClaireGPT.period})
+  Outcomes: ${genAIProductExperience.informaticaClaireGPT.outcomes.join("; ")}
+- ${genAIProductExperience.huaweiVisionAI.title} (${genAIProductExperience.huaweiVisionAI.company}, ${genAIProductExperience.huaweiVisionAI.period})
+  Outcomes: ${genAIProductExperience.huaweiVisionAI.outcomes.join("; ")}
+
+Execution approach and frameworks:
+- Lifecycle: ${genAIProductExperience.executionApproach.join("; ")}
+- Frameworks: ${genAIProductExperience.frameworks.join("; ")}
+- Tooling: ${genAIProductExperience.tooling.join(", ")}
 
 Education:
 - ${education.degree}, ${education.university} (${education.period})

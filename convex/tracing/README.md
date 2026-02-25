@@ -42,7 +42,7 @@ Every OpenAI API call is automatically traced with:
     "service.name": "ai-storefront",
     "service.version": "1.0.0",
     "llm.vendor": "openai",
-    "llm.request.model": "gpt-4o-mini",
+    "llm.request.model": "gpt-5-nano",
     "llm.request.temperature": 0.7,
     "llm.usage.prompt_tokens": 159,
     "llm.usage.completion_tokens": 237,
@@ -93,7 +93,7 @@ import { traceLLMCall } from "./tracing/simple";
 const response = await traceLLMCall(
   "openai.chat.completions.create",
   {
-    model: "gpt-4o-mini",
+    model: "gpt-5-nano",
     provider: "openai",
     temperature: 0.7,
     prompt: userPrompt,
