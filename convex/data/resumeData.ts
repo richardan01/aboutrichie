@@ -84,12 +84,6 @@ export const experience = [
 
 export const portfolios = [
   {
-    name: "AIViralBuzz",
-    context: "Bolt Hackathon",
-    description: "GenAI platform for social influencer to manage content, engagement and monetization",
-    keywords: ["GenAI", "social media", "influencer", "content management"],
-  },
-  {
     name: "LinkedIn Curator AI",
     context: "Google Hackathon",
     description: "One-click Chrome extension that summarizes and tags LinkedIn posts into a searchable knowledge base (Google Sheets)",

@@ -139,7 +139,6 @@ How about we discuss something like data pipeline architecture, MLOps best pract
 - **Data Governance Framework**: Implemented data catalog that boosted team productivity by 35%
 
 **Portfolio Projects:**
-- **AIViralBuzz**: GenAI platform for social influencer content management (Bolt Hackathon)
 - **LinkedIn Curator AI**: Chrome extension for summarizing and tagging LinkedIn posts (Google Hackathon)
 - **Finance AI Assistant**: Automated finance reporting, cutting manual effort by 60%
 
