@@ -28,6 +28,7 @@ export function generateSummaryTitle(
       },
       {
         prompt: args.prompt,
+        maxTokens: 80,
       }
     ),
     (e) => {

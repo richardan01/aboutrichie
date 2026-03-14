@@ -188,3 +188,12 @@ export function actionScheduleError(context: ErrorContext) {
     context,
   } as const satisfies BackendErrorSchema;
 }
+
+export function promptTooLong(
+  context: ErrorContext & { maxLength: number }
+) {
+  return {
+    _tag: "PromptTooLong",
+    context,
+  } as const satisfies BackendErrorSchema;
+}
