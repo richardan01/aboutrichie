@@ -39,6 +39,11 @@ export function AuthenticatedChatThread() {
             )} seconds`
           );
         }
+        if (data._tag === "PromptTooLong") {
+          return toast.error(
+            "Your message is too long. Please shorten it or contact Richard directly via LinkedIn or email."
+          );
+        }
       }
       return toast.error("Failed to continue thread");
     },
