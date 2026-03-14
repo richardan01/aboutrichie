@@ -31,6 +31,7 @@ export const simpleOpenAITest = action({
           },
         ],
         temperature: 0.3,
+        max_tokens: 512,
       });
       
       const result = {
@@ -89,13 +90,14 @@ Always respond as Richard in first person, sharing insights about your work expe
           },
         ],
         temperature: 0.7,
+        max_tokens: 512,
       });
-      
+
       const result = {
         text: completion.choices[0]?.message?.content || "",
         usage: completion.usage,
       };
-      
+
       console.log("OpenAI response:", result.text.substring(0, 100) + "...");
       console.log("OpenAI usage:", result.usage);
       return result.text;
@@ -203,6 +205,7 @@ Response Rules:
               },
             ],
             temperature: 0.7,
+            max_tokens: 512,
           });
           
           const response = completion.choices[0]?.message?.content || "";
@@ -269,6 +272,7 @@ export const testOpenAIWithDiagnostics = action({
         { role: "user", content: args.prompt },
       ],
       temperature: 0.7,
+      max_tokens: 512,
     });
     const response = completion.choices[0]?.message?.content || "";
     return { text: response, viaProxy: false, traceId: null, groupId: args.threadId ?? null } as const;
@@ -370,6 +374,7 @@ export const generateSampleTraces = action({
           { role: "user", content: prompt },
         ],
         temperature: 0.2,
+        max_tokens: 512,
       });
       const text = completion.choices[0]?.message?.content || "";
       results.push({ index: i, viaProxy: false, traceId: null, text });

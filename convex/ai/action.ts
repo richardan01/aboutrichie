@@ -11,6 +11,20 @@ import { rateLimit } from "../helpers/rateLimit";
 import { anonymousAction, authedAction } from "../procedures";
 import { traceChatTurn } from "../tracing/simple";
 
+const MAX_PROMPT_LENGTH = 2000;
+const MAX_OUTPUT_TOKENS = 512;
+
+function validatePromptLength(prompt: string | undefined) {
+  if (prompt && prompt.length > MAX_PROMPT_LENGTH) {
+    throw new ConvexError(
+      Errors.promptTooLong({
+        message: `Prompt exceeds maximum length of ${MAX_PROMPT_LENGTH} characters`,
+        maxLength: MAX_PROMPT_LENGTH,
+      })
+    );
+  }
+}
+
 /**
  * Creates a new chat thread for an authenticated user.
  * This action first generates a summary title for the thread based on the initial prompt,
@@ -23,6 +37,7 @@ export const createThread = authedAction({
     prompt: v.string(),
   },
   handler: async (ctx, args) => {
+    validatePromptLength(args.prompt);
     await rateLimit(ctx, {
       name: "createAiThread",
       key: ctx.user._id,
@@ -70,6 +85,7 @@ export const createAnonymousThread = anonymousAction({
     prompt: v.string(),
   },
   handler: async (ctx, args) => {
+    validatePromptLength(args.prompt);
     await rateLimit(ctx, {
       name: "createAiThread",
       key: ctx.anonymousUserId,
@@ -124,8 +140,18 @@ export const continueThread = authedAction({
     promptMessageId: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    validatePromptLength(args.prompt);
     await rateLimit(ctx, {
       name: "sendAIMessage",
+      key: ctx.user._id,
+    }).match(
+      (x) => x,
+      (e) => {
+        throw new ConvexError(e);
+      }
+    );
+    await rateLimit(ctx, {
+      name: "sendAIMessageDaily",
       key: ctx.user._id,
     }).match(
       (x) => x,
@@ -150,6 +176,7 @@ export const continueThread = authedAction({
             prompt: args.prompt,
             promptMessageId: args.promptMessageId,
             temperature: 0.3,
+            maxTokens: MAX_OUTPUT_TOKENS,
           }),
           (e) => {
             console.error("ERRORRR102", e);
@@ -221,6 +248,7 @@ export const continueAnonymousThread = anonymousAction({
         turnId: `${args.threadId}-${Date.now()}`,
       },
       async () => {
+        validatePromptLength(args.prompt);
         await rateLimit(ctx, {
           name: "sendAIMessage",
           key: ctx.anonymousUserId,
@@ -230,7 +258,16 @@ export const continueAnonymousThread = anonymousAction({
             throw new ConvexError(e);
           }
         );
-        
+        await rateLimit(ctx, {
+          name: "sendAIMessageDaily",
+          key: ctx.anonymousUserId,
+        }).match(
+          (x) => x,
+          (e) => {
+            throw new ConvexError(e);
+          }
+        );
+
         try {
           // Primary path: use the thread-aware store agent so anonymous chats
           // keep conversational context and tool grounding across turns.
@@ -242,6 +279,7 @@ export const continueAnonymousThread = anonymousAction({
             prompt: args.prompt,
             promptMessageId: args.promptMessageId,
             temperature: 0.3,
+            maxTokens: MAX_OUTPUT_TOKENS,
           });
           if (agentResponse?.text?.trim().length) {
             return agentResponse.text;

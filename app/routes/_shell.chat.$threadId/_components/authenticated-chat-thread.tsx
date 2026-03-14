@@ -39,6 +39,25 @@ export function AuthenticatedChatThread() {
             )} seconds`
           );
         }
+        if (data._tag === "PromptTooLong") {
+          return toast.error(
+            <div>
+              <p>Your message is too long. Please shorten it or contact Richard directly:</p>
+              <ul className="mt-2 list-none space-y-1 text-sm">
+                <li>
+                  Email: <a href="mailto:richardconstantine67@gmail.com" className="underline">richardconstantine67@gmail.com</a>
+                </li>
+                <li>
+                  LinkedIn: <a href="https://www.linkedin.com/in/richieriri/" target="_blank" rel="noopener noreferrer" className="underline">linkedin.com/in/richieriri</a>
+                </li>
+                <li>
+                  Schedule a chat: <a href="https://calendly.com/richieriri/30min" target="_blank" rel="noopener noreferrer" className="underline">calendly.com/richieriri/30min</a>
+                </li>
+              </ul>
+            </div>,
+            { duration: 10000 }
+          );
+        }
       }
       return toast.error("Failed to continue thread");
     },
