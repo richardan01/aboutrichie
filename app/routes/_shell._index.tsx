@@ -3,11 +3,14 @@ import * as React from "react";
 import { useCallback } from "react";
 import type { MetaFunction } from "react-router";
 import { generatePath, useNavigate } from "react-router";
-import { GithubIcon } from "~/components/icons/github";
 import { Meta } from "~/components/meta";
 import { Button } from "~/components/ui/button";
 import { MessageInputField } from "~/components/ui/message-input-field";
 import { ROUTES } from "~/lib/routes";
+
+// Use VITE_SITE_URL env var so the correct domain is used in OG meta tags
+// without hardcoding it. Update this in your .env / Vercel env settings.
+const SITE_URL = import.meta.env.VITE_SITE_URL ?? "https://YOUR-SITE-URL.com";
 
 export const meta: MetaFunction = () => {
   return [
@@ -29,13 +32,13 @@ export const meta: MetaFunction = () => {
     },
     {
       property: "og:image",
-      content: "https://developerdanwu.com/og-image.png",
+      content: `${SITE_URL}/og-image.png`,
     },
     { property: "og:image:alt", content: "Richard Ng's personal website preview" },
     { property: "og:type", content: "website" },
     { property: "og:site_name", content: "Richard Ng's personal website" },
-    { property: "og:url", content: "https://developerdanwu.com" },
-    // Twitter
+    { property: "og:url", content: SITE_URL },
+    // Twitter / X
     { name: "twitter:card", content: "summary_large_image" },
     {
       name: "twitter:title",
@@ -48,7 +51,7 @@ export const meta: MetaFunction = () => {
     },
     {
       name: "twitter:image",
-      content: "https://developerdanwu.com/og-image.png",
+      content: `${SITE_URL}/og-image.png`,
     },
   ];
 };
@@ -81,7 +84,6 @@ export default function Index() {
     SubmittingSource | undefined
   >(undefined);
   const navigate = useNavigate();
-  const disabled = false; // No longer using complex thread creation
 
   const handleMessageSubmit = useCallback(
     async (
@@ -92,46 +94,50 @@ export default function Index() {
         submittingSource: SubmittingSource;
       }
     ) => {
-      
       setSubmittingSource(submittingSource);
-      
+
       try {
         // Generate a simple thread ID
         const threadId = `thread_${Date.now()}`;
-        
-        // Save thread to localStorage for anonymous users
+
+        // Persist thread to localStorage so the sidebar can show it for anonymous users.
+        // Key: "chatThreads" — also read by threads-list.tsx via the localThreadsUpdated event.
         const newThread = {
           _id: threadId,
           threadId: threadId,
           title: message.substring(0, 50) + (message.length > 50 ? "..." : ""),
           _creationTime: Date.now(),
         };
-        
+
         try {
-          const stored = localStorage.getItem('chatThreads');
+          const stored = localStorage.getItem("chatThreads");
           const existingThreads = stored ? JSON.parse(stored) : [];
           const updatedThreads = [newThread, ...existingThreads];
-          localStorage.setItem('chatThreads', JSON.stringify(updatedThreads));
-          
-          // Trigger custom event to update sidebar
-          window.dispatchEvent(new Event('localThreadsUpdated'));
-          
+          localStorage.setItem("chatThreads", JSON.stringify(updatedThreads));
+
+          // Notify sidebar to refresh its thread list
+          window.dispatchEvent(new Event("localThreadsUpdated"));
         } catch (storageError) {
+          // localStorage may be unavailable in private/restricted browsers.
+          // The chat still works; the thread just won't appear in the sidebar.
+          console.warn("[Index] Could not persist thread to localStorage:", storageError);
         }
-        
-        // Navigate to chat with the message as URL parameter
-        const chatPath = generatePath(ROUTES.chatThread, { threadId }) + `?initialMessage=${encodeURIComponent(message)}`;
+
+        // Navigate to chat with the initial message as a URL parameter
+        const chatPath =
+          generatePath(ROUTES.chatThread, { threadId }) +
+          `?initialMessage=${encodeURIComponent(message)}`;
         await navigate(chatPath);
-        
-        setSubmittingSource(undefined); // Reset loading state
       } catch (error) {
+        console.error("[Index] Failed to start chat thread:", error);
+      } finally {
         setSubmittingSource(undefined);
       }
     },
     [navigate]
   );
 
-  const handleSuggestionClick = (
+  const handleSuggestionClick = async (
     prompt: string,
     {
       submittingSource,
@@ -140,9 +146,9 @@ export default function Index() {
     }
   ) => {
     try {
-      handleMessageSubmit(prompt, { submittingSource });
+      await handleMessageSubmit(prompt, { submittingSource });
     } catch (error) {
-      // Handle error silently
+      console.error("[Index] Suggestion click failed:", error);
     }
   };
 
@@ -159,33 +165,25 @@ export default function Index() {
             Hi! I'm Richard 👋
           </h1>
 
-      <div className="flex flex-wrap justify-center gap-2">
-        {suggestions.map((suggestion) => (
-          <Button
-            disabled={disabled}
-            key={suggestion.value}
-            variant="outline"
-            size="sm"
-            loading={submittingSource === suggestion.value}
-            className="gap-2"
-            onClick={() =>
-              handleSuggestionClick(suggestion.prompt, {
-                submittingSource: suggestion.value,
-              })
-            }
-          >
-            {suggestion.icon}
-            {suggestion.text}
-          </Button>
-        ))}
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => navigate("/telemetry-test")}
-        >
-          Test Telemetry
-        </Button>
-      </div>
+          <div className="flex flex-wrap justify-center gap-2">
+            {suggestions.map((suggestion) => (
+              <Button
+                key={suggestion.value}
+                variant="outline"
+                size="sm"
+                loading={submittingSource === suggestion.value}
+                className="gap-2"
+                onClick={() =>
+                  handleSuggestionClick(suggestion.prompt, {
+                    submittingSource: suggestion.value,
+                  })
+                }
+              >
+                {suggestion.icon}
+                {suggestion.text}
+              </Button>
+            ))}
+          </div>
         </div>
       </div>
       <MessageInputField
@@ -205,7 +203,6 @@ export default function Index() {
             submittingSource: "message-input",
           });
         }}
-        disabled={disabled}
         isSubmitting={submittingSource === "message-input"}
         resetOnSubmit={false}
       />

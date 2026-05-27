@@ -11,7 +11,8 @@ export const personalInfo = {
   email: "richardconstantine67@gmail.com",
   linkedin: "https://www.linkedin.com/in/richieriri/",
   calendly: "https://calendly.com/richieriri/30min",
-  aboutMe: "https://developerdanwu.com",
+  // TODO: Update this to your actual deployed site URL (set VITE_SITE_URL in your env)
+  aboutMe: "https://YOUR-SITE-URL.com",
 } as const;
 
 export const professionalSummary = `Product Manager with 10+ years delivering next-gen AI platforms across financial services, fintech, and Web3. Proven expertise in LLMs, conversational AI, agentic systems, and human-in-the-loop design. Skilled in building 0 to 1 and 1 to scale AI products, chatbot lifecycle management, and GenAI evaluation frameworks. Adept at aligning engineering, data science, and operations to ship scalable AI assistants that improve customer support, CSAT, and automation efficiency.`;
