@@ -1,7 +1,9 @@
 /**
  * Structured resume data for Richard Ng
  * This module contains all professional information extracted from the resume
- * Last updated: 2025-10-13
+ * Merged from three resume variants (Analytics & AI, Senior PM, Gen AI PM)
+ * into a single superset source of truth.
+ * Last updated: 2026-06-20
  */
 
 export const personalInfo = {
@@ -11,26 +13,29 @@ export const personalInfo = {
   email: "richardconstantine67@gmail.com",
   linkedin: "https://www.linkedin.com/in/richieriri/",
   calendly: "https://calendly.com/richieriri/30min",
-  aboutMe: "https://developerdanwu.com",
+  aboutMe: "https://aboutrichie.vercel.app",
 } as const;
 
-export const professionalSummary = `Product Manager with 10+ years delivering next-gen AI platforms across financial services, fintech, and Web3. Proven expertise in LLMs, conversational AI, agentic systems, and human-in-the-loop design. Skilled in building 0 to 1 and 1 to scale AI products, chatbot lifecycle management, and GenAI evaluation frameworks. Adept at aligning engineering, data science, and operations to ship scalable AI assistants that improve customer support, CSAT, and automation efficiency.`;
+export const professionalSummary = `Senior AI Product Manager with 12+ years building and scaling enterprise AI platforms across financial services, fintech, B2B SaaS, and Web3. Proven in 0 to 1 launch and 1 to scale of GenAI, AutoML, and semantic search platforms serving 5,000+ users and multi-region enterprise clients. Deep expertise in LLMs, conversational AI, agentic systems, human-in-the-loop design, AI evaluation, and governance. Skilled at shaping AI platform roadmaps, driving adoption through GTM strategy, and aligning engineering, data science, field sales, and compliance to ship secure, production-grade AI products that improve customer support, CSAT, and automation efficiency.`;
 
 export const experience = [
   {
-    title: "Product Manager, Analytics & AI",
+    title: "Senior Product Manager, Analytics & AI",
     company: "Axi Pte Ltd",
     location: "Singapore",
     period: "Jan 2024 – Current",
     achievements: [
+      "Shaped AI platform strategy for enterprise trading & marketing workflows, packaging GenAI assistant capabilities and driving 70%+ adoption across 5,000+ employees",
       "Built enterprise chatbot platform integrated with trading & customer data, automating 60% of inquiries and raising CSAT by 25%",
-      "Launched Finance GenAI Assistant with RLHF loops, cutting manual ops 60% and lowering costs 25%",
-      "Orchestrated multi-agent orchestration for semantic data marketplace, achieving 70%+ adoption and adaptive AI improvement",
-      "Designed annotation and LLM evaluation framework & metrics for AI Evals framework, improve prompt accuracy by 30%",
-      "Defined KPIs for deflection rate, CSAT, and model quality, aligning product metrics with business goals",
-      "Modernized internal tech platform saving USD 330K overhead and deliver partner and affiliate business insights with automated commission payouts",
+      "Launched Finance GenAI Assistant with RLHF loops to automate recurring reporting, cutting manual ops 60% and lowering run-rate costs 25%",
+      "Launched governed semantic data marketplace (300+ data owners, org-wide), achieving 70%+ adoption and reducing time-to-insight from 3 hours to 15 minutes",
+      "Designed annotation and LLM evaluation framework with feedback loops (CSAT, intent accuracy, cost per inference), improving model performance and prompt accuracy by 30%",
+      "Identified ~USD 500K cost-saving opportunity in manual finance ops, pitched GenAI automation to C-suite, and secured a funded 6-month roadmap",
+      "Deployed churn-prediction ML models (Databricks AutoML + Segment CDP), lifting retention ROI by 33% across data science, ML Ops, and QA teams",
+      "Partnered with Sales, Compliance, and Data teams to operationalize AI platform governance (lineage, auditability, evaluation metrics) for secure production rollout",
+      "Modernized internal tech platform saving USD 330K overhead and delivered partner/affiliate business insights with automated commission payouts",
     ],
-    keywords: ["chatbot", "conversational AI", "RLHF", "multi-agent", "LLM evaluation", "GenAI", "automation", "CSAT"],
+    keywords: ["chatbot", "conversational AI", "RLHF", "multi-agent", "LLM evaluation", "GenAI", "semantic search", "data marketplace", "GTM", "AI governance", "automation", "CSAT"],
   },
   {
     title: "Product Manager",
@@ -38,12 +43,14 @@ export const experience = [
     location: "Singapore & Hong Kong",
     period: "April 2021 – Dec 2023",
     achievements: [
-      "Shipped chatbot solutions for insurance marketplace, reducing onboarding query resolution time by 40% and improve customer engagement and onboarding",
+      "Co-owned the AI platform roadmap for CLAIRE GPT, aligning metadata AutoML and search capabilities across 5 engineering pods and global enterprise customers",
+      "Shipped chatbot solutions with Informatica 360 for an insurance marketplace, reducing onboarding query resolution time by 40% and improving customer engagement",
       "Launched Informatica CLAIRE AI, an AutoML + metadata recommendation engine, cutting data discovery time by 40%",
-      "Enhanced compliance adoption 35% by leading Data & AI governance with Informatica MDM and Data Governance across SEA",
-      "Achieved 50% YoY platform adoption growth by building foundation of data products strategy for marketplace intelligence tools",
+      "Led governance features (lineage, access controls, confidence scoring) for regulated BFSI clients, increasing compliance adoption by 35%",
+      "Achieved 50% YoY platform adoption growth by building the foundation of a data-products strategy for marketplace intelligence tools",
+      "Executed AI and analytics rollouts across APAC with localized data residency and regulatory constraints, balancing global standards with market-specific needs",
     ],
-    keywords: ["chatbot", "AutoML", "AI governance", "data governance", "MDM", "marketplace"],
+    keywords: ["chatbot", "AutoML", "CLAIRE GPT", "AI governance", "data governance", "MDM", "BFSI", "marketplace", "data residency"],
   },
   {
     title: "Senior Product Manager",
@@ -63,10 +70,12 @@ export const experience = [
     period: "Jan 2018 – Feb 2021",
     achievements: [
       "Delivered $3M+ in cloud projects using Huawei Cloud and AutoML, Google BigQuery, and Looker for enterprise analytics",
+      "Led go-to-market and technical positioning for Huawei Cloud AI & analytics offerings (AutoML, Vision AI, BigQuery), influencing ~$200M pipeline growth",
+      "Increased enterprise RFP win rates by 28% through technical storytelling and AI solution packaging",
       "Boosted workflow efficiency by 40% by launching Vision AI for intelligent document automation",
       "Reduced reporting time by 70% by developing reusable AI-powered reporting templates",
     ],
-    keywords: ["cloud", "AutoML", "BigQuery", "Vision AI", "document automation", "analytics"],
+    keywords: ["cloud", "AutoML", "BigQuery", "Vision AI", "document automation", "analytics", "GTM", "pipeline"],
   },
   {
     title: "Technology Architect, APAC",
@@ -84,7 +93,13 @@ export const experience = [
 
 export const portfolios = [
   {
-    name: "LinkedIn Curator AI",
+    name: "GenAIBuff",
+    context: "Solo Hackathon",
+    description: "GenAI platform for social influencers to manage content, engagement, and monetization",
+    keywords: ["GenAI", "LLM", "creator tools", "monetization", "hackathon"],
+  },
+  {
+    name: "inVestor Pulse CDP (LinkedIn Curator AI)",
     context: "Google Hackathon",
     description: "One-click Chrome extension that summarizes and tags LinkedIn posts into a searchable knowledge base (Google Sheets)",
     keywords: ["Chrome extension", "AI", "knowledge management", "summarization"],
@@ -132,7 +147,7 @@ export const genAIProductExperience = {
       "Data discovery was slow and inconsistent with duplicated work from fragmented ownership.",
     outcomes: [
       "Reduced discovery time from 3 hours to 15 minutes",
-      "Achieved 70%+ company-wide adoption",
+      "Achieved 70%+ company-wide adoption across 5,000+ employees",
       "Improved productivity and data reuse by 45%",
     ],
     metrics: [
@@ -230,11 +245,11 @@ export const genAIProductExperience = {
 } as const;
 
 export const skills = {
-  ai: ["GenAI", "LLMs", "RAG", "Braintrust", "AI/ML Lifecycle", "Agentic AI with Vertex AI", "Semantic Search"],
-  tools: ["Internal AI Tools", "Databricks", "Figma"],
-  product: ["Human-Centered Design", "Stakeholder Engagement", "Product Lifecycle", "Agile & SAFe"],
-  analytics: ["Data Analytics"],
-  compliance: ["Regulatory Compliance"],
+  ai: ["GenAI", "LLMs", "RAG", "Braintrust", "AI/ML Lifecycle", "Agentic AI with Vertex AI", "Semantic Search", "AI Evaluation"],
+  tools: ["Internal AI Tools", "Databricks", "Segment CDP", "BigQuery", "Looker", "Figma"],
+  product: ["Product Strategy & Roadmaps", "Go-to-Market (GTM)", "Enterprise AI Deployment", "Experimentation & Metrics", "Human-Centered Design", "Stakeholder Engagement", "Product Lifecycle", "Agile & SAFe", "Market Analysis"],
+  analytics: ["Data Analytics", "Analytics & Data Platforms", "Data Quality, Lineage & Pipelines"],
+  compliance: ["Regulatory Compliance", "Data & AI Governance, Risk & Controls"],
 } as const;
 
 export const education = {
@@ -252,14 +267,18 @@ export const education = {
  * Key metrics and achievements for quick reference
  */
 export const keyMetrics = {
-  yearsOfExperience: "10+",
-  industries: ["financial services", "fintech", "Web3", "insurance", "cloud computing"],
+  yearsOfExperience: "12+",
+  industries: ["financial services", "fintech", "B2B SaaS", "Web3", "insurance", "cloud computing"],
   impactMetrics: [
     "60% automation of customer inquiries",
     "25% CSAT improvement",
     "60% reduction in manual operations",
-    "70%+ adoption for data marketplace",
+    "70%+ adoption for data marketplace across 5,000+ employees",
     "30% improvement in prompt accuracy",
+    "Discovery time reduced from 3 hours to 15 minutes",
+    "33% retention/ROI uplift from churn-prediction ML",
+    "~USD 500K cost-saving opportunity translated into a funded roadmap",
+    "~$200M pipeline influence and +28% RFP win rate at Huawei",
     "40% reduction in onboarding query resolution time",
     "50% YoY platform adoption growth",
     "USD 330K cost savings",
@@ -289,9 +308,13 @@ export const expertiseAreas = {
     ],
   },
   productManagement: {
-    title: "Product Strategy & Execution",
+    title: "Product Strategy, GTM & Execution",
     focus: [
       "0 to 1 and 1 to scale product development",
+      "Go-to-market strategy, ICP definition, and positioning",
+      "POCs and lighthouse-customer rollouts with field/sales teams",
+      "AI success-metrics frameworks (adoption, accuracy, cost per inference, ROI uplift)",
+      "Multi-region, compliance-first enterprise deployment",
       "Cross-functional team alignment",
       "Product metrics and KPIs",
       "Stakeholder management",
@@ -299,6 +322,8 @@ export const expertiseAreas = {
     ],
     achievements: [
       "Defined KPIs for deflection rate, CSAT, and model quality",
+      "Drove 70%+ GenAI platform adoption across 5,000+ employees",
+      "Influenced ~$200M pipeline and +28% RFP win rate via AI solution packaging",
       "Achieved 50% YoY platform adoption growth",
       "Launched multiple MVPs from concept to production",
     ],

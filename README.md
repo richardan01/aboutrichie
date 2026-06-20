@@ -1,19 +1,49 @@
-# About Richie 🧑‍💻
+<h1 align="center">Hi, I'm Richard Ng 👋</h1>
 
-Personal AI PM portfolio and interactive product profile.
+<p align="center"><b>Senior AI Product Manager · 12+ years building & scaling enterprise AI platforms</b><br/>
+Financial services · Fintech · B2B SaaS · Web3 — based in Singapore 🇸🇬</p>
 
-## What this is
+<p align="center">
+  <a href="https://aboutrichie.vercel.app"><b>💬 Chat with my AI assistant →</b></a>
+</p>
 
-This repo powers my personal portfolio and product profile. It is where I experiment with presenting my AI PM journey, featured projects, and product thinking.
+> Don't read the code to get to know me — **[talk to my AI](https://aboutrichie.vercel.app)**.
+> It answers as me, in first person, about my work in AI product management, data
+> platforms, and product strategy. <!-- TODO: confirm/replace the live URL above -->
 
-## What it demonstrates
+---
 
-- Personal portfolio design
-- AI PM storytelling
-- Product narrative
-- Interactive profile experience
-- Frontend/product experimentation
+## 🤖 What this is
 
-## Featured themes
+An interactive AI portfolio: a chatbot that speaks as me, grounded in my real
+résumé and project history. Ask it about my roles, GenAI projects, LLM evals,
+agentic workflows, or how I think about product — and it answers with concrete
+numbers. For anything deeper, it points you to the best way to reach me.
 
-AI Product Management · Data Platforms · LLM Evals · Agentic Workflows · Enterprise AI
+## 🚀 Selected impact
+
+- **70%+ adoption** of a GenAI assistant across **5,000+ employees**
+- **60%** of customer inquiries automated · **+25% CSAT**
+- Data discovery cut from **3 hours → 15 minutes** via a governed semantic marketplace
+- **+33%** retention/ROI from churn-prediction ML · **~USD 500K** opportunity turned into a funded roadmap
+- **~$200M** pipeline influence · **+28%** enterprise RFP win rate
+
+## 🧭 Where I focus
+
+`AI Product Management` · `Conversational AI & LLMs` · `Agentic Workflows` · `LLM Evals`
+· `Data & Analytics Platforms` · `Data/AI Governance` · `GTM & Platform Commercialization`
+· `Enterprise AI` · `Web3`
+
+## 🛠️ How this site is built
+
+React Router 7 · Convex (real-time backend) · OpenAI Agents SDK · Tailwind CSS ·
+Vercel. The bot's knowledge lives in a single source of truth at
+[`convex/data/resumeData.ts`](convex/data/resumeData.ts), consumed by
+[`convex/helpers/systemPrompt.ts`](convex/helpers/systemPrompt.ts).
+
+## 📬 Get in touch
+
+- 💬 **Chat with my AI**: https://aboutrichie.vercel.app
+- 💼 **LinkedIn**: [linkedin.com/in/richieriri](https://www.linkedin.com/in/richieriri/)
+- 📅 **Book a 30-min chat**: [calendly.com/richieriri/30min](https://calendly.com/richieriri/30min)
+- 📧 **Email**: richardconstantine67@gmail.com
