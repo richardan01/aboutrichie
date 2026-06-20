@@ -9,7 +9,7 @@ Financial services · Fintech · B2B SaaS · Web3 — based in Singapore 🇸�
 
 > Don't read the code to get to know me — **[talk to my AI](https://aboutrichie.vercel.app)**.
 > It answers as me, in first person, about my work in AI product management, data
-> platforms, and product strategy. <!-- TODO: confirm/replace the live URL above -->
+> platforms, and product strategy.
 
 ---
 
