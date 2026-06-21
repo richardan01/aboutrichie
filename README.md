@@ -37,10 +37,10 @@ numbers. For anything deeper, it points you to the best way to reach me.
 ## 🛠️ How this site is built
 
 React Router 7 · Convex (real-time backend) · OpenAI Agents SDK · Tailwind CSS ·
-Vercel. The bot's knowledge now lives in a markdown-first memory file at
-[`convex/data/richard-memory.md`](convex/data/richard-memory.md), loaded through
-[`convex/data/richardMemory.ts`](convex/data/richardMemory.ts) and consumed by
-[`convex/helpers/systemPrompt.ts`](convex/helpers/systemPrompt.ts).
+Vercel. The assistant's grounding memory is authored in
+[`convex/data/richard-memory.md`](convex/data/richard-memory.md). For Convex runtime safety,
+that same content is mirrored in [`convex/data/richardMemory.ts`](convex/data/richardMemory.ts)
+and consumed by [`convex/helpers/systemPrompt.ts`](convex/helpers/systemPrompt.ts).
 
 ## 📬 Get in touch
 
