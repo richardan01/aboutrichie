@@ -36,11 +36,18 @@ numbers. For anything deeper, it points you to the best way to reach me.
 
 ## 🛠️ How this site is built
 
-React Router 7 · Convex (real-time backend) · OpenAI Agents SDK · Tailwind CSS ·
-Vercel. The assistant's grounding memory is authored in
-[`convex/data/richard-memory.md`](convex/data/richard-memory.md). For Convex runtime safety,
-that same content is mirrored in [`convex/data/richardMemory.ts`](convex/data/richardMemory.ts)
-and consumed by [`convex/helpers/systemPrompt.ts`](convex/helpers/systemPrompt.ts).
+React Router 7 · Convex (backend, auth, and chat persistence) · OpenAI Agents SDK ·
+Tailwind CSS · Vercel. The assistant's single human-edited grounding source is
+[`convex/data/richard-memory.md`](convex/data/richard-memory.md). Convex cannot safely
+read that local Markdown file at runtime, so `pnpm memory:sync` mirrors it into
+[`convex/data/richardMemory.ts`](convex/data/richardMemory.ts). `pnpm memory:check`
+verifies the two remain identical and runs automatically before every build.
+
+When updating Richard's background:
+
+1. Edit only `convex/data/richard-memory.md`.
+2. Run `pnpm memory:sync`.
+3. Run `pnpm memory:check` and the normal test suite before committing.
 
 ## 📬 Get in touch
 
