@@ -18,7 +18,8 @@
     "email:export": "email export",
     "convex:deploy": "pnpm dlx convex deploy --cmd 'pnpm run build' --yes",
     "analyze": "pnpm dlx vite-bundle-analyzer",
-    "test": "vitest"
+    "test": "vitest",
+    "test:run": "vitest run"
   },
   "dependencies": {
     "@ai-sdk/cohere": "^1.2.10",
