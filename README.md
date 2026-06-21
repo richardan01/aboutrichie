@@ -16,7 +16,7 @@ Financial services · Fintech · B2B SaaS · Web3 — based in Singapore 🇸�
 ## 🤖 What this is
 
 An interactive AI portfolio: a chatbot that speaks as me, grounded in my real
-résumé and project history. Ask it about my roles, GenAI projects, LLM evals,
+career memory and project history. Ask it about my roles, GenAI projects, LLM evals,
 agentic workflows, or how I think about product — and it answers with concrete
 numbers. For anything deeper, it points you to the best way to reach me.
 
@@ -37,8 +37,9 @@ numbers. For anything deeper, it points you to the best way to reach me.
 ## 🛠️ How this site is built
 
 React Router 7 · Convex (real-time backend) · OpenAI Agents SDK · Tailwind CSS ·
-Vercel. The bot's knowledge lives in a single source of truth at
-[`convex/data/resumeData.ts`](convex/data/resumeData.ts), consumed by
+Vercel. The bot's knowledge now lives in a markdown-first memory file at
+[`convex/data/richard-memory.md`](convex/data/richard-memory.md), loaded through
+[`convex/data/richardMemory.ts`](convex/data/richardMemory.ts) and consumed by
 [`convex/helpers/systemPrompt.ts`](convex/helpers/systemPrompt.ts).
 
 ## 📬 Get in touch
