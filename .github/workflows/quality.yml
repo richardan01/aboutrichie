@@ -54,7 +54,7 @@ jobs:
 
       - name: Test
         if: always()
-        run: pnpm test -- --run
+        run: pnpm test:run
 
       - name: Build
         if: always()
