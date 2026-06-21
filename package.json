@@ -82,7 +82,7 @@
     "react-router": "^7.6.3",
     "rehype-raw": "^7.0.0",
     "rehype-sanitize": "^6.0.0",
-    "remark-gfm": "^4.1.0",
+    "remark-gfm": "^4.0.1",
     "resend": "^4.6.0",
     "serve": "^14.2.3",
     "server": "link:@convex-dev/auth/server",
