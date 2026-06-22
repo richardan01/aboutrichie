@@ -1,6 +1,6 @@
 import { ok } from "neverthrow";
-import { TableNames } from "../_generated/dataModel";
-import { QueryCtx } from "../_generated/server";
+import type { TableNames } from "../_generated/dataModel";
+import type { QueryCtx } from "../_generated/server";
 
 export function normalizeId<T extends TableNames>(
   ctx: QueryCtx,

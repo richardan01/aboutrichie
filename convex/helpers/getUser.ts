@@ -1,6 +1,6 @@
-import { Infer, v } from "convex/values";
+import { type Infer, v } from "convex/values";
 import { ResultAsync } from "neverthrow";
-import { QueryCtx } from "../_generated/server";
+import type { QueryCtx } from "../_generated/server";
 import * as Errors from "../errors";
 
 export const VGetUserArgs = v.object({
@@ -30,7 +30,7 @@ export function getUser(
         }
         return r;
       }),
-    (e) =>
+    () =>
       Errors.userNotFound({
         message: `User with id: ${args.workosUserId} not found`,
       })

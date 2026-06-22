@@ -7,19 +7,18 @@ import {
 import { ConvexError, v } from "convex/values";
 import { ResultAsync } from "neverthrow";
 import { internal } from "./_generated/api";
-import { Id } from "./_generated/dataModel";
+import type { Id } from "./_generated/dataModel";
 import {
-  ActionCtx,
-  QueryCtx,
   action,
   mutation,
   query,
 } from "./_generated/server";
+import type { ActionCtx, QueryCtx } from "./_generated/server";
 import * as Errors from "./errors";
 import { getAnonymousUser } from "./helpers/getAnonymousUser";
 import { getUser as getUserHelper } from "./helpers/getUser";
 import { getUserId } from "./helpers/getUserId";
-import { User } from "./schema/users.schema";
+import type { User } from "./schema/users.schema";
 
 const getUser = (ctx: QueryCtx) => {
   return getUserId(ctx).andThen((userId) => {

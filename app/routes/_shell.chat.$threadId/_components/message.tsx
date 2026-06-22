@@ -358,10 +358,10 @@ function _Message({
               (x) => {
                 return (
                   <AnimatePresence mode="wait">
-                    <ReasoningPart
-                      isMessageStreaming={
-                        message.status === "streaming" && !Boolean(nextPart)
-                      }
+                      <ReasoningPart
+                        isMessageStreaming={
+                          message.status === "streaming" && !nextPart
+                        }
                       key={`${message.key}-${index}`}
                       id={`${message.key}-${index}`}
                       part={x}

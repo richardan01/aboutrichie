@@ -1,6 +1,6 @@
-import { Infer, v } from "convex/values";
+import { type Infer, v } from "convex/values";
 import { ResultAsync } from "neverthrow";
-import { QueryCtx } from "../_generated/server";
+import type { QueryCtx } from "../_generated/server";
 import * as Errors from "../errors";
 
 export const VGetAnonymousUserArgs = v.object({
@@ -23,7 +23,7 @@ export const getAnonymousUser = (
 
       return x;
     }),
-    (e) =>
+    () =>
       Errors.userNotFound({
         message: "User not found",
       })

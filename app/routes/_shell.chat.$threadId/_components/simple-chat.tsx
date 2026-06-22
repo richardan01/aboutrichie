@@ -1,6 +1,6 @@
 import { useConvexAction } from "@convex-dev/react-query";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState, useEffect, useCallback } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useCallback, useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router";
 import { api } from "convex/_generated/api";
 import { MessageInputField } from "~/components/ui/message-input-field";
@@ -32,7 +32,7 @@ export function SimpleChat() {
         
         if (conversation && conversation.length > 0) {
           // Convert conversation to our Message format
-          const historyMessages: Message[] = conversation.map((msg, index) => ({
+          const historyMessages: Message[] = conversation.map((msg: Message, index: number) => ({
             id: `history_${index}`,
             role: msg.role,
             content: msg.content,
@@ -43,7 +43,7 @@ export function SimpleChat() {
         } else {
           setMessages([]);
         }
-      } catch (error) {
+      } catch {
         setMessages([]);
       } finally {
         setIsLoadingHistory(false);
@@ -75,7 +75,7 @@ export function SimpleChat() {
           try {
             const conversation = await getConversationAction({ threadId: threadId! });
             if (conversation && conversation.length > 0) {
-              const historyMessages: Message[] = conversation.map((msg, index) => ({
+              const historyMessages: Message[] = conversation.map((msg: Message, index: number) => ({
                 id: `history_${index}`,
                 role: msg.role,
                 content: msg.content,
@@ -83,7 +83,7 @@ export function SimpleChat() {
               }));
               setMessages(historyMessages);
             }
-          } catch (error) {
+          } catch {
             // Ignore refresh errors
           }
         }, 1000);

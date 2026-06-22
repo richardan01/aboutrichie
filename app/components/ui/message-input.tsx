@@ -47,11 +47,11 @@ const MessageInput = React.forwardRef<HTMLTextAreaElement, MessageInputProps>(
       onKeyDown,
       disabled = false,
       isSubmitting = false,
-      buttonText = "Send",
+      buttonText: _buttonText = "Send",
       rows = 1,
       placeholder = "Type your message...",
       isGenerating,
-      onContactMe,
+      onContactMe: _onContactMe,
       ...props
     },
     ref

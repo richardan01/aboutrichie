@@ -16,6 +16,12 @@ interface LocalThread {
   _creationTime: number;
 }
 
+type StoredThread = {
+  threadId: string;
+  title: string;
+  createdAt: number;
+};
+
 export function SimpleThreads({ activeThreadId }: SimpleThreadsProps) {
   const navigate = useNavigate();
   const [localThreads, setLocalThreads] = useState<LocalThread[]>([]);
@@ -77,7 +83,7 @@ export function SimpleThreads({ activeThreadId }: SimpleThreadsProps) {
   }, []);
 
   // Combine database threads and local threads
-  const dbThreads = rawThreads.map(thread => ({
+  const dbThreads = (rawThreads as StoredThread[]).map((thread) => ({
     _id: thread.threadId,
     title: thread.title,
     _creationTime: thread.createdAt,
@@ -90,7 +96,7 @@ export function SimpleThreads({ activeThreadId }: SimpleThreadsProps) {
 
   const handleThreadSelect = (selectedThreadId: string) => {
     // Find the thread to get the proper threadId
-    const thread = threads.find(t => t._id === selectedThreadId);
+    const thread = threads.find((t) => t._id === selectedThreadId);
     if (thread) {
       navigate(`/chat/${thread.threadId}`);
     }

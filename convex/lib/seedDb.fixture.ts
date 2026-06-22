@@ -1,8 +1,8 @@
 import { faker } from "@faker-js/faker";
-import { TestConvex } from "convex-test";
+import type { TestConvex } from "convex-test";
 import { components, internal } from "../_generated/api.js";
 import schema from "../schema.js";
-import { User } from "../schema/users.schema.js";
+import type { User } from "../schema/users.schema.js";
 
 export type SeedDbFixture = ReturnType<typeof createSeedDbFixture>;
 

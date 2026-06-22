@@ -1,11 +1,8 @@
 import "./tracing/otel"; // initialize Phoenix + OTEL once per worker
 import { action } from "./_generated/server";
 import { v } from "convex/values";
-import { generateText } from "ai";
-import { openai } from "@ai-sdk/openai";
-import { xai } from "@ai-sdk/xai";
 import OpenAI from "openai";
-import { traceLLMCall, addSpanAttributes } from "./tracing/simple";
+import { traceLLMCall } from "./tracing/simple";
 
 export const simpleOpenAITest = action({
   args: {

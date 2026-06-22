@@ -21,7 +21,6 @@ import {
 } from "convex/react";
 import { ConvexError } from "convex/values";
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { match } from "ts-pattern";
 import { useWorkosConvexAuth } from "~/components/auth/auth-provider";

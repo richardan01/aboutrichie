@@ -1,6 +1,6 @@
-import { Infer, v } from "convex/values";
+import { type Infer, v } from "convex/values";
 import { ok, ResultAsync } from "neverthrow";
-import { ActionCtx } from "../_generated/server";
+import type { ActionCtx } from "../_generated/server";
 import { createStoreAgent } from "../agents/storeAgent";
 import * as Errors from "../errors";
 
@@ -18,7 +18,7 @@ export function sendAiMessage(ctx: ActionCtx, args: TSendAiMessageArgs) {
       threadId: args.threadId,
       userId: args.userId,
     }),
-    (e) =>
+    () =>
       Errors.sendAiMessageFailed({
         message: "Failed to send AI message",
       })
@@ -27,7 +27,7 @@ export function sendAiMessage(ctx: ActionCtx, args: TSendAiMessageArgs) {
       x.thread.generateText({
         prompt: args.prompt,
       }),
-      (e) => Errors.sendAiMessageFailed({ message: "Failed to generate text" })
+      () => Errors.sendAiMessageFailed({ message: "Failed to generate text" })
     ).andThen(() => ok(x));
   });
 }

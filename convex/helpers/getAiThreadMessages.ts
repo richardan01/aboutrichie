@@ -2,7 +2,7 @@ import { vStreamArgs } from "@convex-dev/agent";
 import { paginationOptsValidator } from "convex/server";
 import { type Infer, v } from "convex/values";
 import { errAsync, ok, ResultAsync } from "neverthrow";
-import { QueryCtx } from "../_generated/server";
+import type { QueryCtx } from "../_generated/server";
 import { createStoreAgent } from "../agents/storeAgent";
 import * as Errors from "../errors";
 
@@ -41,7 +41,7 @@ export function getAiThreadMessages(
         threadId: args.threadId,
         paginationOpts: args.paginationOpts,
       }),
-      (e) => {
+      () => {
         return Errors.getAiThreadMessagesFailed({
           message: "Failed to get AI thread messages",
         });
@@ -52,7 +52,7 @@ export function getAiThreadMessages(
           threadId: args.threadId,
           streamArgs: args.streamArgs,
         }),
-        (e) => {
+        () => {
           return Errors.getAiThreadMessagesFailed({
             message: "Failed to sync streams",
           });

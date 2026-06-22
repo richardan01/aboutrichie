@@ -11,6 +11,22 @@ import { generateSystemInstructions } from "../helpers/systemPrompt";
 type ConversationMessage = {role: 'user' | 'assistant', content: string, timestamp: number};
 const conversations = new Map<string, ConversationMessage[]>();
 
+type TokenUsage = {
+  prompt_tokens: number;
+  completion_tokens: number;
+  total_tokens: number;
+  prompt_tokens_details?: {
+    cached_tokens?: number;
+    audio_tokens?: number;
+  };
+  completion_tokens_details?: {
+    reasoning_tokens?: number;
+    audio_tokens?: number;
+    accepted_prediction_tokens?: number;
+    rejected_prediction_tokens?: number;
+  };
+};
+
 export const sendMessage = action({
   args: {
     threadId: v.string(),
@@ -57,7 +73,7 @@ export const sendMessage = action({
             createdAt: Date.now(),
             lastMessageAt: Date.now(),
           });
-        } catch (error) {
+        } catch {
           // Ignore metadata creation errors
         }
       }
@@ -108,7 +124,7 @@ export const sendMessage = action({
       });
 
       // Extract usage from result - OpenAI Agents SDK may not expose these directly
-      const usage = {
+      const usage: TokenUsage = {
         prompt_tokens: 0,
         completion_tokens: 0,
         total_tokens: 0
@@ -153,7 +169,7 @@ export const sendMessage = action({
           assistantResponse: response,
           timestamp: now,
         });
-      } catch (error) {
+      } catch {
         // Ignore save errors
       }
 
@@ -163,7 +179,7 @@ export const sendMessage = action({
           threadId: args.threadId,
           lastMessageAt: now,
         });
-      } catch (error) {
+      } catch {
         // Ignore timestamp update errors
       }
 
@@ -187,7 +203,7 @@ export const sendMessage = action({
         } : null,
       };
 
-    } catch (error) {
+    } catch {
       
       // Return fallback response
       const fallbackResponse = `I'm currently experiencing some technical difficulties. Please try again in a moment.`;
@@ -228,11 +244,22 @@ export const getConversation = action({
         });
         
         if (dbMessages && dbMessages.length > 0) {
-          conversation = dbMessages;
+          conversation = dbMessages.flatMap((message) => [
+            {
+              role: "user" as const,
+              content: message.userQuery ?? "",
+              timestamp: message.timestamp,
+            },
+            {
+              role: "assistant" as const,
+              content: message.assistantResponse ?? "",
+              timestamp: message.timestamp,
+            },
+          ]);
           // Also populate the in-memory cache
           conversations.set(conversationKey, conversation);
         }
-      } catch (error) {
+      } catch {
         // Ignore database load errors
       }
     }

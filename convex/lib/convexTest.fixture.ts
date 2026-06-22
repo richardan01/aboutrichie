@@ -10,7 +10,8 @@ import agentSchema from "../../node_modules/@convex-dev/agent/src/component/sche
 import ragSchema from "../../node_modules/@convex-dev/rag/src/component/schema.js";
 import rateLimiterSchema from "../../node_modules/@convex-dev/rate-limiter/src/component/schema.js";
 import schema from "../schema.js";
-import { createSeedDbFixture, SeedDbFixture } from "./seedDb.fixture.js";
+import { createSeedDbFixture } from "./seedDb.fixture.js";
+import type { SeedDbFixture } from "./seedDb.fixture.js";
 
 const ragModules = import.meta.glob(
   "../../node_modules/@convex-dev/rag/src/component/**/*.ts"
@@ -40,11 +41,11 @@ export const convexTest = test.extend<{
   convex: TestConvex<typeof schema>;
   seedDB: SeedDbFixture;
 }>({
-  seedDB: async ({}, use) => {
+  seedDB: async (_ctx, use) => {
     await use(seedFixture);
   },
   convex: [
-    async ({}, use) => {
+    async (_ctx, use) => {
       await use(t);
     },
     {

@@ -4,7 +4,7 @@ import { match, P } from "ts-pattern";
 import { LoadingSpinner } from "~/components/ui/loading-spinner";
 
 export function StepStartMessage({
-  part,
+  part: _part,
   message,
   nextStep,
 }: {

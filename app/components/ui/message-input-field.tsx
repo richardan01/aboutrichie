@@ -17,7 +17,7 @@ export const ZFormSchema = z.object({
 export type TFormSchema = z.infer<typeof ZFormSchema>;
 
 export function MessageInputField({
-  name,
+  name: _name,
   onSubmit,
   resetOnSubmit = true,
   isGenerating,

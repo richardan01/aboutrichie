@@ -3,7 +3,6 @@ import * as React from "react";
 import { useCallback } from "react";
 import type { MetaFunction } from "react-router";
 import { generatePath, useNavigate } from "react-router";
-import { GithubIcon } from "~/components/icons/github";
 import { Meta } from "~/components/meta";
 import { Button } from "~/components/ui/button";
 import { MessageInputField } from "~/components/ui/message-input-field";
@@ -116,7 +115,7 @@ export default function Index() {
           // Trigger custom event to update sidebar
           window.dispatchEvent(new Event('localThreadsUpdated'));
           
-        } catch (storageError) {
+        } catch {
         }
         
         // Navigate to chat with the message as URL parameter
@@ -124,7 +123,7 @@ export default function Index() {
         await navigate(chatPath);
         
         setSubmittingSource(undefined); // Reset loading state
-      } catch (error) {
+      } catch {
         setSubmittingSource(undefined);
       }
     },
@@ -141,7 +140,7 @@ export default function Index() {
   ) => {
     try {
       handleMessageSubmit(prompt, { submittingSource });
-    } catch (error) {
+    } catch {
       // Handle error silently
     }
   };

@@ -1,37 +1,27 @@
-import { useConvexAction } from "@convex-dev/react-query";
 import { useMutation } from "@tanstack/react-query";
-import { useAuth } from "@workos-inc/authkit-react";
-import { api } from "convex/_generated/api";
-import { Authenticated } from "convex/react";
 import { GithubIcon, LinkedinIcon, MoonIcon, SunIcon } from "lucide-react";
 import { Outlet, useParams } from "react-router";
-import { AnonymousUser } from "~/components/auth/auth-provider";
 import { NavigationProgress } from "~/components/navigation-progress";
 import { useTheme } from "~/components/theme-provider";
-import { SidebarHeader } from "~/components/threads-list";
-import { Input } from "~/components/ui/input";
 import {
   Sidebar,
-  SidebarContent,
   SidebarFooter,
   SidebarInset,
   SidebarMenuButton,
   SidebarProvider,
   SidebarTrigger,
 } from "~/components/ui/sidebar";
-import { AnonymousThreads } from "~/routes/_shell/_components/anonymous-threads";
-import { AuthenticatedThreads } from "~/routes/_shell/_components/authenticated-threads";
-import { EmptyThreads } from "~/routes/_shell/_components/empty-threads";
 import { SimpleThreads } from "~/routes/_shell/_components/simple-threads";
 
 export default function ShellRoute() {
-  const { user } = useAuth();
   const { threadId } = useParams();
   const { setTheme, currentTheme } = useTheme();
 
   // Create new thread
   const createThread = useMutation({
-    mutationFn: useConvexAction(api.ai.action.createThread),
+    mutationFn: async (_variables: unknown) => {
+      throw new Error("Thread creation from the shell route is not implemented.");
+    },
   });
 
   return (

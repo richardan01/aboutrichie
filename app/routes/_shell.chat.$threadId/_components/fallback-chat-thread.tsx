@@ -1,21 +1,34 @@
 import { useConvexAction } from "@convex-dev/react-query";
 import { useMutation } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router";
 import { api } from "convex/_generated/api";
-import { Button } from "~/components/ui/button";
 import { MessageInputField } from "~/components/ui/message-input-field";
+
+type FallbackMessage = {
+  id: string;
+  content: string;
+  role: "user" | "assistant";
+};
+
+type ContinueAnonymousThreadArgs = {
+  threadId: string;
+  prompt: string;
+};
 
 export function FallbackChatThread() {
   const { threadId } = useParams<{ threadId: string }>();
-  const [messages, setMessages] = useState<Array<{id: string, content: string, role: 'user' | 'assistant'}>>([]);
+  const [messages, setMessages] = useState<FallbackMessage[]>([]);
 
   console.log("🔄 FallbackChatThread render - ThreadID:", threadId);
   console.log("🔄 FallbackChatThread render - Messages:", messages);
 
   // Use the real backend
-  const continueThreadMutation = useMutation({
-    mutationFn: useConvexAction(api.ai.action.continueAnonymousThread),
+  const continueAnonymousThread = useConvexAction(
+    api.ai.action.continueAnonymousThread
+  );
+  const continueThreadMutation = useMutation<string, Error, ContinueAnonymousThreadArgs>({
+    mutationFn: async (variables) => continueAnonymousThread(variables),
     onSuccess: (response, variables) => {
       console.log("✅ Success - Response received:", response);
       console.log("✅ Success - Variables:", variables);

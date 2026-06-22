@@ -210,5 +210,3 @@ export async function traceOpenAICompletion(
   await sendTraceToPhoenix(traceData);
 }
 
-export {}; // side-effect module to ensure imports work
-

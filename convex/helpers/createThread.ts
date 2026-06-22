@@ -1,6 +1,6 @@
-import { Infer, v } from "convex/values";
+import { type Infer, v } from "convex/values";
 import { ResultAsync } from "neverthrow";
-import { ActionCtx } from "../_generated/server";
+import type { ActionCtx } from "../_generated/server";
 import { createStoreAgent } from "../agents/storeAgent";
 import * as Errors from "../errors";
 

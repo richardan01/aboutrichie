@@ -30,7 +30,7 @@ export type DialogStoreActions =
 
 const dialogStore = createStore({
   emits: {
-    alertDialogOpened: (payload: {
+    alertDialogOpened: (_payload: {
       confirmButtonMutationKeys?: string[][];
       cancelButtonMutationKeys?: string[][];
       title: string;

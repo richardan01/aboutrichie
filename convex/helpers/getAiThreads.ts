@@ -1,8 +1,8 @@
 import { paginationOptsValidator } from "convex/server";
-import { Infer, v } from "convex/values";
+import { type Infer, v } from "convex/values";
 import { ResultAsync } from "neverthrow";
 import { components } from "../_generated/api";
-import { QueryCtx } from "../_generated/server";
+import type { QueryCtx } from "../_generated/server";
 import * as Errors from "../errors";
 
 export const VGetThreadsHandlerArgs = v.object({

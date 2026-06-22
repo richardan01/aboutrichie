@@ -19,12 +19,15 @@ export type SummaryGenerationFailed = ReturnType<
   typeof summaryGenerationFailed
 >;
 
+export type PromptTooLong = ReturnType<typeof promptTooLong>;
+
 export type BackendErrors =
   | NotAuthenticated
   | UserNotFound
   | SummaryGenerationFailed
   | CreateThreadFailed
-  | RateLimitExceeded;
+  | RateLimitExceeded
+  | PromptTooLong;
 
 export type RateLimitExceeded = ReturnType<typeof rateLimitExceeded>;
 

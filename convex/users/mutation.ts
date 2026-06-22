@@ -1,7 +1,7 @@
 import { ConvexError, v } from "convex/values";
 import { ok, ResultAsync } from "neverthrow";
 import { components } from "../_generated/api";
-import { Id } from "../_generated/dataModel";
+import type { Id } from "../_generated/dataModel";
 import { internalMutation } from "../_generated/server";
 import { createStoreAgent } from "../agents/storeAgent";
 import * as Errors from "../errors";
@@ -145,7 +145,7 @@ export const migrateAnonymousUser = authedMutation({
               userId: authenticatedUserId,
             },
           }),
-          (e) => {
+          () => {
             return Errors.threadMigrationFailed({
               message: `Failed to migrate thread ${thread._id}`,
             });

@@ -1,5 +1,6 @@
 import { Agent } from "@convex-dev/agent";
-import { LanguageModelV1Middleware, wrapLanguageModel } from "ai";
+import type { LanguageModelV1Middleware } from "ai";
+import { wrapLanguageModel } from "ai";
 import { components } from "../_generated/api";
 import { defaultModel } from "./models";
 
@@ -11,10 +12,11 @@ export const createSummaryAgent = (
   } = {}
 ) => {
   const { middleware = [], modelId, providerId } = args;
+  type WrappedModel = Parameters<typeof wrapLanguageModel>[0]["model"];
 
   return new Agent(components.agent, {
     chat: wrapLanguageModel({
-      model: defaultModel,
+      model: defaultModel as unknown as WrappedModel,
       middleware,
       modelId,
       providerId,

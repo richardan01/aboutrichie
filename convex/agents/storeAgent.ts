@@ -1,10 +1,11 @@
 import { Agent, createTool } from "@convex-dev/agent";
-import { LanguageModelV1Middleware, wrapLanguageModel } from "ai";
+import type { LanguageModelV1Middleware } from "ai";
+import { wrapLanguageModel } from "ai";
 import { ResultAsync } from "neverthrow";
 import z from "zod";
 import { components } from "../_generated/api";
 import * as Errors from "../errors";
-import { BackendErrorSchema } from "../errors";
+import type { BackendErrorSchema } from "../errors";
 import { rag } from "../rag";
 import { defaultModel } from "./models";
 
@@ -18,8 +19,6 @@ type AgentToolError = {
   error: BackendErrorSchema;
 };
 
-type AgentToolResult<T> = AgentToolSuccess<T> | AgentToolError;
-
 function agentSuccess<T>(x: T): AgentToolSuccess<T> {
   return {
     success: true,
@@ -27,7 +26,7 @@ function agentSuccess<T>(x: T): AgentToolSuccess<T> {
   };
 }
 
-function agentError<T>(error: BackendErrorSchema): AgentToolError {
+function agentError(error: BackendErrorSchema): AgentToolError {
   return {
     success: false,
     error,
@@ -50,10 +49,11 @@ export const createStoreAgent = (
   } = {}
 ) => {
   const { middleware = [], modelId, providerId } = args;
+  type WrappedModel = Parameters<typeof wrapLanguageModel>[0]["model"];
 
   return new Agent(components.agent, {
     chat: wrapLanguageModel({
-      model: defaultModel,
+      model: defaultModel as unknown as WrappedModel,
       middleware,
       modelId,
       providerId,

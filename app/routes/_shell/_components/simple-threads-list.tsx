@@ -36,7 +36,7 @@ export interface SimpleThread {
   _creationTime: number;
 }
 
-function SidebarHeader({ children }: { children: React.ReactNode }) {
+function SidebarHeader({ children }: { children?: React.ReactNode }) {
   return (
     <SidebarHeaderOriginal>
       <div className="flex items-center justify-between my-2">

@@ -1,4 +1,5 @@
-import { MINUTE, RateLimitConfig, RateLimiter } from "@convex-dev/rate-limiter";
+import { MINUTE, RateLimiter } from "@convex-dev/rate-limiter";
+import type { RateLimitConfig } from "@convex-dev/rate-limiter";
 import { components } from "./_generated/api";
 
 const DAY = 24 * 60 * MINUTE;

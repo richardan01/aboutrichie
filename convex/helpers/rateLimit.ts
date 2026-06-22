@@ -1,8 +1,9 @@
 import { isRateLimitError } from "@convex-dev/rate-limiter";
-import { GenericDataModel, GenericMutationCtx } from "convex/server";
+import type { GenericDataModel, GenericMutationCtx } from "convex/server";
 import { ResultAsync } from "neverthrow";
 import * as Errors from "../errors";
-import { RateLimitName, rateLimiter } from "../rateLimiter";
+import { rateLimiter } from "../rateLimiter";
+import type { RateLimitName } from "../rateLimiter";
 
 export function rateLimit(
   ctx: {

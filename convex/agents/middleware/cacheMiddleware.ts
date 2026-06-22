@@ -1,6 +1,6 @@
-import { LanguageModelV1Middleware } from "ai";
+import type { LanguageModelV1Middleware } from "ai";
 import { components } from "../../_generated/api";
-import { ActionCtx } from "../../_generated/server";
+import type { ActionCtx } from "../../_generated/server";
 
 export function createCacheMiddleware(ctx: ActionCtx) {
   return {

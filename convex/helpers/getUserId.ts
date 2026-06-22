@@ -1,5 +1,5 @@
 import { getAuthUserId } from "@convex-dev/auth/server";
-import { Auth } from "convex/server";
+import type { Auth } from "convex/server";
 import { ResultAsync } from "neverthrow";
 import * as Errors from "../errors";
 

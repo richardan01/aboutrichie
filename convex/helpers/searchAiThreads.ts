@@ -1,7 +1,7 @@
-import { Infer, v } from "convex/values";
+import { type Infer, v } from "convex/values";
 import { ResultAsync } from "neverthrow";
 import { components } from "../_generated/api";
-import { QueryCtx } from "../_generated/server";
+import type { QueryCtx } from "../_generated/server";
 import * as Errors from "../errors";
 
 export const VSearchThreadsHandlerArgs = v.object({
@@ -27,7 +27,7 @@ export function searchAiThreads(
 ) {
   return ResultAsync.fromPromise(
     ctx.runQuery(components.agent.threads.searchThreadTitles, args),
-    (e) => {
+    () => {
       return Errors.getAiThreadsFailed({
         message: "Failed to get AI threads",
       });
