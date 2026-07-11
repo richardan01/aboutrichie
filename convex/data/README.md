@@ -1,100 +1,54 @@
-# Resume Data Module
+# Richard Memory Module
 
-This directory contains structured data extracted from Richard Ng's resume and utilities for generating AI system prompts.
+This directory contains the grounding memory for Richard's AI assistant and the
+utilities that expose it to Convex functions.
 
 ## Files
 
-### `resumeData.ts`
-Contains all professional information in structured TypeScript objects:
+### `richard-memory.md`
+The single source of truth for all professional information — summary, focus
+areas, career timeline, signature projects, portfolio, skills, certifications,
+education, and contact details. Edit this file when anything changes.
 
-- **personalInfo**: Contact details and social links
-- **professionalSummary**: Brief professional overview
-- **experience**: Array of work experiences with achievements and keywords
-- **portfolios**: Notable projects and hackathons
-- **skills**: Categorized technical and professional skills
-- **education**: Academic background
-- **keyMetrics**: Quick reference metrics for impact
-- **expertiseAreas**: Organized by domain (AI/ML, Product Management, Data & Analytics, Web3)
+### `richardMemory.ts`
+The runtime module consumed by Convex. It embeds the markdown as a string
+(Convex bundles function code, so reading local files at runtime is not safe)
+and exposes:
 
-## Usage
+- `richardMemory` — parsed header fields (name, email, LinkedIn, Calendly, ...)
+  plus the full markdown.
+- `getSection(title)` — returns the body of a `## Section` from the markdown.
 
-### In Chat Actions
+Never edit the embedded string by hand — it is generated.
 
-```typescript
-import { generateSystemInstructions } from "../helpers/systemPrompt";
+## Updating the resume / memory (the publish flow)
 
-// Generate comprehensive system instructions
-const systemInstructions = generateSystemInstructions();
+1. Edit `convex/data/richard-memory.md` with the new information.
+2. Run `pnpm memory:sync` to regenerate `convex/data/richardMemory.ts`.
+3. Run `pnpm test:run` to confirm the grounding tests still pass.
+4. Commit both files together.
 
-// Create AI agent with instructions
-const agent = new Agent({
-  name: "Richard AI Assistant",
-  instructions: systemInstructions,
-  model: "gpt-5-nano",
-});
-```
+CI runs `pnpm memory:check` and fails if the two files are out of sync.
 
-### Focused Prompts
+## Structure conventions
 
-```typescript
-import { generateFocusedPrompt } from "../helpers/systemPrompt";
+Keep these stable — code and tests depend on them:
 
-// Generate focused prompt for specific area
-const aiPrompt = generateFocusedPrompt('ai');
-const dataPrompt = generateFocusedPrompt('data');
-const web3Prompt = generateFocusedPrompt('web3');
-const productPrompt = generateFocusedPrompt('product');
-```
+- Header fields at the top (`Name:`, `Email:`, `Summary:`, ...) are parsed by
+  `getField` in `richardMemory.ts`.
+- `## AI Product Management Focus`, `## Data & Analytics Focus`,
+  `## Web3 & Blockchain Focus`, and `## Product Strategy & Execution Focus`
+  are looked up by name in `convex/helpers/systemPrompt.ts` for focused
+  prompts.
+- Career entries use `### Company | Title | Start - End` headings with bullet
+  achievements, so the assistant can cite concrete evidence.
 
-### Contact Information
-
-```typescript
-import { getContactInfo, getBriefIntro } from "../helpers/systemPrompt";
-
-const intro = getBriefIntro();
-const contact = getContactInfo();
-```
-
-## Updating Resume Data
-
-When updating the resume:
-
-1. **Update `resumeData.ts`**: Modify the relevant sections with new information
-2. **Maintain structure**: Keep the TypeScript types and structure intact
-3. **Update keywords**: Add relevant keywords for better context matching
-4. **Test prompts**: Verify that `systemPrompt.ts` generates correct instructions
-
-## Benefits of This Structure
-
-1. **Single Source of Truth**: All resume data in one place
-2. **Type Safety**: TypeScript ensures data consistency
-3. **Easy Maintenance**: Update once, reflect everywhere
-4. **Flexible**: Generate different prompts for different contexts
-5. **Testable**: Can easily test prompt generation logic
-6. **Version Control**: Track changes to professional information over time
-
-## Example: Adding New Experience
-
-```typescript
-export const experience = [
-  {
-    title: "New Position Title",
-    company: "Company Name",
-    location: "Location",
-    period: "Start Date - End Date",
-    achievements: [
-      "Achievement 1 with quantifiable impact",
-      "Achievement 2 with metrics",
-    ],
-    keywords: ["relevant", "keywords", "for", "context"],
-  },
-  // ... existing experiences
-] as const;
-```
-
-## Integration Points
+## Integration points
 
 This module is used by:
-- `convex/chat/actions.ts` - Main chat handler
-- `convex/helpers/systemPrompt.ts` - Prompt generation
-- Future: Can be used for resume exports, portfolio displays, etc.
+
+- `convex/helpers/systemPrompt.ts` — prompt generation
+  (`generateSystemInstructions`, `generateFocusedPrompt`, `getContactInfo`).
+- `convex/chat/` — the chat handlers that instantiate the assistant.
+- `scripts/sync-richard-memory.mjs` — the `memory:sync` / `memory:check`
+  commands.

@@ -26,7 +26,8 @@ ai-storefront/
 │   │   ├── queries.ts    # Chat queries
 │   │   └── mutations.ts  # Chat mutations
 │   ├── data/             # Structured data
-│   │   ├── resumeData.ts # Resume information
+│   │   ├── richard-memory.md # Grounding memory (source of truth)
+│   │   ├── richardMemory.ts  # Generated runtime module (pnpm memory:sync)
 │   │   └── README.md     # Data module docs
 │   ├── helpers/          # Utility functions
 │   │   └── systemPrompt.ts # AI prompt generation
@@ -78,9 +79,9 @@ ai-storefront/
 
 ### 2. Resume Data Module
 - **Location**: `convex/data/`
-- Structured TypeScript data for professional information
-- Dynamic system prompt generation
-- Single source of truth for all resume data
+- `richard-memory.md` is the single source of truth for all resume data
+- `richardMemory.ts` is generated from it via `pnpm memory:sync`
+- Dynamic system prompt generation from the markdown memory
 
 ### 3. Telemetry & Observability
 - **Location**: `convex/tracing/`
@@ -153,7 +154,7 @@ See `python-agents/DEPLOYMENT_GUIDE.md`
 
 ## Best Practices
 
-1. **Resume Updates**: Modify `convex/data/resumeData.ts` - changes auto-reflect in AI
+1. **Resume Updates**: Edit `convex/data/richard-memory.md`, then run `pnpm memory:sync` - changes auto-reflect in AI
 2. **AI Prompts**: Use `generateSystemInstructions()` for consistency
 3. **Type Safety**: All Convex functions use TypeScript validation
 4. **Tracing**: OpenAI Agents SDK handles tracing automatically

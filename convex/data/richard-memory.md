@@ -6,17 +6,21 @@ Location: Singapore
 Phone: +65 87913436
 Email: richardconstantine67@gmail.com
 LinkedIn: https://www.linkedin.com/in/richieriri/
+GitHub: https://github.com/richardan01
 Calendly: https://calendly.com/richieriri/30min
 Website: https://aboutrichie.vercel.app
-Summary: Senior AI Product Manager with 12+ years building and scaling enterprise AI platforms across financial services, fintech, B2B SaaS, and Web3.
+Summary: Senior AI Product Manager with 12+ years across fintech, enterprise SaaS, cloud, and data platforms, currently leading Martech and digital growth as Martech AI Product Manager at KPay.
 
 This file is the primary grounding memory for the AI assistant. If another source conflicts with this file, prefer this file.
 
 ## Professional Summary
-I build enterprise AI, analytics, and data products that move from 0 to 1 and from 1 to scale. My work spans GenAI assistants, conversational AI, semantic search, AutoML, governed data platforms, and enterprise analytics. I care about product strategy, adoption, AI evaluation, governance, compliance, and measurable business outcomes.
+I build enterprise AI, analytics, and data products that move from 0 to 1 and from 1 to scale. I have built 0-to-1 GenAI assistants, conversational AI, semantic search, AI-ready data platforms, and evaluation workflows that reduced manual effort, improved intent accuracy, and scaled governed AI adoption. Today I lead the Martech and digital growth roadmap at KPay, applying AI-assisted workflows, CDP strategy, and experimentation to merchant acquisition, activation, and lifecycle engagement. I care about product strategy, adoption, AI evaluation, governance, compliance, and measurable business outcomes.
 
 ## AI Product Management Focus
 I focus on LLMs, conversational AI, agentic workflows, human-in-the-loop design, RLHF-style feedback loops, semantic search, and AI evaluation. I work across product, engineering, data, compliance, and go-to-market teams to ship production-grade AI products with strong adoption, governance, and business ROI.
+
+## Martech & Growth Focus
+I own Martech and digital growth strategy across acquisition, activation, conversion, and lifecycle engagement for fintech merchants. I work on CDP implementation, customer segmentation, attribution, KPI frameworks, funnel analytics, experimentation backlogs, and AI-assisted campaign analysis and insight generation for marketing, growth, and commercial teams.
 
 ## Data & Analytics Focus
 I work on data marketplaces, semantic discovery, enterprise analytics platforms, metadata-driven products, data governance, and self-service analytics. I care about data quality, lineage, trust, discovery speed, and turning fragmented data estates into reusable internal products.
@@ -28,26 +32,34 @@ I have worked on Web3 product strategy, token utility, crypto onboarding, wallet
 I lead with problem framing, ROI baselining, north-star metrics, adoption strategy, and tight cross-functional execution. I am strongest when the work sits at the intersection of AI capability, platform design, enterprise constraints, and commercial impact.
 
 ## Career Timeline
-### Axi Pte Ltd | Senior Product Manager, Analytics & AI | Jan 2024 - Current
+### KPay | Martech AI Product Manager | Mar 2026 - Current
+- Own the Martech and digital growth roadmap across acquisition, activation, conversion, and lifecycle engagement for fintech merchants, aligning marketing, RevOps, engineering, data, and commercial stakeholders around funnel outcomes.
+- Led CDP implementation strategy to unify customer, campaign, and behavioral data, enabling better segmentation, attribution, lifecycle targeting, and customer journey visibility.
+- Defined a KPI framework across conversion, lead quality, funnel drop-off, activation, and campaign effectiveness to improve decision-making across marketing and commercial teams.
+- Built an experimentation backlog across landing pages, onboarding, lifecycle journeys, and campaign flows by translating funnel data and user behavior into testable product hypotheses.
+- Use AI-assisted workflows to accelerate campaign analysis, customer segmentation, content iteration, and insight generation for branding, growth, and marketing teams.
+
+### Axi Pte Ltd | Senior Product Manager, Analytics & AI | Jan 2024 - Feb 2026
+- Defined AI assistant and data product strategy across finance, trading, marketing, and operations, converting manual reporting, data discovery, and decision-support pain points into a funded 6-month GenAI and semantic search roadmap.
 - Shaped AI platform strategy for enterprise trading and marketing workflows, packaging GenAI assistant capabilities and driving 70%+ adoption across 5,000+ employees.
 - Built an enterprise chatbot platform integrated with trading and customer data, automating 60% of inquiries and raising CSAT by 25%.
-- Launched a Finance GenAI Assistant with feedback loops that automated recurring reporting, cut manual operations by 60%, and lowered run-rate costs by 25%.
-- Launched a governed semantic data marketplace used by 300+ data owners, reaching 70%+ adoption and reducing time-to-insight from 3 hours to 15 minutes.
-- Designed annotation and LLM evaluation loops using metrics such as CSAT, intent accuracy, and cost per inference, improving model performance and prompt accuracy by 30%.
+- Launched a Finance GenAI Assistant that automated recurring reporting and operational workflows, cutting manual operations by 60% and lowering operational costs by 25% through governed data access, LLM-assisted task automation, and reusable workflow patterns.
+- Launched a 0-to-1 governed semantic data marketplace used by 300+ data owners, reaching 70%+ adoption and reducing data discovery time from 3 hours to 15 minutes by standardizing ownership, metadata, access workflows, and user onboarding.
+- Built AI evaluation and annotation feedback loops with MLOps, data science, QA, and business teams, improving intent accuracy by 30% by defining success metrics, error categories, labeling workflows, and model-quality review processes.
 - Identified an approximately USD 500K cost-saving opportunity in manual finance operations, pitched the GenAI automation roadmap to leadership, and secured a funded 6-month roadmap.
-- Deployed churn-prediction ML models with Databricks AutoML and Segment CDP, lifting retention ROI by 33%.
-- Partnered with Sales, Compliance, and Data teams to operationalize AI governance around lineage, auditability, and evaluation metrics.
-- Modernized the internal tech platform, saving roughly USD 330K in overhead while improving partner and affiliate business reporting.
+- Deployed churn-prediction and re-engagement models with Databricks AutoML and Segment CDP, lifting retention ROI by 33% by prioritizing high-risk cohorts and integrating insights into marketing activation workflows.
+- Partnered with compliance, finance, and data teams to enforce lineage, access controls, auditability, and quality checks across trading, payment, customer, and finance data pipelines.
+- Modernized the internal tech platform, saving roughly USD 330K in overhead while improving partner and affiliate business reporting with automated commission payouts.
 
-### Informatica | Product Manager | Apr 2021 - Dec 2023
-- Co-owned the AI platform roadmap for CLAIRE GPT, aligning metadata AutoML and search capabilities across five engineering pods and global enterprise customers.
-- Shipped chatbot solutions with Informatica 360 for an insurance marketplace, reducing onboarding query resolution time by 40% and improving customer engagement.
-- Launched Informatica CLAIRE AI, an AutoML and metadata recommendation engine that cut data discovery time by 40%.
-- Led governance features including lineage, access controls, and confidence scoring for regulated BFSI clients, increasing compliance adoption by 35%.
-- Contributed to 50% YoY platform adoption growth by helping build a data-products strategy for marketplace intelligence tools.
+### Informatica | Product Manager, Data & AI Platforms | Apr 2021 - Dec 2023
+- Co-owned the AI platform roadmap for CLAIRE GPT and metadata intelligence capabilities, aligning AutoML, semantic search, and governance requirements across five engineering pods and global enterprise customers.
+- Launched Informatica CLAIRE AI metadata recommendation and search capabilities, cutting data discovery time by 40% by translating user needs into search, profiling, data mapping, and recommendation workflows.
+- Shipped chatbot and Customer 360 solutions for insurance marketplace use cases, reducing onboarding query resolution time by 40% and improving engagement through guided self-service workflows.
+- Led governance capabilities including lineage, access controls, confidence scoring, and audit workflows, improving compliance adoption by 35% across regulated banking and financial services clients.
+- Partnered with GTM, field sales, compliance, and engineering teams to package AI and data governance modules for APAC financial institutions, contributing to 50% YoY platform adoption growth.
 - Rolled out AI and analytics capabilities across APAC while balancing local regulatory constraints and global platform standards.
 
-### Animoca Brands | Senior Product Manager | Sept 2022 - Jul 2023
+### Animoca Brands | Senior Product Manager (Freelance) | Sept 2022 - Jul 2023
 - Launched a Web3 sustainability crypto token MVP and onboarded 200+ users through social-led GTM.
 - Launched Moca Wallet to drive adoption inside the Animoca Brands partner and investor ecosystem for crypto tokens and NFTs.
 
@@ -64,7 +76,14 @@ I lead with problem framing, ROI baselining, north-star metrics, adoption strate
 - Designed and documented large-scale data-center architectures for enterprise clients.
 
 ## Signature Projects
-### Finance GenAI Assistant | Axi | Jan 2024 - Current
+### Martech Growth & CDP Platform | KPay | Mar 2026 - Current
+- Users: marketing, growth, RevOps, branding, and commercial teams serving fintech merchants.
+- Problem: fragmented customer, campaign, and behavioral data limited segmentation, attribution, lifecycle targeting, and funnel visibility.
+- Outcomes: CDP implementation strategy, a unified KPI framework across the funnel, an experimentation backlog grounded in funnel data, and AI-assisted campaign analysis and insight generation.
+- Metrics I care about: conversion rate, lead quality, funnel drop-off, activation rate, and campaign effectiveness.
+- Tools and patterns: CDP, funnel analytics, experimentation, and AI-assisted segmentation and content iteration.
+
+### Finance GenAI Assistant | Axi | Jan 2024 - Feb 2026
 - Users: Finance Ops, FP&A, Payments Ops, Partner and Affiliate Ops, business stakeholders.
 - Problem: Manual finance reporting and reconciliation created high operating cost, slow cycle times, and avoidable errors.
 - Outcomes: 60% reduction in manual operations, 25% reduction in operational cost, USD 330K overhead savings, and an identified USD 500K cost-saving roadmap opportunity.
@@ -72,13 +91,13 @@ I lead with problem framing, ROI baselining, north-star metrics, adoption strate
 - Guardrails: compliance, auditability, data correctness, and exception thresholds.
 - Tools and patterns: LLMs, agentic workflows, natural-language querying, and structured queries.
 
-### Semantic Data Marketplace | Axi | Jan 2024 - Current
+### Semantic Data Marketplace | Axi | Jan 2024 - Feb 2026
 - Problem: Data discovery was slow, fragmented, and inconsistent across teams.
 - Outcomes: discovery time reduced from 3 hours to 15 minutes, 70%+ adoption across 5,000+ employees, and stronger data reuse and productivity.
 - Metrics I care about: discovery latency, search success rate, reuse rate, retention, and trust or quality score usage.
 - Guardrails: access-control compliance, data freshness, and validation thresholds.
 
-### Enterprise Chatbot Platform | Axi | Jan 2024 - Current
+### Enterprise Chatbot Platform | Axi | Jan 2024 - Feb 2026
 - Outcomes: automated 60% of inquiries, increased CSAT by 25%, and improved intent accuracy by 30%.
 - Metrics I care about: containment rate, CSAT, intent precision and recall, resolution time, fallback rate, and hallucination proxy rate.
 - Guardrails: sensitive-topic policy adherence and confidence-based escalation.
@@ -93,10 +112,10 @@ I lead with problem framing, ROI baselining, north-star metrics, adoption strate
 - Tools and patterns: Vision AI, BigQuery, Looker, and reusable reporting templates.
 
 ## Portfolio Projects
-### GenAIBuff | Solo Hackathon
+### AIViralBuzz (GenAIBuff) | Bolt Hackathon
 A GenAI platform for social influencers to manage content, engagement, and monetization.
 
-### inVestor Pulse CDP (LinkedIn Curator AI) | Google Hackathon
+### LinkedIn Curator AI (inVestor Pulse CDP) | Google Hackathon
 A one-click Chrome extension that summarizes and tags LinkedIn posts into a searchable knowledge base using Google Sheets.
 
 ## Execution Approach
@@ -118,24 +137,33 @@ A one-click Chrome extension that summarizes and tags LinkedIn posts into a sear
 
 ## Skills & Tooling
 ### AI and ML
-GenAI, LLMs, RAG, Braintrust, AI/ML lifecycle management, agentic AI with Vertex AI, semantic search, and AI evaluation.
+GenAI, LLMs, RAG, LangChain, Braintrust, agentic AI with Vertex AI, AI/ML lifecycle management, semantic search, AI evaluation, and error analysis.
 
 ### Data and Analytics
-Databricks, Segment CDP, BigQuery, Looker, analytics platforms, data quality, lineage, and pipelines.
+Databricks AutoML, Segment CDP, BigQuery, Looker, Power BI, Tableau, Informatica IDMC, Great Expectations, SQL, Python, data quality, lineage, and pipelines.
 
-### Product
-Product strategy, roadmaps, GTM, enterprise AI deployment, experimentation, human-centered design, stakeholder engagement, lifecycle management, Agile, and SAFe.
+### Cloud
+AWS, GCP, and Azure.
+
+### Product and Growth
+Product strategy, roadmaps, GTM, Martech and growth funnels, Customer 360, experimentation and metrics, human-centered design, stakeholder engagement, lifecycle management, Figma, Agile, and SAFe.
 
 ### Governance and Compliance
 Data governance, AI governance, regulatory compliance, risk controls, lineage, access control, confidence scoring, and auditability.
 
+## Certifications
+- Certified Scrum Product Owner (CSPO)
+- Maven: AI Product Management with Product Faculty
+- Maven: AI Evals for Engineers & PMs
+
 ## Education
-Bachelor of Science (Honors) in Software Engineering from Coventry University, United Kingdom (Jan 2010 - Apr 2013).
+Bachelor of Science (Honors) in Software Engineering from Coventry University, United Kingdom (Jan 2010 - Apr 2013). Chairperson of the Astronomy Club, coordinating observation nights and science outreach events.
 
 ## Contact
 - Phone: +65 87913436
 - Email: richardconstantine67@gmail.com
 - LinkedIn: https://www.linkedin.com/in/richieriri/
+- GitHub: https://github.com/richardan01
 - Calendly: https://calendly.com/richieriri/30min
 - Website: https://aboutrichie.vercel.app
 
@@ -144,4 +172,4 @@ Bachelor of Science (Honors) in Software Engineering from Coventry University, U
 - Keep answers concise but evidence-based.
 - Prefer concrete metrics, company names, project names, timelines, and tooling over generic claims.
 - If a fact is not in this memory, say so instead of guessing.
-- Stay focused on my professional background, product work, AI systems, analytics platforms, and portfolio.
+- Stay focused on my professional background, product work, AI systems, analytics platforms, growth work, and portfolio.
